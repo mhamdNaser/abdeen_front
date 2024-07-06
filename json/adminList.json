@@ -1,0 +1,120 @@
+{
+  "Dashboard": {
+    "name": null,
+    "path": "/admin/",
+    "perId": "home"
+  },
+  "Admins Manage": {
+    "Admins": {
+      "path": "/admin/alladmins",
+      "name": null,
+      "perId": "allAdmin"
+    },
+    "Roles": {
+      "path": "/admin/allroles",
+      "name": null,
+      "perId": "showRoles"
+    },
+    "Admins Archive": {
+      "path": "/admin/adminarchives",
+      "name": null,
+      "perId": "showRoles"
+    }
+  },
+  "Accounts Manage": {
+    "Users": {
+      "path": "/admin/allusers",
+      "perId": "showUsers"
+    },
+    "Users Archive": {
+      "path": "/admin/userarchives",
+      "perId": "showArchivedUser"
+    }
+  },
+  "Products Manage": {
+    "Categories": {
+      "path": "/admin/allcategories",
+      "perId": "showUsers"
+    },
+    "Brands": {
+      "path": "/admin/allbrands",
+      "perId": "showArchivedUser"
+    },
+    "Attribute": {
+      "path": "/admin/allattributes",
+      "perId": "showArchivedUser"
+    },
+    "Products": {
+      "path": "/admin/allproducts",
+      "perId": "showArchivedUser"
+    },
+    "Products Archive": {
+      "path": "/admin/archiveproducts",
+      "perId": "showArchivedUser"
+    }
+  },
+  "Orders Manage": {
+    "All Order": {
+      "path": "/admin/allorder",
+      "perId": "showUsers"
+    },
+    "All Cart": {
+      "path": "/admin/allcart",
+      "perId": "showArchivedUser"
+    },
+    "Today Order": {
+      "path": "/admin/todayorder",
+      "perId": "showArchivedUser"
+    }
+  },
+  "Locations Manage": {
+    "Country": {
+      "path": "/admin/allcountries",
+      "perId": "showUsers"
+    }
+  },
+  "Notifications": {
+    "name": null,
+    "path": "/admin/dashboard/notifications",
+    "perId": "showLanguages"
+  },
+  "Pages Settings": {
+    "Home page": {
+      "path": "/admin/HomePageSetting",
+      "name": null,
+      "perId": "showLanguages"
+    },
+    "privacy page": {
+      "path": "/admin/privacy",
+      "name": null,
+      "perId": "showLanguages"
+    },
+    "terms & conditions page": {
+      "path": "/admin/termsconditions",
+      "name": null,
+      "perId": "showLanguages"
+    },
+    "contact us": {
+      "path": "/admin/contactsetting",
+      "name": null,
+      "perId": "showLanguages"
+    }
+  },
+  "General Settings": {
+    "place holder image": {
+      "path": "/admin/dashboard/generalSettings/placeHolderImage",
+      "name": null,
+      "perId": "showLanguages"
+    }
+  },
+  "Languages": {
+    "name": null,
+    "path": "/admin/languages",
+    "perId": "showLanguages"
+  },
+  "Back To Site": {
+    "name": null,
+    "path": "/",
+    "perId": "showLanguages"
+  }
+}

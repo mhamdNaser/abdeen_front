@@ -1,0 +1,738 @@
+[
+    {
+        "code": "aa",
+        "lanName": "Afar"
+    },
+    {
+        "code": "ab",
+        "lanName": "Abkhazian"
+    },
+    {
+        "code": "ae",
+        "lanName": "Avestan"
+    },
+    {
+        "code": "af",
+        "lanName": "Afrikaans"
+    },
+    {
+        "code": "ak",
+        "lanName": "Akan"
+    },
+    {
+        "code": "am",
+        "lanName": "Amharic"
+    },
+    {
+        "code": "an",
+        "lanName": "Aragonese"
+    },
+    {
+        "code": "ar",
+        "lanName": "Arabic"
+    },
+    {
+        "code": "as",
+        "lanName": "Assamese"
+    },
+    {
+        "code": "av",
+        "lanName": "Avaric"
+    },
+    {
+        "code": "ay",
+        "lanName": "Aymara"
+    },
+    {
+        "code": "az",
+        "lanName": "Azerbaijani"
+    },
+    {
+        "code": "ba",
+        "lanName": "Bashkir"
+    },
+    {
+        "code": "be",
+        "lanName": "Belarusian"
+    },
+    {
+        "code": "bg",
+        "lanName": "Bulgarian"
+    },
+    {
+        "code": "bh",
+        "lanName": "Bihari languages"
+    },
+    {
+        "code": "bi",
+        "lanName": "Bislama"
+    },
+    {
+        "code": "bm",
+        "lanName": "Bambara"
+    },
+    {
+        "code": "bn",
+        "lanName": "Bengali"
+    },
+    {
+        "code": "bo",
+        "lanName": "Tibetan"
+    },
+    {
+        "code": "br",
+        "lanName": "Breton"
+    },
+    {
+        "code": "bs",
+        "lanName": "Bosnian"
+    },
+    {
+        "code": "ca",
+        "lanName": "Catalan; Valencian"
+    },
+    {
+        "code": "ce",
+        "lanName": "Chechen"
+    },
+    {
+        "code": "ch",
+        "lanName": "Chamorro"
+    },
+    {
+        "code": "co",
+        "lanName": "Corsican"
+    },
+    {
+        "code": "cr",
+        "lanName": "Cree"
+    },
+    {
+        "code": "cs",
+        "lanName": "Czech"
+    },
+    {
+        "code": "cu",
+        "lanName": "Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic"
+    },
+    {
+        "code": "cv",
+        "lanName": "Chuvash"
+    },
+    {
+        "code": "cy",
+        "lanName": "Welsh"
+    },
+    {
+        "code": "da",
+        "lanName": "Danish"
+    },
+    {
+        "code": "de",
+        "lanName": "German"
+    },
+    {
+        "code": "dv",
+        "lanName": "Divehi; Dhivehi; Maldivian"
+    },
+    {
+        "code": "dz",
+        "lanName": "Dzongkha"
+    },
+    {
+        "code": "ee",
+        "lanName": "Ewe"
+    },
+    {
+        "code": "el",
+        "lanName": "Greek, Modern (1453-)"
+    },
+    {
+        "code": "en",
+        "lanName": "English"
+    },
+    {
+        "code": "eo",
+        "lanName": "Esperanto"
+    },
+    {
+        "code": "es",
+        "lanName": "Spanish; Castilian"
+    },
+    {
+        "code": "et",
+        "lanName": "Estonian"
+    },
+    {
+        "code": "eu",
+        "lanName": "Basque"
+    },
+    {
+        "code": "fa",
+        "lanName": "Persian"
+    },
+    {
+        "code": "ff",
+        "lanName": "Fulah"
+    },
+    {
+        "code": "fi",
+        "lanName": "Finnish"
+    },
+    {
+        "code": "fj",
+        "lanName": "Fijian"
+    },
+    {
+        "code": "fo",
+        "lanName": "Faroese"
+    },
+    {
+        "code": "fr",
+        "lanName": "French"
+    },
+    {
+        "code": "fy",
+        "lanName": "Western Frisian"
+    },
+    {
+        "code": "ga",
+        "lanName": "Irish"
+    },
+    {
+        "code": "gd",
+        "lanName": "Gaelic; Scomttish Gaelic"
+    },
+    {
+        "code": "gl",
+        "lanName": "Galician"
+    },
+    {
+        "code": "gn",
+        "lanName": "Guarani"
+    },
+    {
+        "code": "gu",
+        "lanName": "Gujarati"
+    },
+    {
+        "code": "gv",
+        "lanName": "Manx"
+    },
+    {
+        "code": "ha",
+        "lanName": "Hausa"
+    },
+    {
+        "code": "he",
+        "lanName": "Hebrew"
+    },
+    {
+        "code": "hi",
+        "lanName": "Hindi"
+    },
+    {
+        "code": "ho",
+        "lanName": "Hiri Motu"
+    },
+    {
+        "code": "hr",
+        "lanName": "Croatian"
+    },
+    {
+        "code": "ht",
+        "lanName": "Haitian; Haitian Creole"
+    },
+    {
+        "code": "hu",
+        "lanName": "Hungarian"
+    },
+    {
+        "code": "hy",
+        "lanName": "Armenian"
+    },
+    {
+        "code": "hz",
+        "lanName": "Herero"
+    },
+    {
+        "code": "ia",
+        "lanName": "Interlingua (International Auxiliary Language Association)"
+    },
+    {
+        "code": "id",
+        "lanName": "Indonesian"
+    },
+    {
+        "code": "ie",
+        "lanName": "Interlingue; Occidental"
+    },
+    {
+        "code": "ig",
+        "lanName": "Igbo"
+    },
+    {
+        "code": "ii",
+        "lanName": "Sichuan Yi; Nuosu"
+    },
+    {
+        "code": "ik",
+        "lanName": "Inupiaq"
+    },
+    {
+        "code": "io",
+        "lanName": "Ido"
+    },
+    {
+        "code": "is",
+        "lanName": "Icelandic"
+    },
+    {
+        "code": "it",
+        "lanName": "Italian"
+    },
+    {
+        "code": "iu",
+        "lanName": "Inuktitut"
+    },
+    {
+        "code": "ja",
+        "lanName": "Japanese"
+    },
+    {
+        "code": "jv",
+        "lanName": "Javanese"
+    },
+    {
+        "code": "ka",
+        "lanName": "Georgian"
+    },
+    {
+        "code": "kg",
+        "lanName": "Kongo"
+    },
+    {
+        "code": "ki",
+        "lanName": "Kikuyu; Gikuyu"
+    },
+    {
+        "code": "kj",
+        "lanName": "Kuanyama; Kwanyama"
+    },
+    {
+        "code": "kk",
+        "lanName": "Kazakh"
+    },
+    {
+        "code": "kl",
+        "lanName": "Kalaallisut; Greenlandic"
+    },
+    {
+        "code": "km",
+        "lanName": "Central Khmer"
+    },
+    {
+        "code": "kn",
+        "lanName": "Kannada"
+    },
+    {
+        "code": "ko",
+        "lanName": "Korean"
+    },
+    {
+        "code": "kr",
+        "lanName": "Kanuri"
+    },
+    {
+        "code": "ks",
+        "lanName": "Kashmiri"
+    },
+    {
+        "code": "ku",
+        "lanName": "Kurdish"
+    },
+    {
+        "code": "kv",
+        "lanName": "Komi"
+    },
+    {
+        "code": "kw",
+        "lanName": "Cornish"
+    },
+    {
+        "code": "ky",
+        "lanName": "Kirghiz; Kyrgyz"
+    },
+    {
+        "code": "la",
+        "lanName": "Latin"
+    },
+    {
+        "code": "lb",
+        "lanName": "Luxembourgish; Letzeburgesch"
+    },
+    {
+        "code": "lg",
+        "lanName": "Ganda"
+    },
+    {
+        "code": "li",
+        "lanName": "Limburgan; Limburger; Limburgish"
+    },
+    {
+        "code": "ln",
+        "lanName": "Lingala"
+    },
+    {
+        "code": "lo",
+        "lanName": "Lao"
+    },
+    {
+        "code": "lt",
+        "lanName": "Lithuanian"
+    },
+    {
+        "code": "lu",
+        "lanName": "Luba-Katanga"
+    },
+    {
+        "code": "lv",
+        "lanName": "Latvian"
+    },
+    {
+        "code": "mg",
+        "lanName": "Malagasy"
+    },
+    {
+        "code": "mh",
+        "lanName": "Marshallese"
+    },
+    {
+        "code": "mi",
+        "lanName": "Maori"
+    },
+    {
+        "code": "mk",
+        "lanName": "Macedonian"
+    },
+    {
+        "code": "ml",
+        "lanName": "Malayalam"
+    },
+    {
+        "code": "mn",
+        "lanName": "Mongolian"
+    },
+    {
+        "code": "mr",
+        "lanName": "Marathi"
+    },
+    {
+        "code": "ms",
+        "lanName": "Malay"
+    },
+    {
+        "code": "mt",
+        "lanName": "Maltese"
+    },
+    {
+        "code": "my",
+        "lanName": "Burmese"
+    },
+    {
+        "code": "na",
+        "lanName": "Nauru"
+    },
+    {
+        "code": "nb",
+        "lanName": "Bokmål, Norwegian; Norwegian Bokmål"
+    },
+    {
+        "code": "nd",
+        "lanName": "Ndebele, North; North Ndebele"
+    },
+    {
+        "code": "ne",
+        "lanName": "Nepali"
+    },
+    {
+        "code": "ng",
+        "lanName": "Ndonga"
+    },
+    {
+        "code": "nl",
+        "lanName": "Dutch; Flemish"
+    },
+    {
+        "code": "nn",
+        "lanName": "Norwegian Nynorsk; Nynorsk, Norwegian"
+    },
+    {
+        "code": "no",
+        "lanName": "Norwegian"
+    },
+    {
+        "code": "nr",
+        "lanName": "Ndebele, South; South Ndebele"
+    },
+    {
+        "code": "nv",
+        "lanName": "Navajo; Navaho"
+    },
+    {
+        "code": "ny",
+        "lanName": "Chichewa; Chewa; Nyanja"
+    },
+    {
+        "code": "oc",
+        "lanName": "Occitan (post 1500)"
+    },
+    {
+        "code": "oj",
+        "lanName": "Ojibwa"
+    },
+    {
+        "code": "om",
+        "lanName": "Oromo"
+    },
+    {
+        "code": "or",
+        "lanName": "Oriya"
+    },
+    {
+        "code": "os",
+        "lanName": "Ossetian; Ossetic"
+    },
+    {
+        "code": "pa",
+        "lanName": "Panjabi; Punjabi"
+    },
+    {
+        "code": "pi",
+        "lanName": "Pali"
+    },
+    {
+        "code": "pl",
+        "lanName": "Polish"
+    },
+    {
+        "code": "ps",
+        "lanName": "Pushto; Pashto"
+    },
+    {
+        "code": "pt",
+        "lanName": "Portuguese"
+    },
+    {
+        "code": "qu",
+        "lanName": "Quechua"
+    },
+    {
+        "code": "rm",
+        "lanName": "Romansh"
+    },
+    {
+        "code": "rn",
+        "lanName": "Rundi"
+    },
+    {
+        "code": "ro",
+        "lanName": "Romanian; Moldavian; Moldovan"
+    },
+    {
+        "code": "ru",
+        "lanName": "Russian"
+    },
+    {
+        "code": "rw",
+        "lanName": "Kinyarwanda"
+    },
+    {
+        "code": "sa",
+        "lanName": "Sanskrit"
+    },
+    {
+        "code": "sc",
+        "lanName": "Sardinian"
+    },
+    {
+        "code": "sd",
+        "lanName": "Sindhi"
+    },
+    {
+        "code": "se",
+        "lanName": "Northern Sami"
+    },
+    {
+        "code": "sg",
+        "lanName": "Sango"
+    },
+    {
+        "code": "si",
+        "lanName": "Sinhala; Sinhalese"
+    },
+    {
+        "code": "sk",
+        "lanName": "Slovak"
+    },
+    {
+        "code": "sl",
+        "lanName": "Slovenian"
+    },
+    {
+        "code": "sm",
+        "lanName": "Samoan"
+    },
+    {
+        "code": "sn",
+        "lanName": "Shona"
+    },
+    {
+        "code": "so",
+        "lanName": "Somali"
+    },
+    {
+        "code": "sq",
+        "lanName": "Albanian"
+    },
+    {
+        "code": "sr",
+        "lanName": "Serbian"
+    },
+    {
+        "code": "ss",
+        "lanName": "Swati"
+    },
+    {
+        "code": "st",
+        "lanName": "Sotho, Southern"
+    },
+    {
+        "code": "su",
+        "lanName": "Sundanese"
+    },
+    {
+        "code": "sv",
+        "lanName": "Swedish"
+    },
+    {
+        "code": "sw",
+        "lanName": "Swahili"
+    },
+    {
+        "code": "ta",
+        "lanName": "Tamil"
+    },
+    {
+        "code": "te",
+        "lanName": "Telugu"
+    },
+    {
+        "code": "tg",
+        "lanName": "Tajik"
+    },
+    {
+        "code": "th",
+        "lanName": "Thai"
+    },
+    {
+        "code": "ti",
+        "lanName": "Tigrinya"
+    },
+    {
+        "code": "tk",
+        "lanName": "Turkmen"
+    },
+    {
+        "code": "tl",
+        "lanName": "Tagalog"
+    },
+    {
+        "code": "tn",
+        "lanName": "Tswana"
+    },
+    {
+        "code": "to",
+        "lanName": "Tonga (Tonga Islands)"
+    },
+    {
+        "code": "tr",
+        "lanName": "Turkish"
+    },
+    {
+        "code": "ts",
+        "lanName": "Tsonga"
+    },
+    {
+        "code": "tt",
+        "lanName": "Tatar"
+    },
+    {
+        "code": "tw",
+        "lanName": "Twi"
+    },
+    {
+        "code": "ty",
+        "lanName": "Tahitian"
+    },
+    {
+        "code": "ug",
+        "lanName": "Uighur; Uyghur"
+    },
+    {
+        "code": "uk",
+        "lanName": "Ukrainian"
+    },
+    {
+        "code": "ur",
+        "lanName": "Urdu"
+    },
+    {
+        "code": "uz",
+        "lanName": "Uzbek"
+    },
+    {
+        "code": "ve",
+        "lanName": "Venda"
+    },
+    {
+        "code": "vi",
+        "lanName": "VietlanNamese"
+    },
+    {
+        "code": "vo",
+        "lanName": "Volapük"
+    },
+    {
+        "code": "wa",
+        "lanName": "Walloon"
+    },
+    {
+        "code": "wo",
+        "lanName": "Wolof"
+    },
+    {
+        "code": "xh",
+        "lanName": "Xhosa"
+    },
+    {
+        "code": "yi",
+        "lanName": "Yiddish"
+    },
+    {
+        "code": "yo",
+        "lanName": "Yoruba"
+    },
+    {
+        "code": "za",
+        "lanName": "Zhuang; Chuang"
+    },
+    {
+        "code": "zh",
+        "lanName": "Chinese"
+    },
+    {
+        "code": "zu",
+        "lanName": "Zulu"
+    }
+]
