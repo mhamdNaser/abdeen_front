@@ -6,23 +6,40 @@ import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
 
 export default function EditTag({ attid ,data, getTags, setIsModalOpen }) {
-    const [color, setColor] = useColor(data?.description);
-    const [image, setImage] = useState();
+  const [color, setColor] = useColor(data?.en_description);
+  const [image, setImage] = useState();
+  const [ardescriptionText, setArDescriptionText] = useState("");
+  const [endescriptionText, setEnDescriptionText] = useState("");
+
 
   let template = {
-    title: "add admin",
+    title: "add tag",
     fields: [
       {
-        title: "name",
-        name: "name",
+        title: "English name",
+        name: "en_name",
         type: "text",
-        value: data?.name,
+        value: data?.en_name,
         validationProps: {
           required: {
             value: true,
             message: "this field is required",
           },
         },
+        styles: "lg:w-[48%]",
+      },
+      {
+        title: "Arabic name",
+        name: "ar_name",
+        type: "text",
+        value: data?.ar_name,
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+        styles: "lg:w-[48%]",
       },
     ],
   };
@@ -30,8 +47,15 @@ export default function EditTag({ attid ,data, getTags, setIsModalOpen }) {
   const onSubmit = async (values) => {
     const id = toast.loading("Error , Check your input again...");
     const formData = new FormData();
-    formData.append("name", values.name);
-    formData.append("description", color.hex);
+    formData.append("en_name", values.en_name);
+    formData.append("ar_name", values.ar_name);
+    if (data?.attribute.toUpperCase() === "COLOR") {
+      formData.append("en_description", color.hex);
+      formData.append("ar_description", color.hex);
+    } else {
+      formData.append("en_description", endescriptionText || null);
+      formData.append("ar_description", ardescriptionText || null);
+    }
     formData.append("attribute_id", attid);
 
     axiosClient
@@ -79,13 +103,40 @@ export default function EditTag({ attid ,data, getTags, setIsModalOpen }) {
   return (
     <div className="p-5">
       <h1 className="font-bold text-2xl bt-3 pb-3">Edit Tags</h1>
-      <ColorPicker
-        height={128}
-        color={color}
-        onChange={setColor}
-        hideHSV
-        dark
-      />
+      {data?.attribute.toUpperCase() === "COLOR" ? (
+        <ColorPicker
+          height={128}
+          color={color}
+          onChange={setColor}
+          hideHSV
+          dark
+        />
+      ) : (
+        <>
+          <div>
+            <label htmlFor="description">English Description</label>
+            <textarea
+              className="input-box w-full"
+              type="text"
+              defaultValue={data?.en_description}
+              name="en_description"
+              id="description"
+              onChange={(e) => setEnDescriptionText(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="description">Arabic Description</label>
+            <textarea
+              className="input-box w-full"
+              type="text"
+              defaultValue={data?.ar_description}
+              name="ar_description"
+              id="description"
+              onChange={(e) => setArDescriptionText(e.target.value)}
+            />
+          </div>
+        </>
+      )}
       <ReusableForm
         template={template}
         onSubmit={onSubmit}

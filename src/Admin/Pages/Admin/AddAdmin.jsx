@@ -25,7 +25,6 @@ export const AddAdmin = ({
     } else if (name === "state_id") {
       const filteredCities = cities.filter((city) => city.state_id == value);
       setCityOptions(filteredCities);
-      console.log(filteredCities);
     }
     else { 
       console.log(name, value);

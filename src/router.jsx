@@ -1,7 +1,5 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
-import Login from "./Site/Pages/Auth/Login";
 import Home from "./Site/Pages/Home";
-import Register from "./Site/Pages/Auth/Register";
 import NotFound from "./Site/Pages/NotFound";
 import SiteLayout from "./components/SiteLayout";
 import AdminLayout from "./components/AdminLayout";
@@ -33,6 +31,12 @@ import AllOrder from "./Admin/Pages/Order_cart/AllOrder";
 import TodayOrder from "./Admin/Pages/Order_cart/InholdOrder";
 import AllCart from "./Admin/Pages/Order_cart/AllCart";
 import HomePage from "./Admin/Pages/Pages/HomePage";
+import Profile from "./Site/Pages/Profile/Profile";
+import PersonalProfile from "./Admin/Pages/Admin/PersonalProfile";
+import EditWord from "./Admin/Pages/Languages/EditWord";
+import ViewProduct from "./Admin/Pages/Products/ViewProduct";
+import AllProduct from "./Site/Pages/AllProduct";
+import CardsPage from "./Site/Pages/CardsPage";
 
 const router = createBrowserRouter([
   {
@@ -40,16 +44,20 @@ const router = createBrowserRouter([
     element: <SiteLayout />,
     children: [
       {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/register",
-        element: <Register />,
+        path: "/profile/:id/:username",
+        element: <Profile />,
       },
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/allProduct",
+        element: <AllProduct />,
+      },
+      {
+        path: "/cardPage",
+        element: <CardsPage />,
       },
     ],
   },
@@ -73,6 +81,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/adminarchives",
         element: <AdminArchives />,
+      },
+      {
+        path: "/admin/personalProfile/:id/:name",
+        element: <PersonalProfile />,
       },
       {
         path: "/admin/adminProfile/:id/:name",
@@ -101,6 +113,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/languages",
         element: <Languages />,
+      },
+      {
+        path: "/admin/EditWord",
+        element: <EditWord />,
       },
       {
         path: "/admin/allcountries",
@@ -133,6 +149,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/allproducts",
         element: <AllProducts />,
+      },
+      {
+        path: "/admin/viewproduct/:id/:name",
+        element: <ViewProduct />,
       },
       {
         path: "/admin/archiveproducts",

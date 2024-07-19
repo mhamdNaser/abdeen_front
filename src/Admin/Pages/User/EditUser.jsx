@@ -7,7 +7,7 @@ export const EditUser = ({ data, getUsers, setIsModalOpen }) => {
   const [image, setImage] = useState(data?.image);
   console.log(data.id);
   let template = {
-    title: "edit  admin details",
+    title: "edit user details",
     fields: [
       {
         name: "image",

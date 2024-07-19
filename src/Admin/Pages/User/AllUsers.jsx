@@ -20,6 +20,7 @@ import {
 import { AddUser } from "./AddUser";
 import { EditUser } from "./EditUser";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "../../../provider/LocationProvider";
 
 export default function AllUsers() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,23 +30,9 @@ export default function AllUsers() {
   const [loading, setLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]); // Add this state
   const navigate = useNavigate();
-  const [roles, setRoles] = useState([]);
-  const [countries, setCountries] = useState([]);
-  const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]);
+  const { countries, states, cities } = useLocation();
 
-  const getCountries = async () => {
-    const res = await axiosClient.get("/admin/all-countries");
-    setCountries(res?.data.data);
-  };
-  const getStates = async () => {
-    const res = await axiosClient.get("/admin/all-states");
-    setStates(res?.data.data);
-  };
-  const getCities = async () => {
-    const res = await axiosClient.get("/admin/all-cities");
-    setCities(res?.data.data);
-  };
+  
 
   const getUsers = async () => {
     const res = await axiosClient.get("/admin/all-users");
@@ -143,10 +130,6 @@ export default function AllUsers() {
         setLoading(false);
       }, 300);
     }
-
-    getCountries();
-    getStates();
-    getCities();
   }, []);
 
   const editBtnFun = (row) => {
@@ -348,7 +331,6 @@ export default function AllUsers() {
             component={
               <AddUser
                 getUsers={getUsers}
-                roles={roles}
                 countries={countries}
                 states={states}
                 cities={cities}

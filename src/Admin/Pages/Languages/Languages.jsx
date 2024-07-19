@@ -1,31 +1,17 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../../../axios-client";
 import Addlanguage from "./components/Addlanguage";
-import EditLanguage from "./components/EditLanguage";
 import { toast } from "react-toastify";
-// import { useQueryHook } from "../../../hooks/useQueryHook";
 import { Page } from "../../../components/StyledComponents";
 import Button from "../../../components/Button";
-import ModalContainer from "../../../components/ModalContainer";
 import Table from "../../../components/Table";
-// import { useMutationHook } from "../../../hooks/useMutationHook";
-// import NetworkErrorComponent from "../../../components/NetworkErrorComponent";
-const getData = async (page) => {
-  try {
-    const response = await axiosClient.get(`/admin/all-states`);
-    return response;
-  } catch (error) {
-    console.error("Error fetching languages:", error);
-  }
-};
-const deleteFunc = async (Id) => {
-  const res = await axiosClient.get(`/admin/language/delete/${Id}`);
-  return res;
-};
-const changeFunc = async (Id) => {
-  const res = await axiosClient.get(`/admin/language/update_default/${Id}`);
-  return res;
-};
+import PageTitle from "../../../components/PageTitle";
+import {
+  BiSolidCheckCircle,
+  BiSolidXCircle,
+} from "react-icons/bi";
+
+
 export default function Languages() {
   const [langs, setLangs] = useState();
   const [language, setLanguage] = useState([]);
@@ -34,70 +20,60 @@ export default function Languages() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedLang, setSelectedLang] = useState();
 
-  const getUsers = async () => {
-    const res = await axiosClient.get("/admin/all-users");
-    setLanguage(res.data.data);
+  const getData = async () => {
+    await axiosClient.get("/admin/all-languages").then((res) => {
+      setLanguage(res.data.data);
+    });
   };
 
-  useEffect(() => {
-    getLanguages();
-  }, []);
-  const [page, setPage] = useState(1);
-
-  // const { data: languages, isError } = useQueryHook(
-  //   ["languages", page],
-  //   () => getData(page),
-  //   "paginate"
-  // );
-  // const deleteMutation = useMutationHook(deleteFunc, ["languages", page]);
-  // const changeMutation = useMutationHook(changeFunc, ["languages", page]);
-
-  const getLanguages = () => {
-    fetch("/json/LanguagesTemp.json")
-      .then((response) => response.json())
+  const changestatus = async (values) => {
+    const id = toast.loading("Error , Check your input again...");
+    axiosClient
+      .get(`/admin/changestatus-language/${values}`)
       .then((data) => {
-        setLangs(data);
+        if (data.success === false) {
+          toast.update(id, {
+            type: "error",
+            render: data.data.message,
+            closeOnClick: true,
+            isLoading: false,
+            autoClose: true,
+            closeButton: true,
+            pauseOnHover: false,
+          });
+        } else {
+          getData();
+          toast.update(id, {
+            type: "success",
+            render: data.data.message,
+            closeOnClick: true,
+            isLoading: false,
+            autoClose: true,
+            closeButton: true,
+            pauseOnHover: false,
+          });
+        }
       })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
+      .catch((err) => {
+        toast.update(id, {
+          type: "error",
+          render: err.response.message,
+          closeOnClick: true,
+          isLoading: false,
+          autoClose: true,
+          closeButton: true,
+          pauseOnHover: false,
+        });
       });
   };
 
-  const handleChangeStatus = async (id) => {
-    const toastID = toast.loading("submitting, please wait...");
-    try {
-      const res = await changeMutation.mutateAsync(id);
-      toast.update(toastID, {
-        type: "success",
-        render: res.data.mes,
-        closeOnClick: true,
-        isLoading: false,
-        autoClose: true,
-        closeButton: true,
-        pauseOnHover: false,
-      });
-    } catch (error) {
-      toast.update(toastID, {
-        type: "error",
-        render: error.response.data.message,
-        closeOnClick: true,
-        isLoading: false,
-        autoClose: true,
-        closeButton: true,
-        pauseOnHover: false,
-      });
-    }
-  };
 
-  const handleEdit = (row) => {
-    setSelectedLang(row);
-    setIsModalOpen((prev) => !prev);
-  };
 
-  const deleteLang = async (Id) => {
+  const deleteLang = async (langId) => { 
+    
     const id = toast.loading("submitting, please wait...");
     try {
-      const res = await deleteMutation.mutateAsync(Id);
+      const res = await axiosClient.get(`/admin/delete-language/${langId}`);;
       toast.update(id, {
         type: "success",
         render: res.data.mes,
@@ -107,6 +83,7 @@ export default function Languages() {
         closeButton: true,
         pauseOnHover: false,
       });
+      getData();
     } catch (error) {
       toast.update(id, {
         type: "error",
@@ -118,7 +95,11 @@ export default function Languages() {
         pauseOnHover: false,
       });
     }
-  };
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const columns = [
     {
@@ -140,20 +121,15 @@ export default function Languages() {
     },
     {
       name: "status",
-      selector: (row) => row.status,
-    },
-    {
-      name: "default",
-      cell: (row) => {
-        return (
-          <Button
-            isLink={false}
-            title={row.default === 1 ? " default" : "make default"}
-            color={row.default === 1 ? "bg-greenColor" : "bg-redColor"}
-            onClickFun={() => handleChangeStatus(row.id)}
-          />
-        );
-      },
+      selector: (row) => (
+        <button onClick={() => changestatus(row.id)}>
+          {row.status !== 0 ? (
+            <BiSolidCheckCircle size={20} className="text-greenColor" />
+          ) : (
+            <BiSolidXCircle size={20} />
+          )}
+        </button>
+      ),
     },
     {
       name: "actions",
@@ -162,15 +138,9 @@ export default function Languages() {
         return (
           <div className="flex gap-1 items-center flex-wrap">
             <Button
-              isLink={false}
-              title={"edit"}
-              color={"bg-blueColor"}
-              onClickFun={() => handleEdit(row)}
-            />
-            <Button
               isLink={true}
               title={"edit words"}
-              goto={`/admin/dashboard/EditWord?slug=${row.slug}`}
+              goto={`/admin/EditWord?slug=${row.slug}`}
               color={"bg-blueColor"}
             />
             <Button
@@ -184,16 +154,31 @@ export default function Languages() {
       },
     },
   ];
-  // if (isError) return <NetworkErrorComponent />;
+
+  const links = [
+    {
+      title: "home",
+      url: "/admin/",
+      active: false,
+    },
+    {
+      title: "Language",
+      url: "/admin/languages",
+      active: true,
+    },
+  ];
 
   return (
-    <Page className="flex items-start flex-col-reverse justify-between gap-2">
+    <Page className="flex items-start flex-col justify-between gap-6">
+      <PageTitle
+        links={links}
+      />
+      <div className="bg-blocks-color component-shadow px-4 py-3 rounded-md w-full">
+        <Addlanguage getData={getData} />
+      </div>
       <div className="flex flex-col w-full">
         <Table
-          // response={languages}
-          // actualData={languages?.data.data}
-          setPage={setPage}
-          paginationBool={true}
+          Title={"Admins Table"}
           columns={columns}
           data={language}
           hasEditPermission={true} // Assuming you have a way to determine this
@@ -202,24 +187,6 @@ export default function Languages() {
           setSelectedItemsProp={setSelectedItems}
         />
       </div>
-      <div className="bg-blocks-color component-shadow px-4 py-3 rounded-md w-full">
-        {langs && <Addlanguage langs={langs} />}
-      </div>
-
-      {isModalOpen && (
-        <ModalContainer
-          width={800}
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          component={
-            <EditLanguage
-              langData={selectedLang}
-              languages={langs}
-              setIsModalOpen={setIsModalOpen}
-            />
-          }
-        />
-      )}
     </Page>
   );
 }

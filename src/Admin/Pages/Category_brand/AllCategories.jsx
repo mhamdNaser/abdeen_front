@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import {
   BiSolidEditAlt,
   BiSolidTrashAlt,
-  BiSolidAlarmAdd  ,
+  BiSolidAlarmAdd,
   BiSolidFileExport,
   BiSolidCheckCircle,
   BiSolidXCircle,
@@ -26,11 +26,13 @@ export default function AllCategories() {
   const [categories, setCategories] = useState([]);
   const [categorieslist, setCategoriesList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedItems, setSelectedItems] = useState([]); // Add this state
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [language, setLanguage] = useState(localStorage.getItem("LANGUAGE"));
 
   const getCategories = async () => {
     const res = await axiosClient.get("/admin/all-categories");
     setCategories(res.data.data);
+    console.log(res.data.data);
   };
   const [direction, setDirection] = useState();
   const getCategorieslist = async () => {
@@ -89,7 +91,7 @@ export default function AllCategories() {
       }, 300);
     }
 
-    setDirection(localStorage.getItem("LANGUAGE") === "ar" ? "rtl" : "ltr");
+    setDirection(language === "ar" ? "rtl" : "ltr");
     getCategorieslist();
   }, []);
 
@@ -200,18 +202,35 @@ export default function AllCategories() {
 
   const columns = [
     {
+      name: "image",
+      selector: (row) => (
+        <img
+          src={import.meta.env.VITE_WEBSITE_URL + row.image}
+          alt={row.name}
+          className="w-16 h-16 object-cover rounded-full"
+        />
+      ),
+      minWidth: "15%",
+    },
+    {
       name: "name",
-      selector: (row) => row.name,
+      selector: (row) => (language === "ar" ? row.ar_name : row.en_name),
       minWidth: "15%",
     },
     {
       name: "description",
-      selector: (row) => row.description,
+      selector: (row) =>
+        language === "ar" ? row.ar_description : row.en_description,
       minWidth: "15%",
     },
     {
       name: "parent",
-      selector: (row) => (row.parent == null ? "no parent" : row.parent),
+      selector: (row) =>
+        row.parent === null
+          ? "no parent"
+          : language === "ar"
+          ? row.ar_parent
+          : row.en_parent,
       minWidth: "15%",
     },
     {
@@ -333,7 +352,7 @@ export default function AllCategories() {
                 <Button
                   isLink={false}
                   color={"bg-greenColor text-xl text-white px-2"}
-                  Icon={<BiSolidAlarmAdd   />}
+                  Icon={<BiSolidAlarmAdd />}
                   onClickFun={() => setIsAddModalOpen((prev) => !prev)}
                 />
               </div>
@@ -355,6 +374,7 @@ export default function AllCategories() {
             setIsModalOpen={setIsModalOpen}
             component={
               <EditCategory
+                language={language}
                 data={clickedRow}
                 categories={categorieslist}
                 getCategories={getCategories}
@@ -370,6 +390,7 @@ export default function AllCategories() {
             setIsModalOpen={setIsAddModalOpen}
             component={
               <AddCategory
+                language={language}
                 categories={categorieslist}
                 getCategories={getCategories}
                 setIsAddModalOpen={setIsAddModalOpen}

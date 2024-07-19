@@ -3,11 +3,16 @@ import { useState } from "react";
 import ReusableForm from "../../../components/ReusableForm";
 import axiosClient from "../../../axios-client";
 
-export const EditAdmin = ({ data, getAdmins, setIsModalOpen, roles }) => {
+export const EditAdmin = ({
+  data,
+  setUser,
+  getAdmins,
+  setIsModalOpen,
+  roles,
+}) => {
   const [image, setImage] = useState(data?.image);
-  console.log(data.id);
   let template = {
-    title: "edit  admin details",
+    title: "edit admin details",
     fields: [
       {
         name: "image",
@@ -103,8 +108,9 @@ export const EditAdmin = ({ data, getAdmins, setIsModalOpen, roles }) => {
       .post(`/admin/update-admin/${data.id}`, formData)
       .then((res) => {
         if (res.data.success == true) {
-          getAdmins();
+          getAdmins && getAdmins();
           setIsModalOpen((prev) => !prev);
+          setUser && setUser(res.data.admin);
           toast.update(id, {
             type: "success",
             render: res.data.message,

@@ -21,6 +21,7 @@ import {
 } from "react-icons/bi";
 import { useTranslation } from "../../../provider/TranslationProvider";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "../../../provider/LocationProvider";
 
 export default function AllAdmins() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,27 +32,12 @@ export default function AllAdmins() {
   const [selectedItems, setSelectedItems] = useState([]); // Add this state
   const navigate = useNavigate();
   const [roles, setRoles] = useState([]);
-  const [countries, setCountries] = useState([]);
-  const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]);
+  const { countries, states, cities } = useLocation();
   const { translations } = useTranslation();
 
   const getRoles = async () => {
     const res = await axiosClient.get("/admin/all-roles");
     setRoles(res?.data.data);
-  };
-
-  const getCountries = async () => {
-    const res = await axiosClient.get("/admin/all-countries");
-    setCountries(res?.data.data);
-  };
-  const getStates = async () => {
-    const res = await axiosClient.get("/admin/all-states");
-    setStates(res?.data.data);
-  };
-  const getCities = async () => {
-    const res = await axiosClient.get("/admin/all-cities");
-    setCities(res?.data.data);
   };
 
   const getAdmins = async () => {
@@ -111,9 +97,6 @@ export default function AllAdmins() {
     }
 
     getRoles();
-    getCountries();
-    getStates();
-    getCities();
   }, []);
 
   const handleView = (id, name) => {

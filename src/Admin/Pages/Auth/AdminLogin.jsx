@@ -88,7 +88,7 @@ export default function AdminLogin() {
       <div className="lg:w-[25%] md:w-[50%] flex w-[90%] ">
         <img src="/image/logo.png" alt="Logo" className="max-w-[120px] py-4" />
       </div>
-      <div className="flex flex-col lg:w-[25%] md:w-[50%] w-[90%] rounded-xl p-6 bg-gray-100 component-shadow">
+      <div className="flex flex-col bg-dark-gray lg:w-[25%] md:w-[50%] w-[90%] rounded-xl p-6 component-shadow">
         <ReusableForm
           template={template}
           onSubmit={handleLogin}

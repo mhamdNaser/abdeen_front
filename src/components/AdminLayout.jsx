@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Navigate, Outlet, Link, useNavigate } from "react-router-dom";
+import {  Outlet, Link, useNavigate } from "react-router-dom";
 import SidebarAdmin from "../Admin/Components/SidebarAdmin";
 import { useStateContext } from "../provider/ContextsProvider";
 import {
   BiMenuAltLeft,
-  BiSolidBellRing,
+  BiSolidUserCircle,
   BiSolidBrightnessHalf,
   BiSolidBrightness,
-  BiSolidChevronDown,
 } from "react-icons/bi";
 import { useTWThemeContext } from "../provider/ThemeProvider";
 import LanguageDropdown from "./LanguageDropdown";
 import { useTranslation } from "../provider/TranslationProvider";
-import axiosClient from "../axios-client"; // تأكد من استيراد axiosClient
+import axiosClient from "../axios-client";
 
 export default function AdminLayout() {
   const nav = useNavigate();
+  const { token, setToken } = useStateContext({});
+  const [admin, setAdmin] = useState(JSON.parse(localStorage.getItem("USER")));
   const { translations, language } = useTranslation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [adminmenuOpen, setAdminMenuOpen] = useState(false);
@@ -24,7 +25,6 @@ export default function AdminLayout() {
     const savedMode = localStorage.getItem("theme");
     return savedMode ? savedMode : "light";
   });
-  const { token, setToken } = useStateContext({});
 
   const checkTokenValidity = () => {
     const token = localStorage.getItem("token");
@@ -84,10 +84,10 @@ export default function AdminLayout() {
 
     const interval = setInterval(() => {
       checkTokenValidity();
-    }, 3600000); // 1 ساعة = 3600000 ميلي ثانية
+    }, 3600000); 
 
     return () => {
-      clearInterval(interval); // تنظيف التايمر عند إلغاء المكون
+      clearInterval(interval); 
       window.removeEventListener("mousemove", resetActivityTimeout);
       window.removeEventListener("keydown", resetActivityTimeout);
       window.removeEventListener("scroll", resetActivityTimeout);
@@ -145,38 +145,43 @@ export default function AdminLayout() {
           </button>
           <div className="flex flex-row-reverse items-center grow">
             <button
-              className="flex flex-row items-center px-[25px] py-[24px] w-[160px] justify-between border-l border-[gray]"
+              className="flex flex-row items-center px-[25px] py-[24px]  justify-between "
               onClick={handleAdminMenu}
             >
-              {mode === "light" ? (
-                <img
-                  className="w-[60px] m-auto"
-                  src="/image/logo.png"
-                  alt="Logo"
-                />
+              {token ? (
+                admin.image !== null ? (
+                  <img
+                    className="h-8 w-8 rounded-full"
+                    src={import.meta.env.VITE_WEBSITE_URL + admin.image}
+                    alt="Logo"
+                  />
+                ) : (
+                  <BiSolidUserCircle size={32} />
+                )
               ) : (
-                <img
-                  className="w-[60px] m-auto"
-                  src="/image/logo.png"
-                  alt="Logo"
-                />
+                <BiSolidUserCircle size={32} />
               )}
-              <BiSolidChevronDown
-                style={{ fontSize: "18px" }}
-                className="text-primary-text"
-              />
             </button>
             <div
-              className={`absolute flex flex-col mt-[210px] w-[240px] overflow-y-auto me-[-20px] component-shadow bg-blocks-color z-10 rounded-md ${
+              className={`absolute flex flex-col mt-[240px] w-[240px] overflow-y-auto me-[-20px] component-shadow bg-blocks-color z-10 rounded-md ${
                 adminmenuOpen ? "h-[auto]" : "h-0"
               }`}
             >
-              <Link className="font-bold ps-6 py-2 text-primary-text hover:bg-background-color transition-all duration-400 ease-in-out">
+              <div className="font-bold text-xl text-primary-text border-b px-6 py-3 hover:bg-background-color transition-all duration-400 ease-in-out">
+                {admin.username}
+                <span className="font-thin text-xs block">
+                  {admin.role.name}
+                </span>
+              </div>
+              <Link
+                to={`/admin/personalProfile/${admin.id}/${admin.name}`}
+                className="font-bold ps-6 py-2 text-primary-text hover:bg-background-color transition-all duration-400 ease-in-out"
+              >
                 {translations?.Edit_Profile || "Edit Profile"}
               </Link>
-              <Link className="font-bold ps-6 py-2 text-primary-text hover:bg-background-color transition-all duration-400 ease-in-out">
+              {/* <Link className="font-bold ps-6 py-2 text-primary-text hover:bg-background-color transition-all duration-400 ease-in-out">
                 {translations?.Password_Change || "Password Change"}
-              </Link>
+              </Link> */}
               <Link
                 onClick={handleLogout}
                 className="font-bold ps-6 py-2 text-primary-text hover:bg-background-color transition-all duration-400 ease-in-out"

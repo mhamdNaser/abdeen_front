@@ -259,7 +259,7 @@ export default function AdminArchives() {
                 <Button
                   isLink={false}
                   color={"bg-redColor text-xl text-white px-2"}
-                  Icon={<BiSolidFileExport />}
+                  Icon={<BiSolidTrashAlt />}
                   onClickFun={deleteSelectedItems}
                 />
               </div>

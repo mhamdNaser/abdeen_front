@@ -15,11 +15,14 @@ import {
   BiSolidFileExport,
   BiSolidCheckCircle,
   BiSolidXCircle,
+  BiSolidShow,
 } from "react-icons/bi";
 import AddProduct from "./AddProduct";
 import EditProduct from "./EditProduct";
+import { useNavigate } from "react-router-dom";
 
 export default function AllProducts() {
+  const [language, setLanguage] = useState(localStorage.getItem("LANGUAGE"));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [clickedRow, setClickedRow] = useState();
@@ -29,6 +32,7 @@ export default function AllProducts() {
   const [direction, setDirection] = useState();
   const [brands, setBrands] = useState();
   const [categories, setCategories] = useState();
+  const navigate = useNavigate();
 
   const getProduct = async () => {
     const res = await axiosClient.get("/admin/all-products");
@@ -97,7 +101,7 @@ export default function AllProducts() {
       }, 300);
     }
 
-    setDirection(localStorage.getItem("LANGUAGE") === "ar" ? "rtl" : "ltr");
+    setDirection(language === "ar" ? "rtl" : "ltr");
     getCategories();
     getBrands();
   }, []);
@@ -166,83 +170,94 @@ export default function AllProducts() {
     });
   };
 
-    const columns = [
-      {
-        name: "image",
-        selector: (row) => (
-          <img
-            src={import.meta.env.VITE_WEBSITE_URL + row.image}
-            alt={row.name}
-            className="w-16 h-16 object-cover rounded-full"
+  const handleView = (id, name) => {
+    navigate(`/admin/viewproduct/${id}/${name}`);
+  };
+
+  const columns = [
+    {
+      name: "image",
+      selector: (row) => (
+        <img
+          src={import.meta.env.VITE_WEBSITE_URL + row.image}
+          alt={row.name}
+          className="w-16 h-16 object-cover rounded-full"
+        />
+      ),
+      minWidth: "15%",
+    },
+    {
+      name: "name",
+      selector: (row) => (language === "ar" ? row.ar_name : row.en_name),
+      minWidth: "15%",
+    },
+    {
+      name: "brand",
+      selector: (row) => (language === "ar" ? row.ar_brand : row.en_brand),
+      minWidth: "15%",
+    },
+    {
+      name: "category",
+      selector: (row) =>
+        language === "ar" ? row.ar_category : row.en_category,
+      minWidth: "15%",
+    },
+    {
+      name: "made_in",
+      selector: (row) => row.made_in,
+      minWidth: "15%",
+    },
+    {
+      name: "Price",
+      selector: (row) => row.public_price,
+      minWidth: "15%",
+    },
+    {
+      name: "quantity",
+      selector: (row) => row.quantity,
+      minWidth: "15%",
+    },
+    {
+      name: "Status",
+      selector: (row) => (
+        <button onClick={() => changestatus(row.id)}>
+          {row.status !== 0 ? (
+            <BiSolidCheckCircle size={20} className="text-greenColor" />
+          ) : (
+            <BiSolidXCircle size={20} />
+          )}
+        </button>
+      ),
+      maxWidth: "15%",
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <div className="flex gap-x-2 gap-y-1 items-center w-full flex-wrap">
+          {/* {hasEditPermission && ( */}
+          <Button
+            isLink={false}
+            color={"bg-orangeColor"}
+            Icon={<BiSolidEditAlt />}
+            onClickFun={() => editBtnFun(row)}
           />
-        ),
-        minWidth: "15%",
-      },
-      {
-        name: "name",
-        selector: (row) => row.name,
-        minWidth: "15%",
-      },
-      {
-        name: "brand",
-        selector: (row) => row.brand,
-        minWidth: "15%",
-      },
-      {
-        name: "category",
-        selector: (row) => row.category,
-        minWidth: "15%",
-      },
-      {
-        name: "made_in",
-        selector: (row) => row.made_in,
-        minWidth: "15%",
-      },
-      {
-        name: "price",
-        selector: (row) => row.price,
-        minWidth: "15%",
-      },
-      {
-        name: "quantity",
-        selector: (row) => row.quantity,
-        minWidth: "15%",
-      },
-      {
-        name: "Status",
-        selector: (row) => (
-          <button onClick={() => changestatus(row.id)}>
-            {row.status !== 0 ? (
-              <BiSolidCheckCircle size={20} className="text-greenColor" />
-            ) : (
-              <BiSolidXCircle size={20} />
-            )}
-          </button>
-        ),
-        maxWidth: "15%",
-      },
-      {
-        name: "Actions",
-        cell: (row) => (
-          <div className="flex gap-x-2 gap-y-1 items-center w-full flex-wrap">
-            {/* {hasEditPermission && ( */}
-            <Button
-              isLink={false}
-              color={"bg-orangeColor"}
-              Icon={<BiSolidEditAlt />}
-              onClickFun={() => editBtnFun(row)}
-            />
-            {/* )} */}
-            <Button
-              isLink={false}
-              color={"bg-redColor"}
-              Icon={<BiSolidTrashAlt />}
-              onClickFun={() => handleDelete(row.id)}
-            />
-          </div>
-        ),
-      },
-    ];
+          {/* )} */}
+          <Button
+            isLink={false}
+            color={"bg-redColor"}
+            Icon={<BiSolidTrashAlt />}
+            onClickFun={() => handleDelete(row.id)}
+          />
+          <Button
+            isLink={false}
+            color={"bg-blueColor"}
+            Icon={<BiSolidShow />}
+            onClickFun={() => handleView(row.id, row.en_name)}
+          />
+        </div>
+      ),
+    },
+  ];
 
   const archiveSelectedItems = () => {
     const id = toast.loading("Error , Check your input again...");
@@ -289,18 +304,18 @@ export default function AllProducts() {
     return <Loading />;
   }
 
-    const links = [
-      {
-        title: "home",
-        url: "/admin/",
-        active: false,
-      },
-      {
-        title: "products table",
-        url: "/admin/allproducts",
-        active: true,
-      },
-    ];
+  const links = [
+    {
+      title: "home",
+      url: "/admin/",
+      active: false,
+    },
+    {
+      title: "products table",
+      url: "/admin/allproducts",
+      active: true,
+    },
+  ];
 
   return (
     <>
@@ -336,6 +351,7 @@ export default function AllProducts() {
             setIsModalOpen={setIsModalOpen}
             component={
               <EditProduct
+                language={language}
                 data={clickedRow}
                 brands={brands}
                 categories={categories}
@@ -352,6 +368,7 @@ export default function AllProducts() {
             setIsModalOpen={setIsAddModalOpen}
             component={
               <AddProduct
+                language={language}
                 brands={brands}
                 categories={categories}
                 getProduct={getProduct}

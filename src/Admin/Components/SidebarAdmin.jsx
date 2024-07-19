@@ -105,7 +105,7 @@ export default function SidebarAdmin({ setSidebarOpen }) {
         ) : (
           <img
             onClick={() => nav("/")}
-            src="/image/logo.png"
+            src="/image/logo-dark.png"
             className="h-[55px] m-auto w-2/3 px-8"
             alt="Logo"
           />

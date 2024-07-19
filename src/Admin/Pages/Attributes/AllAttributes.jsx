@@ -30,6 +30,7 @@ export default function AllAttributes() {
   const [loading, setLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
   const [direction, setDirection] = useState();
+  const [language, setLanguage] = useState(localStorage.getItem("LANGUAGE"));
 
   const getAttributes = async () => {
     const res = await axiosClient.get("/admin/all-attributes");
@@ -88,7 +89,7 @@ export default function AllAttributes() {
       }, 300);
     }
 
-    setDirection(localStorage.getItem("LANGUAGE") === "ar" ? "rtl" : "ltr");
+    setDirection(language === "ar" ? "rtl" : "ltr");
   }, []);
 
   const editBtnFun = (row) => {
@@ -161,8 +162,13 @@ export default function AllAttributes() {
 
   const columns = [
     {
-      name: "name",
-      selector: (row) => row.name,
+      name: "English name",
+      selector: (row) => row.en_name,
+      minWidth: "15%",
+    },
+    {
+      name: "Arabic name",
+      selector: (row) => row.ar_name,
       minWidth: "15%",
     },
     {
@@ -200,7 +206,7 @@ export default function AllAttributes() {
             isLink={false}
             color={"bg-blueColor"}
             Icon={<BiSolidShow />}
-            onClickFun={() => handleView(row.id, row.name)}
+            onClickFun={() => handleView(row.id, row.en_name)}
           />
         </div>
       ),

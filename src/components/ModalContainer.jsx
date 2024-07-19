@@ -22,7 +22,7 @@ const ModalContainer = ({ setIsModalOpen, component, type }) => {
           margin: "32px 0",
           zIndex: "102",
         }}
-        className="h-full overflow-hidden overflow-y-auto"
+        className="h-full lg:w-fit w-full overflow-hidden overflow-y-auto"
       >
         <div
           className={` ${
@@ -31,7 +31,7 @@ const ModalContainer = ({ setIsModalOpen, component, type }) => {
                 ? "p-1 bg-gray-700"
                 : "bg-gray-700 p-8"
               : "bg-background-color p-8"
-          }  shadow-2xl rounded-lg component-shadow h-max  md:w-fit w-fit sm:w-[380px]`}
+          }  shadow-2xl rounded-lg component-shadow h-max  md:w-full w-fit sm:w-[380px]`}
         >
           <div
             className="absolute top-5 right-5 cursor-pointer"

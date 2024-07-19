@@ -30,7 +30,7 @@ export const AddUser = ({
   };
 
   let template = {
-    title: "add admin",
+    title: "add user",
     fields: [
       {
         name: "image",

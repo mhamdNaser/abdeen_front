@@ -5,21 +5,29 @@ import ReusableForm from "../../../components/ReusableForm";
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
 import Button from "../../../components/Button";
-import { BiSolidPalette } from "react-icons/bi";
+import { BiSolidPalette, BiSolidDetail } from "react-icons/bi";
 
 export default function AddTag({ attid, getTags, setIsAddModalOpen }) {
   const [color, setColor] = useColor("hex", "#121212");
   const [colorpicker, setColorPicker] = useState(false);
+  const [description, setDescription] = useState(false);
+  const [ardescriptionText, setArDescriptionText] = useState("");
+  const [endescriptionText, setEnDescriptionText] = useState("");
 
   const showColorPicker = () => {
     setColorPicker(!colorpicker);
   };
 
+  const showDescription = () => {
+    setDescription(!description);
+  };
+
   let template = {
+    title: "add tag",
     fields: [
       {
-        title: "name",
-        name: "name",
+        title: "English name",
+        name: "en_name",
         type: "text",
         validationProps: {
           required: {
@@ -27,6 +35,19 @@ export default function AddTag({ attid, getTags, setIsAddModalOpen }) {
             message: "this field is required",
           },
         },
+        styles: "lg:w-[48%]",
+      },
+      {
+        title: "Arabic name",
+        name: "ar_name",
+        type: "text",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+        styles: "lg:w-[48%]",
       },
     ],
   };
@@ -34,8 +55,17 @@ export default function AddTag({ attid, getTags, setIsAddModalOpen }) {
   const onSubmit = async (values) => {
     const id = toast.loading("Error , Check your input again...");
     const formData = new FormData();
-    formData.append("name", values.name);
-    formData.append("description", color.hex);
+    formData.append("en_name", values.en_name);
+    formData.append("ar_name", values.ar_name);
+
+    if (!colorpicker) {
+      formData.append("en_description", endescriptionText || null);
+      formData.append("ar_description", ardescriptionText || null);
+    } else {
+      formData.append("en_description", color.hex);
+      formData.append("ar_description", color.hex);
+    }
+
     formData.append("attribute_id", attid);
 
     axiosClient
@@ -79,15 +109,22 @@ export default function AddTag({ attid, getTags, setIsAddModalOpen }) {
   };
 
   const validate = () => {};
+
   return (
     <div className="p-5">
       <h1 className="font-bold text-2xl bt-3 pb-3">Add Tags</h1>
-      <div className="flex py-3">
+      <div className="flex py-3 gap-4">
         <Button
           isLink={false}
           color={"bg-blueColor text-xl text-white px-2"}
           Icon={<BiSolidPalette />}
           onClickFun={showColorPicker}
+        />
+        <Button
+          isLink={false}
+          color={"bg-blueColor text-xl text-white px-2"}
+          Icon={<BiSolidDetail />}
+          onClickFun={showDescription}
         />
       </div>
       {colorpicker && (
@@ -98,6 +135,31 @@ export default function AddTag({ attid, getTags, setIsAddModalOpen }) {
           hideHSV
           dark
         />
+      )}
+
+      {description && (
+        <>
+          <div>
+            <label htmlFor="description">Description</label>
+            <textarea
+              className="input-box w-full"
+              type="text"
+              name="en_description"
+              id="description"
+              onChange={(e) => setEnDescriptionText(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="description">Description</label>
+            <textarea
+              className="input-box w-full"
+              type="text"
+              name="ar_description"
+              id="description"
+              onChange={(e) => setArDescriptionText(e.target.value)}
+            />
+          </div>
+        </>
       )}
       <ReusableForm
         template={template}

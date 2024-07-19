@@ -3,17 +3,43 @@ import { useState } from "react";
 import axiosClient from "../../../axios-client";
 import ReusableForm from "../../../components/ReusableForm";
 
-export default function EditCategory({ data, getCategories, setIsModalOpen, categories }) {
-  const [image, setImage] = useState();
+export default function EditCategory({
+  language,
+  data,
+  getCategories,
+  setIsModalOpen,
+  categories,
+}) {
+  const [image, setImage] = useState(data?.image);
 
   let template = {
-    title: "add admin",
+    title: "Edit Category",
     fields: [
       {
-        title: "name",
-        name: "name",
+        name: "image",
+        type: "file",
+        styles: "w-[100%] items-center justify-center",
+        fileFor: "image",
+        imgStyle: "w-[100px] h-[100px]",
+      },
+      {
+        title: "English name",
+        name: "en_name",
         type: "text",
-        value: data?.name,
+        value: data?.en_name,
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+        styles: "lg:w-[48%]",
+      },
+      {
+        title: "Arabic name",
+        name: "ar_name",
+        type: "text",
+        value: data?.ar_name,
         validationProps: {
           required: {
             value: true,
@@ -33,16 +59,27 @@ export default function EditCategory({ data, getCategories, setIsModalOpen, cate
             message: "this field is required",
           },
         },
-        optionText: "name",
+        optionText: language === "ar" ? "ar_name" : "en_name",
         value: data?.parent_id,
         optionValue: "id",
-        styles: "lg:w-[48%]",
       },
       {
-        title: "description",
-        name: "description",
+        title: "English description",
+        name: "en_description",
         type: "textArea",
-        value: data?.description,
+        value: data?.en_description,
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+      },
+      {
+        title: "Arabic description",
+        name: "ar_description",
+        type: "textArea",
+        value: data?.ar_description,
         validationProps: {
           required: {
             value: true,
@@ -56,9 +93,12 @@ export default function EditCategory({ data, getCategories, setIsModalOpen, cate
   const onSubmit = async (values) => {
     const id = toast.loading("Error , Check your input again...");
     const formData = new FormData();
-    formData.append("name", values.name);
-    formData.append("description", values.description);
+    formData.append("en_name", values.en_name);
+    formData.append("ar_name", values.ar_name);
+    formData.append("en_description", values.en_description);
+    formData.append("ar_description", values.ar_description);
     formData.append("parent_id", parseInt(values.parent_id));
+    formData.append("image", image);
 
     axiosClient
       .post(`/admin/update-category/${data?.id}`, formData)

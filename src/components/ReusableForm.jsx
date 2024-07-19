@@ -14,6 +14,7 @@ const ReusableForm = ({
   image,
   formType,
   onSelectChange,
+  direction,
 }) => {
   const { title, fields } = template;
 
@@ -47,7 +48,9 @@ const ReusableForm = ({
 
   return (
     <form
-      className={`${addedStyles} flex flex-col gap-4 text-primary-text w-auto`}
+      className={`${addedStyles} ${
+        direction === "rtl" ? "text-right" : "text-left"
+      } flex flex-col gap-4 text-primary-text w-auto`}
       onSubmit={handleSubmit(onSubmit)}
     >
       <h3

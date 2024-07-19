@@ -36,46 +36,46 @@ export default function AllCountries() {
     setCountries(res?.data.data);
   };
 
-  const deleteFunc = async (value) => {
-    const id = toast.loading("Error , Check your input again...");
-    const res = await axiosClient
-      .get(`/admin/delete-country/${value}`)
-      .then((data) => {
-        if (data.success === false) {
-          toast.update(id, {
-            type: "error",
-            render: data.data.message,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        } else {
-          getCountries();
-          toast.update(id, {
-            type: "success",
-            render: data.data.message,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        }
-      })
-      .catch((err) => {
-        toast.update(id, {
-          type: "error",
-          render: err.response.message,
-          closeOnClick: true,
-          isLoading: false,
-          autoClose: true,
-          closeButton: true,
-          pauseOnHover: false,
-        });
-      });
-  };
+  // const deleteFunc = async (value) => {
+  //   const id = toast.loading("Error , Check your input again...");
+  //   const res = await axiosClient
+  //     .get(`/admin/delete-country/${value}`)
+  //     .then((data) => {
+  //       if (data.success === false) {
+  //         toast.update(id, {
+  //           type: "error",
+  //           render: data.data.message,
+  //           closeOnClick: true,
+  //           isLoading: false,
+  //           autoClose: true,
+  //           closeButton: true,
+  //           pauseOnHover: false,
+  //         });
+  //       } else {
+  //         getCountries();
+  //         toast.update(id, {
+  //           type: "success",
+  //           render: data.data.message,
+  //           closeOnClick: true,
+  //           isLoading: false,
+  //           autoClose: true,
+  //           closeButton: true,
+  //           pauseOnHover: false,
+  //         });
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       toast.update(id, {
+  //         type: "error",
+  //         render: err.response.message,
+  //         closeOnClick: true,
+  //         isLoading: false,
+  //         autoClose: true,
+  //         closeButton: true,
+  //         pauseOnHover: false,
+  //       });
+  //     });
+  // };
 
   useEffect(() => {
     try {
@@ -92,28 +92,28 @@ export default function AllCountries() {
     setDirection(localStorage.getItem("LANGUAGE") === "ar" ? "rtl" : "ltr");
   }, []);
 
-  const editBtnFun = (row) => {
-    setIsModalOpen(true);
-    setClickedRow(row);
-  };
+  // const editBtnFun = (row) => {
+  //   setIsModalOpen(true);
+  //   setClickedRow(row);
+  // };
 
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      theme: "dark",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        deleteFunc(id);
-        getCountries();
-      }
-    });
-  };
+  // const handleDelete = (id) => {
+  //   Swal.fire({
+  //     title: "Are you sure?",
+  //     text: "You won't be able to revert this!",
+  //     icon: "warning",
+  //     showCancelButton: true,
+  //     theme: "dark",
+  //     confirmButtonColor: "#3085d6",
+  //     cancelButtonColor: "#d33",
+  //     confirmButtonText: "Yes, delete it!",
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       deleteFunc(id);
+  //       getCountries();
+  //     }
+  //   });
+  // };
 
   const handleView = (id, country) => {
     navigate(`/admin/allstates/${id}/${country}`);
@@ -133,25 +133,22 @@ export default function AllCountries() {
           <BiSolidXCircle />
         ),
     },
-
     {
       name: "Actions",
       cell: (row) => (
         <div className="flex gap-x-2 gap-y-1 items-center w-full flex-wrap">
-          {/* {hasEditPermission && ( */}
-          <Button
+          {/* <Button
             isLink={false}
             color={"bg-orangeColor"}
             Icon={<BiSolidEditAlt />}
             onClickFun={() => editBtnFun(row)}
           />
-          {/* )} */}
           <Button
             isLink={false}
             color={"bg-redColor"}
             Icon={<BiSolidTrashAlt />}
             onClickFun={() => handleDelete(row.id)}
-          />
+          /> */}
           <Button
             isLink={false}
             color={"bg-blueColor"}
@@ -226,55 +223,29 @@ export default function AllCountries() {
       <Page>
         <PageTitle
           links={links}
-          right={
-            // hasAddPermission && (
-            <>
-              <div>
-                <Button
-                  isLink={false}
-                  color={"bg-greenColor text-xl text-white px-2"}
-                  Icon={<BiSolidUserPlus />}
-                  onClickFun={() => setIsAddModalOpen((prev) => !prev)}
-                />
-              </div>
-              <div>
-                <Button
-                  isLink={false}
-                  color={"bg-redColor text-xl text-white px-2"}
-                  Icon={<BiSolidFileExport />}
-                  onClickFun={archiveSelectedItems}
-                />
-              </div>
-            </>
-            // )
-          }
+          // right={
+          //   // hasAddPermission && (
+          //   <>
+          //     <div>
+          //       <Button
+          //         isLink={false}
+          //         color={"bg-greenColor text-xl text-white px-2"}
+          //         Icon={<BiSolidUserPlus />}
+          //         onClickFun={() => setIsAddModalOpen((prev) => !prev)}
+          //       />
+          //     </div>
+          //     <div>
+          //       <Button
+          //         isLink={false}
+          //         color={"bg-redColor text-xl text-white px-2"}
+          //         Icon={<BiSolidFileExport />}
+          //         onClickFun={archiveSelectedItems}
+          //       />
+          //     </div>
+          //   </>
+          //   // )
+          // }
         />
-        {isModalOpen && (
-          <ModalContainer
-            isModalOpen={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
-            component={
-              <EditAdmin
-                data={clickedRow}
-                getCountries={getCountries}
-                setIsModalOpen={setIsModalOpen}
-              />
-            }
-          />
-        )}
-
-        {isAddModalOpen && (
-          <ModalContainer
-            isModalOpen={isAddModalOpen}
-            setIsModalOpen={setIsAddModalOpen}
-            component={
-              <AddCountry
-                getCountries={getCountries}
-                setIsAddModalOpen={setIsAddModalOpen}
-              />
-            }
-          />
-        )}
         <div className="my-4">
           <Table
             direction={direction}

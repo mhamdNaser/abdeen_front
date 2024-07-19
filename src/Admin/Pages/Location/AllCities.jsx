@@ -99,33 +99,33 @@ export default function AllCities() {
       maxWidth: "15%",
     },
 
-    {
-      name: "Actions",
-      cell: (row) => (
-        <div className="flex gap-x-2 gap-y-1 items-center w-full flex-wrap">
-          {/* {hasEditPermission && ( */}
-          <Button
-            isLink={false}
-            color={"bg-orangeColor"}
-            Icon={<BiSolidEditAlt />}
-            onClickFun={() => editBtnFun(row)}
-          />
-          {/* )} */}
-          <Button
-            isLink={false}
-            color={"bg-redColor"}
-            Icon={<BiSolidTrashAlt />}
-            onClickFun={() => handleDelete(row.id)}
-          />
-          <Button
-            isLink={false}
-            color={"bg-blueColor"}
-            Icon={<BiSolidShow />}
-            onClickFun={() => handleView(row.id)}
-          />
-        </div>
-      ),
-    },
+    // {
+    //   name: "Actions",
+    //   cell: (row) => (
+    //     <div className="flex gap-x-2 gap-y-1 items-center w-full flex-wrap">
+    //       {/* {hasEditPermission && ( */}
+    //       <Button
+    //         isLink={false}
+    //         color={"bg-orangeColor"}
+    //         Icon={<BiSolidEditAlt />}
+    //         onClickFun={() => editBtnFun(row)}
+    //       />
+    //       {/* )} */}
+    //       <Button
+    //         isLink={false}
+    //         color={"bg-redColor"}
+    //         Icon={<BiSolidTrashAlt />}
+    //         onClickFun={() => handleDelete(row.id)}
+    //       />
+    //       <Button
+    //         isLink={false}
+    //         color={"bg-blueColor"}
+    //         Icon={<BiSolidShow />}
+    //         onClickFun={() => handleView(row.id)}
+    //       />
+    //     </div>
+    //   ),
+    // },
   ];
 
   const archiveSelectedItems = () => {
@@ -167,30 +167,30 @@ export default function AllCities() {
       <Page>
         <PageTitle
           links={links}
-          right={
-            // hasAddPermission && (
-            <>
-              <div>
-                <Button
-                  isLink={false}
-                  color={"bg-greenColor text-xl text-white px-2"}
-                  Icon={<BiSolidUserPlus />}
-                  onClickFun={() => setIsAddModalOpen((prev) => !prev)}
-                />
-              </div>
-              <div>
-                <Button
-                  isLink={false}
-                  color={"bg-redColor text-xl text-white px-2"}
-                  Icon={<BiSolidFileExport />}
-                  onClickFun={archiveSelectedItems}
-                />
-              </div>
-            </>
-            // )
-          }
+          // right={
+          //   // hasAddPermission && (
+          //   <>
+          //     <div>
+          //       <Button
+          //         isLink={false}
+          //         color={"bg-greenColor text-xl text-white px-2"}
+          //         Icon={<BiSolidUserPlus />}
+          //         onClickFun={() => setIsAddModalOpen((prev) => !prev)}
+          //       />
+          //     </div>
+          //     <div>
+          //       <Button
+          //         isLink={false}
+          //         color={"bg-redColor text-xl text-white px-2"}
+          //         Icon={<BiSolidFileExport />}
+          //         onClickFun={archiveSelectedItems}
+          //       />
+          //     </div>
+          //   </>
+          //   // )
+          // }
         />
-        {isModalOpen && (
+        {/* {isModalOpen && (
           <ModalContainer
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
@@ -203,7 +203,6 @@ export default function AllCities() {
             }
           />
         )}
-
         {isAddModalOpen && (
           <ModalContainer
             isModalOpen={isAddModalOpen}
@@ -215,7 +214,7 @@ export default function AllCities() {
               />
             }
           />
-        )}
+        )} */}
         <div className="my-4">
           <Table
             columns={columns}

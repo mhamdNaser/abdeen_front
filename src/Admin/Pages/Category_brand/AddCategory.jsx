@@ -3,7 +3,7 @@ import { useState } from "react";
 import axiosClient from "../../../axios-client";
 import ReusableForm from "../../../components/ReusableForm";
 
-export default function AddCategory({ getCategories, setIsAddModalOpen, categories }) {
+export default function AddCategory({ language, getCategories, setIsAddModalOpen, categories }) {
   const [image, setImage] = useState();
   const [stateOptions, setStateOptions] = useState([]);
   const [cityOptions, setCityOptions] = useState([]);
@@ -25,25 +25,37 @@ export default function AddCategory({ getCategories, setIsAddModalOpen, categori
   };
 
   let template = {
-    title: "add admin",
+    title: "add Category",
     fields: [
-      // {
-      //   name: "image",
-      //   type: "file",
-      //   styles: "w-[100%] items-center justify-center",
-      //   fileFor: "image",
-      //   validationProps: {
-      //     required: {
-      //       value: true,
-      //       message: "please choose a profile image first",
-      //     },
-      //   },
-      //   required: { value: true, message: "please set an image first" },
-      //   imgStyle: "w-[100px] h-[100px]",
-      // },
       {
-        title: "name",
-        name: "name",
+        name: "image",
+        type: "file",
+        styles: "w-[100%] items-center justify-center",
+        fileFor: "image",
+        validationProps: {
+          required: {
+            value: true,
+            message: "please choose a profile image first",
+          },
+        },
+        required: { value: true, message: "please set an image first" },
+        imgStyle: "w-[100px] h-[100px]",
+      },
+      {
+        title: "English name",
+        name: "en_name",
+        type: "text",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+        styles: "lg:w-[48%]",
+      },
+      {
+        title: "Arabic name",
+        name: "ar_name",
         type: "text",
         validationProps: {
           required: {
@@ -64,13 +76,23 @@ export default function AddCategory({ getCategories, setIsAddModalOpen, categori
             message: "this field is required",
           },
         },
-        optionText: "name",
+        optionText:  language === "ar" ? "ar_name" : "en_name",
         optionValue: "id",
-        styles: "lg:w-[48%]",
       },
       {
-        title: "description",
-        name: "description",
+        title: "English description",
+        name: "en_description",
+        type: "textArea",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+      },
+      {
+        title: "Arabic description",
+        name: "ar_description",
         type: "textArea",
         validationProps: {
           required: {
@@ -85,14 +107,17 @@ export default function AddCategory({ getCategories, setIsAddModalOpen, categori
   const onSubmit = async (values) => {
     const id = toast.loading("Error , Check your input again...");
     const formData = new FormData();
-    if (Number.isInteger(parseInt(values.parent_id))) {
-      formData.append("name", values.name);
-      formData.append("description", values.description);
-      formData.append("parent_id", parseInt(values.parent_id));
-    } else { 
-       formData.append("name", values.name);
-       formData.append("description", values.description);
-    }
+    // if (Number.isInteger(parseInt(values.parent_id))) {
+      formData.append("en_name", values.en_name);
+      formData.append("ar_name", values.ar_name);
+      formData.append("en_description", values.en_description);
+      formData.append("ar_description", values.ar_description);
+    formData.append("parent_id", parseInt(values.parent_id));
+    formData.append("image", image);
+    // } else {
+    //   formData.append("name", values.name);
+    //   formData.append("description", values.description);
+    // }
 
     axiosClient
       .post("/admin/store-category", formData)

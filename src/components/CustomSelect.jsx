@@ -54,7 +54,7 @@ const CustomSelect = ({
         readOnly={readOnly}
         {...register(name, validationProps)}
         onChange={handleChange}
-        className="input-box bg-white"
+        className="input-box bg-blocks-color"
         value={localSelectedValue}
       >
         {options?.map((option, index) => (

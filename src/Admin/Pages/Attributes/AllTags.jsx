@@ -29,6 +29,7 @@ export default function AllTags() {
   const [loading, setLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
   const [direction, setDirection] = useState();
+  const [language, setLanguage] = useState(localStorage.getItem("LANGUAGE"));
 
   const getTags = async () => {
     const res = await axiosClient.get(`/admin/all-tags-id/${id}`);
@@ -128,7 +129,7 @@ export default function AllTags() {
       }, 300);
     }
 
-    setDirection(localStorage.getItem("LANGUAGE") === "ar" ? "rtl" : "ltr");
+    setDirection(language === "ar" ? "rtl" : "ltr");
   }, []);
 
   const editBtnFun = (row) => {
@@ -203,18 +204,27 @@ export default function AllTags() {
           <span className="flex items-center gap-2">
             <span
               style={{
-                backgroundColor: row.description,
+                backgroundColor:
+                  language === "ar" ? row.ar_description : row.en_description,
                 borderRadius: "50%",
                 display: "inline-block",
                 width: "20px",
                 height: "20px",
               }}
             ></span>
-            {row.name}
+            {language === "ar" ? row.ar_name : row.en_name}
           </span>
+        ) : language === "ar" ? (
+          row.ar_name
         ) : (
-          row.name
+          row.en_name
         ),
+      minWidth: "15%",
+    },
+    {
+      name: "description",
+      selector: (row) =>
+        language === "ar" ? row.ar_description : row.en_description,
       minWidth: "15%",
     },
     {

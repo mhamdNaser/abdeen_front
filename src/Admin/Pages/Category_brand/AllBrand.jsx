@@ -27,7 +27,8 @@ export default function AllBrand() {
   const [brands, setBrands] = useState([]);
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedItems, setSelectedItems] = useState([]); // Add this state
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [language, setLanguage] = useState(localStorage.getItem("LANGUAGE"));
 
   const getBrands = async () => {
     const res = await axiosClient.get("/admin/all-brands");
@@ -95,7 +96,7 @@ export default function AllBrand() {
     }
 
     getCountries();
-    setDirection(localStorage.getItem("LANGUAGE") === "ar" ? "rtl" : "ltr");
+    setDirection(language === "ar" ? "rtl" : "ltr");
   }, []);
 
   const editBtnFun = (row) => {
@@ -176,12 +177,13 @@ export default function AllBrand() {
     },
     {
       name: "name",
-      selector: (row) => row.name,
+      selector: (row) => (language === "ar" ? row.ar_name : row.en_name),
       minWidth: "15%",
     },
     {
       name: "description",
-      selector: (row) => row.description,
+      selector: (row) =>
+        language === "ar" ? row.ar_description : row.en_description,
       minWidth: "15%",
     },
     {

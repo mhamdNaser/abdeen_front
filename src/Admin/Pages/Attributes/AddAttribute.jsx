@@ -7,11 +7,22 @@ export default function AddAttribute({ getAttributes, setIsAddModalOpen }) {
   const [image, setImage] = useState();
 
   let template = {
-    title: "add admin",
+    title: "add Attribute",
     fields: [
       {
-        title: "name",
-        name: "name",
+        title: "English name",
+        name: "en_name",
+        type: "text",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+      },
+      {
+        title: "Arabic name",
+        name: "ar_name",
         type: "text",
         validationProps: {
           required: {
@@ -26,7 +37,8 @@ export default function AddAttribute({ getAttributes, setIsAddModalOpen }) {
   const onSubmit = async (values) => {
     const id = toast.loading("Error , Check your input again...");
     const formData = new FormData();
-    formData.append("name", values.name);
+    formData.append("en_name", values.en_name);
+    formData.append("ar_name", values.ar_name);
 
     axiosClient
       .post("/admin/store-attribute", formData)

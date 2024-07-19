@@ -25,7 +25,7 @@ export default function AddRole({ getRoles, setIsAddModalOpen }) {
   };
 
   let template = {
-    title: "add admin",
+    title: "add role",
     fields: [
       {
         title: "name",

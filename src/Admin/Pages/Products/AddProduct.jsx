@@ -8,11 +8,12 @@ export default function AddProduct({
   setIsAddModalOpen,
   brands,
   categories,
+  language,
 }) {
   const [image, setImage] = useState();
 
   let template = {
-    title: "add admin",
+    title: "add Product",
     fields: [
       {
         name: "image",
@@ -38,11 +39,10 @@ export default function AddProduct({
             message: "this field is required",
           },
         },
-        styles: "lg:w-[48%]",
       },
       {
-        title: "name",
-        name: "name",
+        title: "English name",
+        name: "en_name",
         type: "text",
         validationProps: {
           required: {
@@ -53,8 +53,32 @@ export default function AddProduct({
         styles: "lg:w-[48%]",
       },
       {
-        title: "price",
-        name: "price",
+        title: "Arabic name",
+        name: "ar_name",
+        type: "text",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+        styles: "lg:w-[48%]",
+      },
+      {
+        title: "cost Price",
+        name: "cost_Price",
+        type: "number",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+        styles: "lg:w-[48%]",
+      },
+      {
+        title: "public price",
+        name: "public_price",
         type: "number",
         validationProps: {
           required: {
@@ -74,11 +98,21 @@ export default function AddProduct({
             message: "this field is required",
           },
         },
-        styles: "lg:w-[48%]",
       },
       {
-        title: "description",
-        name: "description",
+        title: "English description",
+        name: "en_description",
+        type: "textArea",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+      },
+      {
+        title: "Arabic description",
+        name: "ar_description",
         type: "textArea",
         validationProps: {
           required: {
@@ -98,7 +132,7 @@ export default function AddProduct({
             message: "this field is required",
           },
         },
-        optionText: "name",
+        optionText: language === "ar" ? "ar_name" : "en_name",
         optionValue: "id",
         styles: "lg:w-[48%]",
       },
@@ -113,7 +147,7 @@ export default function AddProduct({
             message: "this field is required",
           },
         },
-        optionText: "name",
+        optionText: language === "ar" ? "ar_name" : "en_name",
         optionValue: "id",
         styles: "lg:w-[48%]",
       },
@@ -125,9 +159,12 @@ export default function AddProduct({
     const formData = new FormData();
     formData.append("image", image);
     formData.append("sku", values.sku);
-    formData.append("name", values.name);
-    formData.append("description", values.description);
-    formData.append("price", values.price);
+    formData.append("en_name", values.en_name);
+    formData.append("ar_name", values.ar_name);
+    formData.append("en_description", values.en_description);
+    formData.append("ar_description", values.ar_description);
+    formData.append("cost_Price", values.cost_Price);
+    formData.append("public_price", values.public_price);
     formData.append("quantity", values.quantity);
     formData.append("category_id", parseInt(values.category_id));
     formData.append("brand_id", parseInt(values.brand_id));

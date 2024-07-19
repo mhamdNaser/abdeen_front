@@ -39,7 +39,7 @@ const FormField = ({
             dangerouslySetInnerHTML={{ __html: title }}
           ></label>
           <input
-            className="input-box bg-white"
+            className="input-box bg-blocks-color"
             type="text"
             name={name}
             id={name}
@@ -62,7 +62,7 @@ const FormField = ({
             className="input-label"
           ></label>
           <input
-            className="input-box bg-white"
+            className="input-box bg-blocks-color"
             type="number"
             name={name}
             id={name}
@@ -85,7 +85,7 @@ const FormField = ({
             className="input-label"
           ></label>
           <input
-            className="input-box bg-white"
+            className="input-box bg-blocks-color"
             type="date"
             name={name}
             id={name}
@@ -108,7 +108,7 @@ const FormField = ({
             className="input-label"
           ></label>
           <input
-            className="input-box bg-white"
+            className="input-box bg-blocks-color"
             type="password"
             name={name}
             id={name}
@@ -131,7 +131,7 @@ const FormField = ({
             className="input-label"
           ></label>
           <input
-            className="input-box bg-white"
+            className="input-box bg-blocks-color"
             type="email"
             name={name}
             id={name}
@@ -154,7 +154,7 @@ const FormField = ({
             className="input-label"
           ></label>
           <textarea
-            className="input-box bg-white"
+            className="input-box bg-blocks-color"
             name={name}
             id={name}
             placeholder={placeHolder}
@@ -274,7 +274,7 @@ const FormField = ({
                 name={name}
                 multiple={false}
                 accept={acceptTypes}
-                className="fileInput"
+                className="fileInput bg-blocks-color"
                 {...register(name, validationProps)}
                 id={name}
               />

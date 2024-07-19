@@ -21,8 +21,6 @@ import { useNavigate, useParams } from "react-router-dom";
 export default function AllStates() {
   const { id, country } = useParams();
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [clickedRow, setClickedRow] = useState();
   const [loading, setLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]); // Add this state
@@ -34,10 +32,10 @@ export default function AllStates() {
     setStates(res?.data.data);
   };
 
-  const deleteFunc = async (id) => {
-    const res = await axiosClient.get(`/admin/delete-state/${id}`);
-    getStates();
-  };
+  // const deleteFunc = async (id) => {
+  //   const res = await axiosClient.get(`/admin/delete-state/${id}`);
+  //   getStates();
+  // };
 
   useEffect(() => {
     try {
@@ -53,28 +51,28 @@ export default function AllStates() {
     getStates();
   }, []);
 
-  const editBtnFun = (row) => {
-    setIsModalOpen(true);
-    setClickedRow(row);
-  };
+  // const editBtnFun = (row) => {
+  //   setIsModalOpen(true);
+  //   setClickedRow(row);
+  // };
 
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      theme: "dark",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        deleteFunc(id);
-        getStates();
-      }
-    });
-  };
+  // const handleDelete = (id) => {
+  //   Swal.fire({
+  //     title: "Are you sure?",
+  //     text: "You won't be able to revert this!",
+  //     icon: "warning",
+  //     showCancelButton: true,
+  //     theme: "dark",
+  //     confirmButtonColor: "#3085d6",
+  //     cancelButtonColor: "#d33",
+  //     confirmButtonText: "Yes, delete it!",
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       deleteFunc(id);
+  //       getStates();
+  //     }
+  //   });
+  // };
 
   const columns = [
     {
@@ -102,20 +100,18 @@ export default function AllStates() {
       name: "Actions",
       cell: (row) => (
         <div className="flex gap-x-2 gap-y-1 items-center w-full flex-wrap">
-          {/* {hasEditPermission && ( */}
-          <Button
+          {/* <Button
             isLink={false}
             color={"bg-orangeColor"}
             Icon={<BiSolidEditAlt />}
             onClickFun={() => editBtnFun(row)}
           />
-          {/* )} */}
           <Button
             isLink={false}
             color={"bg-redColor"}
             Icon={<BiSolidTrashAlt />}
             onClickFun={() => handleDelete(row.id)}
-          />
+          /> */}
           <Button
             isLink={false}
             color={"bg-blueColor"}
@@ -131,13 +127,13 @@ export default function AllStates() {
     navigate(`/admin/allcities/${id}/${country}/${state_id}/${state}`);
   };
 
-  const archiveSelectedItems = () => {
-    axiosClient
-      .post("/admin/archive-admin-array", { array: selectedItems })
-      .then((data) => {
-        console.log(data);
-      });
-  };
+  // const archiveSelectedItems = () => {
+  //   axiosClient
+  //     .post("/admin/archive-admin-array", { array: selectedItems })
+  //     .then((data) => {
+  //       console.log(data);
+  //     });
+  // };
 
   if (loading) {
     return <Loading />;
@@ -166,55 +162,29 @@ export default function AllStates() {
       <Page>
         <PageTitle
           links={links}
-          right={
-            // hasAddPermission && (
-            <>
-              <div>
-                <Button
-                  isLink={false}
-                  color={"bg-greenColor text-xl text-white px-2"}
-                  Icon={<BiSolidUserPlus />}
-                  onClickFun={() => setIsAddModalOpen((prev) => !prev)}
-                />
-              </div>
-              <div>
-                <Button
-                  isLink={false}
-                  color={"bg-redColor text-xl text-white px-2"}
-                  Icon={<BiSolidFileExport />}
-                  onClickFun={archiveSelectedItems}
-                />
-              </div>
-            </>
-            // )
-          }
+          // right={
+          //   // hasAddPermission && (
+          //   <>
+          //     <div>
+          //       <Button
+          //         isLink={false}
+          //         color={"bg-greenColor text-xl text-white px-2"}
+          //         Icon={<BiSolidUserPlus />}
+          //         onClickFun={() => setIsAddModalOpen((prev) => !prev)}
+          //       />
+          //     </div>
+          //     <div>
+          //       <Button
+          //         isLink={false}
+          //         color={"bg-redColor text-xl text-white px-2"}
+          //         Icon={<BiSolidFileExport />}
+          //         onClickFun={archiveSelectedItems}
+          //       />
+          //     </div>
+          //   </>
+          //   // )
+          // }
         />
-        {isModalOpen && (
-          <ModalContainer
-            isModalOpen={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
-            component={
-              <EditAdmin
-                data={clickedRow}
-                getStates={getStates}
-                setIsModalOpen={setIsModalOpen}
-              />
-            }
-          />
-        )}
-
-        {isAddModalOpen && (
-          <ModalContainer
-            isModalOpen={isAddModalOpen}
-            setIsModalOpen={setIsAddModalOpen}
-            component={
-              <AddAdmin
-                getStates={getStates}
-                setIsAddModalOpen={setIsAddModalOpen}
-              />
-            }
-          />
-        )}
         <div className="my-4">
           <Table
             columns={columns}
