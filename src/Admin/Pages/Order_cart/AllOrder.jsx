@@ -17,8 +17,8 @@ import {
   BiSolidCheckCircle,
   BiSolidXCircle,
 } from "react-icons/bi";
-import AddBrand from "./AddBrand";
-import EditBrand from "./EditBrand";
+// import AddBrand from "./AddBrand";
+// import EditBrand from "./EditBrand";
 
 export default function AllOrder() {
   const [isModalOpen, setIsModalOpen] = useState(false);
