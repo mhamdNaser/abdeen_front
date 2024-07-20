@@ -13,9 +13,9 @@ const ProductCard = ({ product, addToCart, likeProduct, viewProduct, buttontitle
   const { translations } = useTranslation();
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-4 relative text-start">
+    <div className="bg-white shadow-md rounded-lg p-4 z-0 relative text-start">
       {product.discount > 0 && (
-        <div className="relative px-8">
+        <div className="relative px-8 z-0">
           <div className="absolute bg-redColor text-xs text-white px-3 py-[3px] rounded-md top-2 right-2">
             {product.discount} {"%"}
           </div>

@@ -59,22 +59,22 @@ export default function UserMenu() {
         }`}
       >
         {token && (
-          <div className="font-bold text-md border-b px-6 py-3 hover:bg-background-color transition-all duration-400 ease-in-out">
+          <div className="font-bold text-md border-b px-6 py-3 text-gray-600 hover:bg-background-color transition-all duration-400 ease-in-out">
             {user.username}
           </div>
         )}
         <Link
           to={`/profile/${user.id}/${user.username}`}
-          className="font-bold px-6 py-2 hover:bg-background-color transition-all duration-400 ease-in-out"
+          className="font-bold px-6 py-2 text-gray-600 hover:bg-background-color transition-all duration-400 ease-in-out"
         >
           {translations?.Edit_Profile || "Edit Profile"}
         </Link>
-        {/* <Link className="font-bold px-6 py-2 hover:bg-background-color transition-all duration-400 ease-in-out">
+        {/* <Link className="font-bold px-6 text-gray-600 py-2 hover:bg-background-color transition-all duration-400 ease-in-out">
           {translations?.Password_Change || "Password Change"}
         </Link> */}
         <Link
           onClick={handleLogout}
-          className="font-bold px-6 py-2 hover:bg-background-color transition-all duration-400 ease-in-out"
+          className="font-bold px-6 py-2 text-gray-600 hover:bg-background-color transition-all duration-400 ease-in-out"
         >
           {translations?.Logout || "Logout"}
         </Link>

@@ -53,7 +53,7 @@ export default function Home() {
           </div>
         </div>
         <div
-          className={` ${language === "ar" ? "font-serif text-white lg:text-redColor" : "text-redColor lg:text-white"}
+          className={` ${language === "ar" ? "font-serif text-white lg:text-redColor xl:text-white" : "text-redColor lg:text-white"}
           flex flex-col w-full lg:w-1/3 m-auto text-center gap-y-4  p-4 lg:p-0`}
         >
           <p className="text-lg sm:text-xl font-semibold">

@@ -21,7 +21,7 @@ export default function ListMenu({ col, menuItems }) {
       {firstThreeItems.map((item, index) => (
         <Link
           key={index}
-          to="/watches"
+          to={`/${item.en_name}`}
           className="hover:text-redColor hover:font-bold"
         >
           {language === "ar" ? item.ar_name : item.en_name}
@@ -44,7 +44,7 @@ export default function ListMenu({ col, menuItems }) {
               <Menu.Item key={index}>
                 {({ active }) => (
                   <Link
-                    to="/watches"
+                    to={`/${item.en_name}`}
                     className={`${
                       active ? "bg-gray-100 text-gray-900" : "text-gray-700"
                     } block px-4 py-2 text-sm`}

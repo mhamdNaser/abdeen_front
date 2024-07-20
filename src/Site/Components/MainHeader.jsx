@@ -26,7 +26,8 @@ export default function MainHeader({ background, likeNum, cardProductNum, menuIt
     } else {
       if (window.scrollY > 0) {
         navbar.classList.add("bg-white");
-        navbar.classList.remove("text-white");
+        navbar.classList.remove("text-dark");
+        navbar.classList.remove("xl:text-white");
         navbar.classList.remove("shadow-none");
         navbar.classList.add("shadow-sm");
         navbar.classList.add("shadow-redColor");
@@ -35,7 +36,8 @@ export default function MainHeader({ background, likeNum, cardProductNum, menuIt
         navbar.classList.remove("text-primary-text");
         navbar.classList.remove("shadow-sm");
         navbar.classList.remove("shadow-redColor");
-        navbar.classList.add("text-white");
+        navbar.classList.add("xl:text-white");
+        navbar.classList.add(" text-dark");
       }
     }
   };
@@ -47,10 +49,10 @@ export default function MainHeader({ background, likeNum, cardProductNum, menuIt
   return (
     <div
       id="navbar"
-      className={`w-full flex flex-row justify-between text-xl font-bold z-0 shadow-none h-auto ${
+      className={`w-full flex flex-row justify-between text-xl font-bold z-30 shadow-none h-auto ${
         background
-            ? "text-white"
-            : "text-dark"
+            ? "text-dark xl:text-white"
+            : "xl:text-white text-dark"
       } px-4 sm:px-6 sticky top-0 bg-transparent`}
     >
       <div className="flex w-full items-center justify-between">
@@ -68,11 +70,11 @@ export default function MainHeader({ background, likeNum, cardProductNum, menuIt
         <div className="relative flex xl:hidden items-center gap-4 w-full justify-end p-4">
           <button
             onClick={showlistMenu}
-            className="xl:hidden text-[#3e3e3e] xl:text-white flex"
+            className="xl:hidden flex"
           >
             <BiMenu size={32} />
           </button>
-          <div className="relative text-[#3e3e3e] xl:text-white">
+          <div className="relative">
               <Link to={"/cardPage"}>
                 <BiSolidCart size={32} />
               </Link>
