@@ -5,8 +5,7 @@ import { Menu } from "@headlessui/react";
 import { useTranslation } from "../../provider/TranslationProvider";
 
 export default function ListMenu({ col }) {
-  const { translations } = useTranslation();
-  const [language, setLanguage] = useState(localStorage.getItem("LANGUAGE"));
+  const { translations, language } = useTranslation();
   const [menuItems, setItems] = useState([]);
 
   const getCategory = () => {

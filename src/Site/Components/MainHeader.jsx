@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { BiSolidCart, BiSolidHeart, BiMenu } from "react-icons/bi";
+import React, { useState } from "react";
+import { BiSolidCart, BiMenu } from "react-icons/bi";
 import { useTranslation } from "../../provider/TranslationProvider";
-import { useTWThemeContext } from "../../provider/ThemeProvider";
-import LanguageDropdown from "../../components/LanguageDropdown";
-import Searchmenu from "./Searchmenu";
 import UserMenu from "./UserMenu";
 import ListMenu from "./ListMenu";
 import { useStateContext } from "../../provider/ContextsProvider";
@@ -17,11 +14,6 @@ export default function MainHeader({ background, likeNum, cardProductNum }) {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [singupModalOpen, setSingupModalOpen] = useState(false);
   const [liistmenu, setListMenu] = useState(false);
-  const { setTheme } = useTWThemeContext();
-  const [mode, setMode] = useState(() => {
-    const savedMode = localStorage.getItem("theme");
-    return savedMode ? savedMode : "light";
-  });
   const { token } = useStateContext({});
   const { translations, language } = useTranslation();
 
@@ -48,41 +40,17 @@ export default function MainHeader({ background, likeNum, cardProductNum }) {
     }
   };
 
-  useEffect(() => {
-    localStorage.setItem("theme", mode);
-    const htmlElement = document.querySelector("html");
-    localStorage.setItem("theme", mode);
-    setTheme(mode);
-    if (htmlElement) {
-      htmlElement.setAttribute("data-theme", mode);
-      sessionStorage.setItem("mode", mode);
-    }
-  }, [mode]);
-
-  const showlistMenu = () => { 
-setListMenu(!liistmenu);
-  }
-
-  useEffect(() => {
-    const htmlElement = document.querySelector("html");
-    if (htmlElement) {
-      if (language === "ar") {
-        htmlElement.setAttribute("dir", "rtl");
-      } else {
-        htmlElement.setAttribute("dir", "ltr");
-      }
-    }
-  }, [language]);
+  const showlistMenu = () => {
+    setListMenu(!liistmenu);
+  };
 
   return (
     <div
       id="navbar"
-      className={`menu-dropdown w-full flex flex-row justify-between text-xl font-bold z-50 shadow-none h-auto ${
+      className={`w-full flex flex-row justify-between text-xl font-bold z-0 shadow-none h-auto ${
         background
-          ? mode === "light"
             ? "text-white"
             : "text-dark"
-          : "text-dark bg-white border-b"
       } px-4 sm:px-6 sticky top-0 bg-transparent`}
     >
       <div className="flex w-full flex-row items-center justify-between">
@@ -90,19 +58,12 @@ setListMenu(!liistmenu);
           to={"/"}
           className="relative flex items-center w-full sm:w-1/2 justify-between p-4 sm:p-6"
         >
-          {mode === "light" ? (
             <img
               src="/image/logo.png"
               alt="Logo"
               className="w-1/4 max-w-[200px] min-w-[120px]"
             />
-          ) : (
-            <img
-              src="/image/logo-dark.png"
-              alt="Logo"
-              className="w-1/4 max-w-[200px] min-w-[120px]"
-            />
-          )}
+          
         </Link>
         <div className="relative flex xl:hidden items-center w-full justify-end p-4">
           <button
@@ -120,8 +81,6 @@ setListMenu(!liistmenu);
           </div>
 
           <div className="flex gap-4 px-2 sm:px-4 text-xs">
-            <LanguageDropdown />
-            <Searchmenu />
             {/* <div className="relative">
               <BiSolidHeart size={32} />
               <div className="absolute top-[-5px] -left-2 w-4 h-4 rounded-full bg-redColor text-white text-xs flex items-center justify-center">

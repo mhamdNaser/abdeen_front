@@ -5,12 +5,21 @@ import MainHeader from "../Site/Components/MainHeader";
 import TopHeader from "../Site/Components/TopHeader";
 import { useTranslation } from "../provider/TranslationProvider";
 import Footer from "../Site/Components/Footer";
+import axiosClient from "../axios-client";
 
 export default function SiteLayout() {
-  const language = localStorage.getItem("LANGUAGE");
+  // const language = localStorage.getItem("LANGUAGE");
+  const { language, changeLanguage } = useTranslation();
   const [background, setBackground] = useState(true);
   const [likeNum, setLikeNum] = useState(0);
   const [cardProductNum, seCardProductNum] = useState(0);
+  const [socialMedia, setSocialMedia] = useState([]);
+
+  useEffect(() => {
+    axiosClient.get("site/socialmedia").then((res) => {
+      setSocialMedia(res.data.socialMedia);
+    });
+  }, []);
 
   const getLikeNum = () => {
     const existingProducts = JSON.parse(localStorage.getItem("Like_products")) || [];
@@ -29,8 +38,8 @@ export default function SiteLayout() {
   }, []);
 
   return (
-    <div className="bg-blocks-color h-full">
-      <TopHeader />
+    <div className="menu-dropdown bg-blocks-color h-full">
+      <TopHeader likeNum={likeNum} cardProductNum={cardProductNum} />
       <div
         className={`${
           !background
@@ -45,8 +54,15 @@ export default function SiteLayout() {
           likeNum={likeNum}
           cardProductNum={cardProductNum}
         />
-        <Outlet context={{ setBackground, getLikeNum, getCardProductNum }} />
-        <Footer />
+        <Outlet
+          context={{
+            socialMedia,
+            setBackground,
+            getLikeNum,
+            getCardProductNum,
+          }}
+        />
+        <Footer socialMedia={socialMedia} />
       </div>
     </div>
   );

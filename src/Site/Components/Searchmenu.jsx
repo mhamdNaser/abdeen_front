@@ -25,20 +25,11 @@ export default function Searchmenu() {
   }, [showsearch]);
 
   return (
-    <>
+    <div className="flex gap-3">
+      {showsearch && <input type="text" className="fileInput bg-slate-500 w-full" />}
       <button onClick={getShowsearch}>
-        <BiSearch size={32} />
+        <BiSearch size={24} />
       </button>
-      <div
-        className={`absolute flex flex-col search-dropdown mt-[40px] overflow-y-auto component-shadow text-primary-text bg-blocks-color z-10 rounded-md ${
-          showsearch ? "h-[auto]" : "h-0"
-        }`}
-      >
-        <div className="flex items-center justify-between w-full py-4 px-2 gap-4">
-          <label htmlFor="search">Search</label>
-          <input type="text" className="fileInput p-2" />
-        </div>
-      </div>
-    </>
+    </div>
   );
 }

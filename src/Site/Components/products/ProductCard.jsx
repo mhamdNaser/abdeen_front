@@ -16,8 +16,8 @@ const ProductCard = ({ product, addToCart, likeProduct, viewProduct, buttontitle
     <div className="bg-white shadow-md rounded-lg p-4 relative text-start">
       {product.discount > 0 && (
         <div className="relative px-8">
-          <div className="absolute bg-redColor text-xs text-white px-2 py-[1px] rounded-md top-2 right-2">
-            on salle
+          <div className="absolute bg-redColor text-xs text-white px-3 py-[3px] rounded-md top-2 right-2">
+            {product.discount} {"%"}
           </div>
         </div>
       )}
@@ -79,20 +79,20 @@ const ProductCard = ({ product, addToCart, likeProduct, viewProduct, buttontitle
         {/* بيانات إضافية */}
         <p className="text-sm text-gray-500">
           <span className="font-extrabold">
-            {translations ? translations["Brand"] : "Brand"} :
+            {(translations && translations["Brand"]) || "Brand"} :
           </span>{" "}
           {language === "ar" ? product.ar_brand : product.en_brand},{" "}
         </p>
         <p className="text-sm text-gray-500">
           <span className="font-extrabold">
-            {translations ? translations["Category"] : "Category"} :
+            {(translations && translations["Category"]) || "Category"} :
           </span>{" "}
           {language === "ar" ? product.ar_category : product.en_category}
         </p>
         <p className="text-sm text-gray-500">
           <span className="font-extrabold">
             {" "}
-            {translations ? translations["Quantity"] : "Quantity"} :
+            {(translations && translations["Quantity"]) || "Quantity"} :
           </span>{" "}
           {product.quantity}
         </p>
@@ -104,7 +104,9 @@ const ProductCard = ({ product, addToCart, likeProduct, viewProduct, buttontitle
             className="bg-redColor w-full text-white px-4 py-2 rounded hover:bg-red-800"
             onClick={() => addToCart(product)}
           >
-            {!buttontitle ? "Add to Cart" : buttontitle}
+            {!buttontitle
+              ? (translations && translations["Add to Cart"]) || "Add to Cart"
+              : buttontitle}
           </button>
         )}
         <button

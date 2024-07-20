@@ -38,6 +38,7 @@ export default function CardsPage() {
       (updatedProducts[index].quantity || 0) + 1;
     setCardsProducts(updatedProducts);
     updateLocalStorage(updatedProducts);
+    getCardProductNum();
   };
 
   const handleDecrease = (index) => {
@@ -49,6 +50,7 @@ export default function CardsPage() {
     }
     setCardsProducts(updatedProducts);
     updateLocalStorage(updatedProducts);
+    getCardProductNum();
   };
 
   const handleTagSelect = (index, productId, tagId, attribute) => {

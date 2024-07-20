@@ -4,7 +4,7 @@ import { useTranslation } from "../provider/TranslationProvider";
 import { FaLanguage } from "react-icons/fa";
 
 const LanguageDropdown = () => {
-  const { translations } = useTranslation();
+  const { translations, changeLanguage } = useTranslation();
   const [languages, setLanguages] = useState([]);
   const [language, setLanguage] = useState(
     localStorage.getItem("LANGUAGE") || "en"
@@ -43,19 +43,19 @@ const LanguageDropdown = () => {
   const handleChangeLanguage = (lang) => {
     setLanguage(lang);
     setDropdownOpen(false);
-    window.location.reload();
+    changeLanguage(lang);
   };
 
   return (
-    <div className="relative px-4">
+    <div className="px-4">
       {" "}
       {/* Adjusted width here */}
       <button
         onClick={() => setDropdownOpen(!dropdownOpen)}
-        className="block w-full px-5 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+        className="block w-full px-3 py-1 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
       >
         <span className="flex items-center gap-2">
-          <FaLanguage className="w-8 h-5 mr-2" />
+          <FaLanguage className="w-6 h-4 mr-2" />
           {language.toUpperCase()}
         </span>
       </button>
