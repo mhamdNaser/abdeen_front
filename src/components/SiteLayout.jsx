@@ -14,6 +14,17 @@ export default function SiteLayout() {
   const [likeNum, setLikeNum] = useState(0);
   const [cardProductNum, seCardProductNum] = useState(0);
   const [socialMedia, setSocialMedia] = useState([]);
+  const [menuItems, setItems] = useState([]);
+
+  const getCategory = () => {
+    axiosClient.get("/site/menu-categories").then((data) => {
+      setItems(data.data.data);
+    });
+  };
+
+  useEffect(() => {
+    getCategory();
+  }, []);
 
   useEffect(() => {
     axiosClient.get("site/socialmedia").then((res) => {
@@ -41,15 +52,15 @@ export default function SiteLayout() {
     <div className="menu-dropdown bg-blocks-color h-full">
       <TopHeader likeNum={likeNum} cardProductNum={cardProductNum} />
       <div
-        className={`${
-          !background
+        className={`${!background
             ? "bg-background-color"
             : language == "ar"
-            ? "bg-[url('/image/background-rtl.png')]"
-            : "bg-[url('/image/background.png')]"
-        } bg-cover bg-fixed max-fit`}
+              ? "bg-[url('/image/background-rtl.png')]"
+              : "bg-[url('/image/background.png')]"
+          } bg-cover bg-fixed max-fit`}
       >
         <MainHeader
+          menuItems={menuItems}
           background={background}
           likeNum={likeNum}
           cardProductNum={cardProductNum}

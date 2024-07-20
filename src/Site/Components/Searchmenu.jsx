@@ -26,7 +26,7 @@ export default function Searchmenu() {
 
   return (
     <div className="flex gap-3">
-      {showsearch && <input type="text" className="fileInput bg-slate-500 w-full" />}
+      {showsearch && <input type="text" className=" fileInput bg-gray-200 w-full" />}
       <button onClick={getShowsearch}>
         <BiSearch size={24} />
       </button>

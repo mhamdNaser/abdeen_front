@@ -4,19 +4,8 @@ import axiosClient from "../../axios-client";
 import { Menu } from "@headlessui/react";
 import { useTranslation } from "../../provider/TranslationProvider";
 
-export default function ListMenu({ col }) {
+export default function ListMenu({ col, menuItems }) {
   const { translations, language } = useTranslation();
-  const [menuItems, setItems] = useState([]);
-
-  const getCategory = () => {
-    axiosClient.get("/site/menu-categories").then((data) => {
-      setItems(data.data.data);
-    });
-  };
-
-  useEffect(() => {
-    getCategory();
-  }, []);
 
   const firstThreeItems = menuItems.slice(0, 3);
   const remainingItems = menuItems.slice(3);

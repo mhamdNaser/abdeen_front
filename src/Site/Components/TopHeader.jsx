@@ -37,9 +37,9 @@ export default function TopHeader() {
   }, [language]);
 
   return (
-    <div className="w-full z-40 flex flex-col sm:flex-row justify-between px-4 sm:px-6 py-3 bg-[#3e3e3e] text-gray-100 text-[12px]">
-      <div className="flex justify-between sm:justify-start space-x-4 items-center mb-2 sm:mb-0">
-        <span className="font-semibold border-r px-3">
+    <div className="w-full z-40 flex flex-row justify-between px-4 sm:px-6 py-3 bg-[#3e3e3e] text-gray-100 text-[12px]">
+      <div className="flex justify-between items-center">
+        <span className="font-semibold px-3">
           {date.toLocaleDateString()}
         </span>
         <span className="font-semibold">{date.toLocaleTimeString()}</span>

@@ -32,11 +32,11 @@ export default function GuidList({ setLoginModalOpen, setSingupModalOpen
 
   return (
     <>
-      <button onClick={getshowmenu}>
+      <button onClick={getshowmenu} className="xl:text-white text-gray-400">
         <BiSolidUserCircle size={32} />
       </button>
       <div
-        className={`absolute flex flex-col mt-[40px] min-w-[160px] overflow-y-auto end-0 component-shadow text-primary-text bg-blocks-color rounded-md ${
+        className={`absolute flex flex-col xl:mt-[40px] mt-[160px] min-w-[160px] overflow-y-auto end-0 component-shadow text-primary-text bg-blocks-color rounded-md ${
           showmenu ? "h-[auto]" : "h-0"
         }`}
       >

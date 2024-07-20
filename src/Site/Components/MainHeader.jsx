@@ -10,7 +10,7 @@ import ModalContainer from "../../components/ModalContainer";
 import Login from "../Pages/Auth/Login";
 import Register from "../Pages/Auth/Register";
 
-export default function MainHeader({ background, likeNum, cardProductNum }) {
+export default function MainHeader({ background, likeNum, cardProductNum, menuItems }) {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [singupModalOpen, setSingupModalOpen] = useState(false);
   const [liistmenu, setListMenu] = useState(false);
@@ -53,31 +53,47 @@ export default function MainHeader({ background, likeNum, cardProductNum }) {
             : "text-dark"
       } px-4 sm:px-6 sticky top-0 bg-transparent`}
     >
-      <div className="flex w-full flex-row items-center justify-between">
+      <div className="flex w-full items-center justify-between">
         <Link
           to={"/"}
-          className="relative flex items-center w-full sm:w-1/2 justify-between p-4 sm:p-6"
+          className="relative flex items-center w-full sm:w-1/2 justify-between "
         >
             <img
               src="/image/logo.png"
               alt="Logo"
-              className="w-1/4 max-w-[200px] min-w-[120px]"
+              className="w-1/4 max-w-[200px] min-w-[100px]"
             />
           
         </Link>
-        <div className="relative flex xl:hidden items-center w-full justify-end p-4">
+        <div className="relative flex xl:hidden items-center gap-4 w-full justify-end p-4">
           <button
             onClick={showlistMenu}
-            className="xl:hidden text-gray-600 flex"
+            className="xl:hidden text-[#3e3e3e] xl:text-white flex"
           >
             <BiMenu size={32} />
           </button>
+          <div className="relative text-[#3e3e3e] xl:text-white">
+              <Link to={"/cardPage"}>
+                <BiSolidCart size={32} />
+              </Link>
+              <div className="absolute top-[-5px] -left-2 w-4 h-4 rounded-full bg-redColor text-white text-xs flex items-center justify-center">
+                {cardProductNum > 0 ? cardProductNum : 0}
+              </div>
+            </div>
+            {token ? (
+              <UserMenu />
+            ) : (
+              <GuidList
+                setLoginModalOpen={setLoginModalOpen}
+                setSingupModalOpen={setSingupModalOpen}
+              />
+            )}
         </div>
-        {liistmenu && <ListMenu col={"flex-col"} />}
+        {liistmenu && <ListMenu col={"flex-col"} menuItems={menuItems} />}
 
-        <div className="relative hidden xl:flex items-center justify-between p-4 ">
+        <div className="relative hidden xl:flex items-center justify-between md:gap-2 lg:gap-6 xl:gap-8">
           <div className="flex">
-            <ListMenu />
+            <ListMenu menuItems={menuItems}/>
           </div>
 
           <div className="flex gap-4 px-2 sm:px-4 text-xs">
