@@ -54,7 +54,7 @@ export default function UserMenu() {
         )}
       </button>
       <div
-        className={`absolute flex flex-col mt-[40px] min-w-[180px] overflow-y-auto end-0 component-shadow text-primary-text bg-blocks-color rounded-md ${
+        className={`absolute flex flex-col xl:mt-[40px] mt-[240px] min-w-[120px] overflow-y-auto end-0 component-shadow bg-blocks-color rounded-md ${
           showmenu ? "h-[auto]" : "h-0"
         }`}
       >

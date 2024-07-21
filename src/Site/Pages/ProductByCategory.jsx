@@ -36,8 +36,8 @@ export default function ProductByCategory() {
   }, [setBackground]);
 
   return (
-    <div className="flex p-10 h-fit justify-center">
-      <div className="flex flex-col w-3/4 text-center">
+    <div className="flex xl:p-10 p-4 h-fit justify-center">
+      <div className="flex flex-col xl:w-3/4 w-full text-center">
         <SitePageTitle
           entitle={en_name}
           artitle={ar_name}

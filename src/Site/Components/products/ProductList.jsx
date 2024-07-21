@@ -80,7 +80,7 @@ const ProductList = ({
   return (
     <div className="flex flex-col gap-y-3 xl:gap-y-0 xl:flex-row gap-x-12 xl:g-x-0">
       {filter === true ? (
-        <div className="2xl:w-1/5 w-full bg-blocks-color h-fit">
+        <div className="xl:w-1/4 w-full bg-blocks-color h-fit">
           <Filter
             filters={filters}
             setFilters={setFilters}
@@ -91,7 +91,7 @@ const ProductList = ({
       ) : null}
       <div
         className={`${!hor ? "grid grid-cols-1 md:grid-cols-2 gap-6" : "w-full"}
-        ${filter === true ? "xl:w-4/5 w-full lg:grid-cols-3" : "lg:grid-cols-4"}`}
+        ${filter === true ? "xl:w-3/4 w-full lg:grid-cols-2 xl:grid-cols-2" : "lg:grid-cols-4"}`}
       >
         {filteredProducts.map((product) =>
           hor === true ? (
