@@ -6,15 +6,17 @@ import TopHeader from "../Site/Components/TopHeader";
 import { useTranslation } from "../provider/TranslationProvider";
 import Footer from "../Site/Components/Footer";
 import axiosClient from "../axios-client";
+import Loading from "./Loading";
 
 export default function SiteLayout() {
-  // const language = localStorage.getItem("LANGUAGE");
-  const { language, changeLanguage } = useTranslation();
+  const { language } = useTranslation();
   const [background, setBackground] = useState(true);
   const [likeNum, setLikeNum] = useState(0);
   const [cardProductNum, seCardProductNum] = useState(0);
   const [socialMedia, setSocialMedia] = useState([]);
   const [menuItems, setItems] = useState([]);
+  const [brands, setbrands] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getCategory = () => {
     axiosClient.get("/site/menu-categories").then((data) => {
@@ -22,8 +24,18 @@ export default function SiteLayout() {
     });
   };
 
+  const getBrands = () => {
+    axiosClient.get("/site/menu-Brand").then((data) => {
+      setbrands(data.data.data);
+    });
+  };
+
   useEffect(() => {
     getCategory();
+    getBrands();
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000); // إعداد وقت الانتظار هنا بـ 2000 ميلي ثانية (2 ثانية)
   }, []);
 
   useEffect(() => {
@@ -33,7 +45,8 @@ export default function SiteLayout() {
   }, []);
 
   const getLikeNum = () => {
-    const existingProducts = JSON.parse(localStorage.getItem("Like_products")) || [];
+    const existingProducts =
+      JSON.parse(localStorage.getItem("Like_products")) || [];
     setLikeNum(existingProducts.length);
   };
 
@@ -48,16 +61,21 @@ export default function SiteLayout() {
     getCardProductNum();
   }, []);
 
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div className="menu-dropdown bg-blocks-color h-full">
       <TopHeader likeNum={likeNum} cardProductNum={cardProductNum} />
       <div
-        className={`${!background
+        className={`${
+          !background
             ? "bg-background-color"
-            : language == "ar"
-              ? "bg-[url('/image/background-rtl.png')]"
-              : "bg-[url('/image/background.png')]"
-          } bg-cover bg-fixed max-fit`}
+            : language === "ar"
+            ? "bg-[url('/image/background-rtl.png')]"
+            : "bg-[url('/image/background.png')]"
+        } bg-cover bg-fixed max-fit`}
       >
         <MainHeader
           menuItems={menuItems}
@@ -71,6 +89,8 @@ export default function SiteLayout() {
             setBackground,
             getLikeNum,
             getCardProductNum,
+            menuItems,
+            brands,
           }}
         />
         <Footer socialMedia={socialMedia} />

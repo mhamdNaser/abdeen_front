@@ -6,7 +6,8 @@ import { useTranslation } from "../../provider/TranslationProvider";
 import SitePageTitle from "../Components/SitePageTitle";
 
 export default function AllProduct() {
-  const { setBackground, getLikeNum, getCardProductNum } = useOutletContext();
+  const { setBackground, getLikeNum, getCardProductNum, menuItems, brands } =
+    useOutletContext();
   const [products, setProducts] = useState([]);
   const { translations } = useTranslation();
   const [horvalue, setHorValue] = useState();
@@ -29,16 +30,19 @@ export default function AllProduct() {
     return () => setBackground(true); // Cleanup function to reset the background when the component unmounts
   }, [setBackground]);
   return (
-    <div className="flex p-10 h-fit justify-center">
-      <div className="flex flex-col w-3/4 text-center">
+    <div className="flex xl:p-10 p-4 h-fit justify-center">
+      <div className="flex flex-col xl:w-3/4 w-full text-center">
         <SitePageTitle
           entitle={"All Products"}
           artitle={translations["All Products"]}
           number={products.length}
           getHorValue={getHorValue}
         />
-        <div className="p-4">
+        <div className="xl:p-4 items-center">
           <ProductList
+            filter={true}
+            menuItems={menuItems}
+            brands={brands}
             hor={horvalue}
             products={products}
             getLikeNum={getLikeNum}

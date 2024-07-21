@@ -1,6 +1,7 @@
 import React from "react";
 import { BiSolidHeart, BiSolidShow } from "react-icons/bi";
 import { useTranslation } from "../../../provider/TranslationProvider";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({ product, addToCart, likeProduct, viewProduct, buttontitle }) => {
   // Retrieve existing liked products from localStorage
@@ -109,12 +110,14 @@ const ProductCard = ({ product, addToCart, likeProduct, viewProduct, buttontitle
               : buttontitle}
           </button>
         )}
-        <button
-          className="bg-blueColor text-white px-4 py-2 rounded hover:bg-blue-800"
-          onClick={() => viewProduct(product)}
-        >
-          <BiSolidShow />
-        </button>
+        {viewProduct && (
+          <Link
+            className="bg-blueColor text-white px-4 flex items-center rounded hover:bg-blue-800"
+            to={`/siteviewproduct/${product.id}/${product.en_name}`}
+          >
+            <BiSolidShow />
+          </Link>
+        )}
       </div>
     </div>
   );

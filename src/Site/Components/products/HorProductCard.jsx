@@ -19,25 +19,25 @@ const HorProductCard = ({
   const { translations } = useTranslation();
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-4 flex gap-4 my-4">
+    <div className="bg-white shadow-md rounded-lg p-4 flex flex-col xl:flex-row gap-4 my-4">
       {product.discount > 0 && (
         <div className="relative">
-          <div className="absolute min-w-[52px] bg-redColor text-xs text-white px-3 py-[3px] rounded-md top-2 right-2">
+          <div className="absolute min-w-[52px] bg-redColor text-xs text-white px-3 py-[3px] rounded-md top-2 left-0 xl:right-2">
             {product.discount} {"%"}
           </div>
         </div>
       )}
 
-      <div className="flex-shrink">
+      <div className="xl:flex-shrink flex">
         <img
-          className="h-28 w-28 object-cover rounded-md"
+          className="xl:min-h-28 xl:min-w-28 xl:max-w-40 w-full max-h-40 object-cover rounded-md"
           src={import.meta.env.VITE_WEBSITE_URL + product.image}
           alt={language === "ar" ? product.ar_name : product.en_name}
         />
       </div>
 
       {/* معلومات المنتج */}
-      <div className="flex-grow flex-col w-1/3 text-start">
+      <div className="flex-grow flex-col xl:w-1/3 w-full text-start">
         <div className="flex flex-col justify-end h-full">
           <h3 className="text-lg font-bold">
             {language === "ar" ? product.ar_name : product.en_name}
@@ -64,8 +64,8 @@ const HorProductCard = ({
         </div>
       </div>
 
-      <div className="flex flex-col w-1/3 items-end justify-end">
-        <div className="py-4 px-1">
+      <div className="flex flex-col xl:w-1/3 w-full xl:items-end items-start xl:justify-end">
+        <div className="xl:py-4 py-1 px-1">
           {product.discount === 0 ? (
             <p className="text-blue-500 font-semibold">
               {product.public_price} JD
@@ -85,7 +85,7 @@ const HorProductCard = ({
         </div>
         {addToCart && (
           <button
-            className="bg-redColor w-1/3 text-white px-4 py-2 rounded hover:bg-red-800 mb-2"
+            className="bg-redColor xl:w-1/3 w-full text-white px-4 py-2 rounded hover:bg-red-800 mb-2"
             onClick={() => addToCart(product)}
           >
             {!buttontitle
@@ -94,7 +94,7 @@ const HorProductCard = ({
           </button>
         )}
         <button
-          className="bg-blueColor w-1/3 text-white py-2 rounded hover:bg-blue-800"
+          className="bg-blueColor xl:w-1/3 w-full text-white py-2 rounded hover:bg-blue-800"
           onClick={() => viewProduct(product)}
         >
           <BiSolidShow className="mx-auto" />

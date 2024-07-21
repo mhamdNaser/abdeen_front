@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Page } from "../../../components/StyledComponents";
-import { BiSolidUserCircle, BiSolidEditAlt } from "react-icons/bi";
 import axiosClient from "../../../axios-client";
 import { useParams } from "react-router-dom";
 import PageTitle from "../../../components/PageTitle";
 import Loading from "../../../components/Loading";
-
-import AttributeSelect from "./components/AttributeSelect";
-import { toast } from "react-toastify";
-import Button from "../../../components/Button";
-import ColorSelect from "./components/ColorSelect";
 import InformationSection from "./Sections/InformationSection";
 import PriceSection from "./Sections/PriceSection";
 import BrandCategorySection from "./Sections/BrandCategorySection";

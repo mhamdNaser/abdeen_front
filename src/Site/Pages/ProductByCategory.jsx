@@ -5,7 +5,8 @@ import ProductList from "../Components/products/ProductList";
 import SitePageTitle from "../Components/SitePageTitle";
 
 export default function ProductByCategory() {
-  const { setBackground, getLikeNum, getCardProductNum } = useOutletContext();
+  const { setBackground, getLikeNum, getCardProductNum, menuItems, brands } =
+    useOutletContext();
   const { id } = useParams();
   const [products, setProducts] = useState([]);
   const [horvalue, setHorValue] = useState();
@@ -45,6 +46,8 @@ export default function ProductByCategory() {
         />
         <div className="p-4">
           <ProductList
+            filter={true}
+            brands={brands}
             hor={horvalue}
             products={products}
             getLikeNum={getLikeNum}

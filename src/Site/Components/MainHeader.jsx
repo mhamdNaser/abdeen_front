@@ -49,7 +49,7 @@ export default function MainHeader({ background, likeNum, cardProductNum, menuIt
   return (
     <div
       id="navbar"
-      className={`w-full flex flex-row justify-between text-xl font-bold z-30 shadow-none h-auto py-2 ${
+      className={`w-full flex flex-row justify-between text-xl font-bold z-30 shadow-none h-auto py-4 ${
         background
           ? "text-dark xl:text-white bg-transparent"
           : "text-dark bg-white"
