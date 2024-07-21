@@ -31,18 +31,21 @@ export default function ProductCardInCart({
   }
 
   return (
-    <div className="border bg-blocks-color rounded-lg shadow-lg flex justify-between items-center">
-      <div className="flex w-1/2 text-start">
+    <div className="border bg-blocks-color rounded-lg shadow-lg flex xl:flex-row flex-col justify-between items-center">
+      <div className="flex xl:flex-row flex-col xl:w-1/2 w-full text-start">
         <img
           src={import.meta.env.VITE_WEBSITE_URL + productDetails.image}
           alt={productDetails.en_name}
-          className="w-40 min-h-40 max-h-full object-cover"
+          className="xl:w-40 xl:min-h-40 xl:max-h-full w-full object-cover"
         />
         <div className="flex flex-col text-start ps-3 py-2">
           <h4 className="font-bold text-lg mb-2">{productDetails.en_name}</h4>
-          <div className="text-md text-gray-600">
-            {productDetails.en_description}
+          <div className="text-md text-gray-600 max-w-[180px] overflow-hidden whitespace-nowrap">
+            <p className="truncate">
+              {productDetails.en_description}
+            </p>
           </div>
+
           {Object.entries(
             (productDetails.tags || []).reduce((groups, tag) => {
               const attribute = tag.attribute;
@@ -72,16 +75,15 @@ export default function ProductCardInCart({
                           : "",
                       opacity:
                         selectedTags?.[attribute] === tag.id ||
-                        (selectedTags?.[attribute] === undefined &&
-                          tagIndex === 0)
+                          (selectedTags?.[attribute] === undefined &&
+                            tagIndex === 0)
                           ? "1"
                           : "0.4",
                     }}
-                    className={`focus:outline-background-color outline-none ${
-                      attribute.toUpperCase() !== "COLOR"
+                    className={`focus:outline-background-color outline-none ${attribute.toUpperCase() !== "COLOR"
                         ? "rounded-sm px-2"
                         : "rounded-full min-h-6 min-w-6"
-                    }  text-sm`}
+                      }  text-sm`}
                   >
                     {attribute.toUpperCase() !== "COLOR" ? tag.en_name : ""}
                   </div>
@@ -91,15 +93,14 @@ export default function ProductCardInCart({
           ))}
         </div>
       </div>
-      <div className="w-1/6 xl:flex hidden flex-col gap-y-3 text-start">
+      <div className="w-1/4 xl:flex hidden flex-col gap-y-3 text-start">
         <div className="flex text-md">
           Quantity in Cart:
           <span
-            className={`ml-2 flex items-center gap-2 ${
-              product.quantity > productDetails.quantity
+            className={`ml-2 flex items-center gap-2 ${product.quantity > productDetails.quantity
                 ? "text-red-500"
                 : "text-black"
-            }`}
+              }`}
           >
             {product.quantity}
             <div className="flex items-center border gap-2 p-1">
@@ -122,16 +123,15 @@ export default function ProductCardInCart({
           Product public_price: {productDetails.public_price}
         </div>
       </div>
-      <div className="w-1/6 md:w-1/3 lg:text-end md:text-start px-8">
-        <div className="w-full lg:hidden flex flex-col gap-y-3 text-start">
+      <div className="xl:w-1/6 w-full lg:text-end md:text-start xl:px-8 px-3 py-3">
+        <div className="w-full xl:hidden flex flex-col gap-y-3 text-start">
           <div className="flex text-md">
             Quantity in Cart:
             <span
-              className={`ml-2 flex items-center gap-2 ${
-                product.quantity > productDetails.quantity
+              className={`ml-2 flex items-center gap-2 ${product.quantity > productDetails.quantity
                   ? "text-red-500"
                   : "text-black"
-              }`}
+                }`}
             >
               {product.quantity}
               <div className="flex items-center justify-end border gap-2 p-1">

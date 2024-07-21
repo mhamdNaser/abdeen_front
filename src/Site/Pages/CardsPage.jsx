@@ -130,8 +130,8 @@ export default function CardsPage() {
   const finalTotal = totalCost + taxAmount + DELIVERY_CHARGE;
 
   return (
-    <div className="flex lg:flex-row md:flex-col-reverse h-fit min-h-[720px] py-8">
-      <div className="lg:w-3/4 w-full flex flex-col px-12">
+    <div className="flex xl:flex-row flex-col-reverse h-fit min-h-[720px] py-8">
+      <div className="xl:w-3/4 w-full flex flex-col px-12">
         <h3 className="text-4xl font-bold py-8">Items in Your Cart</h3>
         <div className="flex flex-col gap-y-5">
           {cardsProducts.length === 0 ? (
@@ -158,7 +158,7 @@ export default function CardsPage() {
           </button>
         </div>
       </div>
-      <div className="lg:w-1/4 md:w-full flex flex-col px-12">
+      <div className="xl:w-1/4 w-full flex flex-col px-12">
         <h3 className="text-xl font-bold py-8">Order</h3>
         <div className="flex flex-col gap-y-5 bg-blocks-color p-4">
           <p className="flex justify-between w-full">
