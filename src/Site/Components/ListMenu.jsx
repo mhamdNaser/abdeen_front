@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axiosClient from "../../axios-client";
 import { Menu } from "@headlessui/react";
 import { useTranslation } from "../../provider/TranslationProvider";
 
@@ -21,7 +20,8 @@ export default function ListMenu({ col, menuItems }) {
       {firstThreeItems.map((item, index) => (
         <Link
           key={index}
-          to={`/${item.en_name}`}
+          to={`/category/${item.id}`}
+          state={{ en_name: item.en_name, ar_name: item.ar_name }}
           className="hover:text-redColor hover:font-bold"
         >
           {language === "ar" ? item.ar_name : item.en_name}
@@ -44,7 +44,8 @@ export default function ListMenu({ col, menuItems }) {
               <Menu.Item key={index}>
                 {({ active }) => (
                   <Link
-                    to={`/${item.en_name}`}
+                    to={`/category/${item.id}`}
+                    state={{ en_name: item.en_name, ar_name: item.ar_name }}
                     className={`${
                       active ? "bg-gray-100 text-gray-900" : "text-gray-700"
                     } block px-4 py-2 text-sm`}

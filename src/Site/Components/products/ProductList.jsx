@@ -1,11 +1,13 @@
 import React from "react";
 import ProductCard from "./ProductCard";
+import HorProductCard from "./HorProductCard";
 
 const ProductList = ({
   products,
   buttontitle,
   getCardProductNum,
   getLikeNum,
+  hor,
 }) => {
   const addToCart = (product) => {
     let cardsProducts = JSON.parse(localStorage.getItem("Card_products")) || [];
@@ -46,18 +48,34 @@ const ProductList = ({
     console.log("Viewing product:", product);
   };
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {products.map((product) => (
-        <ProductCard
-          key={product.id}
-          product={product}
-          addToCart={addToCart}
-          likeProduct={likeProduct}
-          viewProduct={viewProduct}
-          buttontitle={buttontitle}
-          getCardProductNum={getCardProductNum}
-        />
-      ))}
+    <div
+      className={`${
+        !hor ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" : "w-full"
+      }`}
+    >
+      {products.map((product) =>
+        hor === true ? (
+          <HorProductCard
+            key={product.id}
+            product={product}
+            addToCart={addToCart}
+            likeProduct={likeProduct}
+            viewProduct={viewProduct}
+            buttontitle={buttontitle}
+            getCardProductNum={getCardProductNum}
+          />
+        ) : (
+          <ProductCard
+            key={product.id}
+            product={product}
+            addToCart={addToCart}
+            likeProduct={likeProduct}
+            viewProduct={viewProduct}
+            buttontitle={buttontitle}
+            getCardProductNum={getCardProductNum}
+          />
+        )
+      )}
     </div>
   );
 };

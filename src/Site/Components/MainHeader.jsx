@@ -21,7 +21,7 @@ export default function MainHeader({ background, likeNum, cardProductNum, menuIt
     var navbar = document.getElementById("navbar");
     //
     if (!background) {
-      navbar.classList.add("bg-white");
+      // navbar.classList.add("bg-white");
       navbar.classList.add("text-dark");
     } else {
       if (window.scrollY > 0) {
@@ -49,53 +49,49 @@ export default function MainHeader({ background, likeNum, cardProductNum, menuIt
   return (
     <div
       id="navbar"
-      className={`w-full flex flex-row justify-between text-xl font-bold z-30 shadow-none h-auto ${
+      className={`w-full flex flex-row justify-between text-xl font-bold z-30 shadow-none h-auto py-2 ${
         background
-            ? "text-dark xl:text-white"
-            : "xl:text-white text-dark"
-      } px-4 sm:px-6 sticky top-0 bg-transparent`}
+          ? "text-dark xl:text-white bg-transparent"
+          : "text-dark bg-white"
+      } px-4 sm:px-6 sticky top-0 `}
     >
       <div className="flex w-full items-center justify-between">
         <Link
           to={"/"}
           className="relative flex items-center w-full sm:w-1/2 justify-between "
         >
-            <img
-              src="/image/logo.png"
-              alt="Logo"
-              className="w-1/4 max-w-[200px] min-w-[100px]"
-            />
-          
+          <img
+            src="/image/logo.png"
+            alt="Logo"
+            className="w-1/4 max-w-[200px] min-w-[100px]"
+          />
         </Link>
         <div className="relative flex xl:hidden items-center gap-4 w-full justify-end p-4">
-          <button
-            onClick={showlistMenu}
-            className="xl:hidden flex"
-          >
+          <button onClick={showlistMenu} className="xl:hidden flex">
             <BiMenu size={32} />
           </button>
           <div className="relative">
-              <Link to={"/cardPage"}>
-                <BiSolidCart size={32} />
-              </Link>
-              <div className="absolute top-[-5px] -left-2 w-4 h-4 rounded-full bg-redColor text-white text-xs flex items-center justify-center">
-                {cardProductNum > 0 ? cardProductNum : 0}
-              </div>
+            <Link to={"/cardPage"}>
+              <BiSolidCart size={32} />
+            </Link>
+            <div className="absolute top-[-5px] -left-2 w-4 h-4 rounded-full bg-redColor text-white text-xs flex items-center justify-center">
+              {cardProductNum > 0 ? cardProductNum : 0}
             </div>
-            {token ? (
-              <UserMenu />
-            ) : (
-              <GuidList
-                setLoginModalOpen={setLoginModalOpen}
-                setSingupModalOpen={setSingupModalOpen}
-              />
-            )}
+          </div>
+          {token ? (
+            <UserMenu />
+          ) : (
+            <GuidList
+              setLoginModalOpen={setLoginModalOpen}
+              setSingupModalOpen={setSingupModalOpen}
+            />
+          )}
         </div>
         {liistmenu && <ListMenu col={"flex-col"} menuItems={menuItems} />}
 
         <div className="relative hidden xl:flex items-center justify-between md:gap-2 lg:gap-6 xl:gap-8">
           <div className="flex">
-            <ListMenu menuItems={menuItems}/>
+            <ListMenu menuItems={menuItems} />
           </div>
 
           <div className="flex gap-4 px-2 sm:px-4 text-xs">

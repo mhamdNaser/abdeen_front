@@ -37,6 +37,7 @@ import EditWord from "./Admin/Pages/Languages/EditWord";
 import ViewProduct from "./Admin/Pages/Products/ViewProduct";
 import AllProduct from "./Site/Pages/AllProduct";
 import CardsPage from "./Site/Pages/CardsPage";
+import ProductByCategory from "./Site/Pages/ProductByCategory";
 
 const router = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: "/cardPage",
         element: <CardsPage />,
+      },
+      {
+        path: "/category/:id/",
+        element: <ProductByCategory />,
       },
     ],
   },
