@@ -11,7 +11,7 @@ export default function Profile() {
   }, [setBackground]);
   return (
     <div className="flex xl:flex-row flex-col p-4 xl:p-10 gap-10">
-      <div className="xl:w-1/3 w-full text-dark">
+      <div className="xl:w-1/3 xl:min-w-fit w-full text-dark">
         {/* User Information Section */}
         <section className="mb-8">
           <div className="bg-white shadow-md rounded-lg p-4 ">
@@ -24,7 +24,7 @@ export default function Profile() {
                 src={import.meta.env.VITE_WEBSITE_URL + user.image}
                 alt={user.name}
               />
-              <div className="flex flex-col-reverse xl:w-3/4 w-full gap-4">
+              <div className="flex flex-col-reverse min-w-fit gap-4">
                 <p className="flex justify-between">
                   <strong>Phone:</strong> {user.phone}
                 </p>
