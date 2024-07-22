@@ -50,7 +50,7 @@ const ProductCard = ({ product, addToCart, likeProduct, viewProduct, buttontitle
       </div> */}
 
       <img
-        className="h-56 w-72 object-cover rounded-md"
+        className="xl:w-72 lg:w-72 lg:h-48 h-60 w-full  rounded-md"
         src={import.meta.env.VITE_WEBSITE_URL + product.image}
         alt={language === "ar" ? product.ar_name : product.en_name}
       />

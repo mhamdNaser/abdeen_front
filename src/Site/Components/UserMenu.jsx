@@ -59,7 +59,7 @@ export default function UserMenu() {
         }`}
       >
         {token && (
-          <div className="font-bold text-md border-b px-6 py-3 text-gray-600 hover:bg-background-color transition-all duration-400 ease-in-out">
+          <div className={`font-bold text-md border-b px-6 py-3 text-gray-600 hover:bg-background-color transition-all duration-400 ease-in-out`}>
             {user.username}
           </div>
         )}

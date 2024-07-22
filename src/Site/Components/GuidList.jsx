@@ -46,7 +46,7 @@ export default function GuidList({ setLoginModalOpen, setSingupModalOpen
           }}
           className="font-bold px-6 text-gray-600 py-2 hover:bg-background-color transition-all duration-400 ease-in-out"
         >
-          {translations?.Login || "Login"}
+          {(translations && translations["Login"]) || "Login"}
         </button>
         <button
           onClick={() => {
@@ -54,7 +54,7 @@ export default function GuidList({ setLoginModalOpen, setSingupModalOpen
           }}
           className="font-bold px-6 text-gray-600 py-2 hover:bg-background-color transition-all duration-400 ease-in-out"
         >
-          {translations?.Singup || "Singup"}
+          {(translations && translations["Singup"]) || "Singup"}
         </button>
       </div>
     </>

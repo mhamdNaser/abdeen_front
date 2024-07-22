@@ -36,8 +36,12 @@ export default function ListMenu({ col, menuItems }) {
           <Menu.Items
             className={`absolute bg-white divide-gray-100 ${
               !col
-                ? "right-0 mt-2 w-56 origin-top-right  divide-y  rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                : "left-20 top-[-12px] min-w-screen py-2"
+                ? `${
+                    language === "ar" ? "left-0" : "right-0"
+                  } mt-2 w-56 origin-top-right divide-y rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`
+                : `${
+                    language === "ar" ? "right-20 top-[-12px]" : "left-20 top-[-12px]"
+                  } min-w-screen py-2`
             } `}
           >
             {remainingItems.map((item, index) => (

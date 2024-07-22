@@ -75,7 +75,7 @@ export default function SiteLayout() {
             : language === "ar"
             ? "bg-[url('/image/background-rtl.png')]"
             : "bg-[url('/image/background.png')]"
-        } bg-cover bg-fixed max-fit`}
+        } bg-cover bg-no-repeat bg-bottom bg-fixed max-fit`}
       >
         <MainHeader
           menuItems={menuItems}

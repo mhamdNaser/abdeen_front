@@ -1,6 +1,9 @@
 import React from "react";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 const Filter = ({ filters, setFilters, menuItems = [], brands = [] }) => {
+  const language = localStorage.getItem("LANGUAGE");
+  const { translations } = useTranslation();
   const handleFilterChange = (e) => {
     const { name, value, checked } = e.target;
     let newFilters = { ...filters };
@@ -22,15 +25,16 @@ const Filter = ({ filters, setFilters, menuItems = [], brands = [] }) => {
   return (
     <div className="p-4 space-y-4">
       <div>
-        {menuItems.length > 0  && (
+        {menuItems.length > 0 && (
           <label className="font-semibold block mb-2 text-start">
-            Category:
+            {(translations && translations["Category"]) || "Category"}
+            {" :"}
           </label>
         )}
 
         <div className="px-4">
           {menuItems.map((item) => (
-            <div key={item.id} className="flex items-center space-x-2">
+            <div key={item.id} className="flex gap-2 items-center">
               <input
                 type="checkbox"
                 name="categories"
@@ -38,18 +42,21 @@ const Filter = ({ filters, setFilters, menuItems = [], brands = [] }) => {
                 onChange={handleFilterChange}
                 className="form-checkbox h-4 w-4"
               />
-              <label>{item.en_name}</label>
+              <label>{language === "ar" ? item.ar_name : item.en_name}</label>
             </div>
           ))}
         </div>
       </div>
       <div>
-        {brands.length > 0  && (
-          <label className="font-semibold block mb-2 text-start">Brand:</label>
+        {brands.length > 0 && (
+          <label className="font-semibold block mb-2 text-start">
+            {(translations && translations["Brand"]) || "Brand"}
+            {" :"}
+          </label>
         )}
         <div className="px-4">
           {brands.map((brand) => (
-            <div key={brand.id} className="flex items-center space-x-2">
+            <div key={brand.id} className="flex gap-2 items-center">
               <input
                 type="checkbox"
                 name="brands"
@@ -57,17 +64,18 @@ const Filter = ({ filters, setFilters, menuItems = [], brands = [] }) => {
                 onChange={handleFilterChange}
                 className="form-checkbox h-4 w-4"
               />
-              <label>{brand.en_name}</label>
+              <label>{language === "ar" ? brand.ar_name : brand.en_name}</label>
             </div>
           ))}
         </div>
       </div>
       <div>
         <label className="font-semibold block mb-2 text-start">
-          Price Range:
+          {(translations && translations["Price Range"]) || "Price Range"}
+          {" :"}
         </label>
-        <div className="px-4">
-          <div className="flex items-center space-x-2">
+        <div className="px-6">
+          <div className="flex gap-2 items-center">
             <input
               type="radio"
               name="priceRange"
@@ -77,7 +85,7 @@ const Filter = ({ filters, setFilters, menuItems = [], brands = [] }) => {
             />
             <label>0 - 25</label>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex gap-2 items-center">
             <input
               type="radio"
               name="priceRange"
@@ -87,7 +95,7 @@ const Filter = ({ filters, setFilters, menuItems = [], brands = [] }) => {
             />
             <label>25 - 50</label>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex gap-2 items-center">
             <input
               type="radio"
               name="priceRange"
@@ -97,7 +105,7 @@ const Filter = ({ filters, setFilters, menuItems = [], brands = [] }) => {
             />
             <label>50 - 100</label>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex gap-2 items-center">
             <input
               type="radio"
               name="priceRange"
@@ -105,7 +113,7 @@ const Filter = ({ filters, setFilters, menuItems = [], brands = [] }) => {
               onChange={handlePriceChange}
               className="form-radio h-4 w-4"
             />
-            <label>More than 100</label>
+            <label>Up 100</label>
           </div>
         </div>
       </div>

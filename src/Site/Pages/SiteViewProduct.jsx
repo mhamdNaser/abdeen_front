@@ -37,11 +37,12 @@ export default function SiteViewproduct() {
             <Loading />
           ) : (
             <>
-              <div className="xl:w-1/4 lg:w-full text-dark">
+              <div className="xl:w-1/4 w-full text-dark">
                 <section className="mb-8 sticky top-0">
                   <div className="bg-blocks-color shadow-md rounded-lg p-4">
                     <h2 className="text-2xl border-b py-3 font-semibold flex justify-between">
-                      product Information
+                      {(translations && translations["product Information"]) ||
+                        "product Information"}
                     </h2>
                     {product && (
                       <div className="xl:flex flex-col gap-6 py-4">
@@ -58,16 +59,34 @@ export default function SiteViewproduct() {
                         )}
                         <div className="flex flex-col gap-4">
                           <p className="flex justify-between">
-                            <strong>Sku:</strong> {product.sku}
+                            <strong>
+                              {(translations && translations["Sku"]) || "Sku"}
+                              {" : "}
+                            </strong>{" "}
+                            {product.sku}
                           </p>
                           <p className="flex justify-between">
-                            <strong>Arabic Name:</strong> {product.ar_name}
+                            <strong>
+                              {(translations && translations["Arabic Name"]) ||
+                                "Arabic Name"}
+                              {" : "}
+                            </strong>{" "}
+                            {product.ar_name}
                           </p>
                           <p className="flex justify-between">
-                            <strong>English Name:</strong> {product.en_name}
+                            <strong>
+                              {(translations && translations["English Name"]) ||
+                                "English Name"}
+                              {" : "}
+                            </strong>{" "}
+                            {product.en_name}
                           </p>
                           <p className="flex justify-between">
-                            <strong>Status:</strong>{" "}
+                            <strong>
+                              {(translations && translations["Status"]) ||
+                                "Status"}
+                              {" : "}
+                            </strong>{" "}
                             {product.status === 1 ? "Active" : "Not Active"}
                           </p>
                         </div>
@@ -75,19 +94,25 @@ export default function SiteViewproduct() {
                     )}
                   </div>
                 </section>
-
                 <section className="mb-8">
                   <div className="bg-blocks-color shadow-md rounded-lg p-4">
                     <h2 className="text-2xl border-b py-3 font-semibold flex justify-between">
-                      Price
+                      {(translations && translations["Price"]) || "Price"}
                     </h2>
                     <div className="flex flex-col gap-4 py-2">
                       <p className="flex justify-between">
-                        <strong>Price:</strong>
+                        <strong>
+                          {(translations && translations["Price"]) || "Price"}
+                          {" : "}
+                        </strong>
                         <span>{product.cost_Price}</span>
                       </p>
                       <p className="flex justify-between">
-                        <strong>Quantity:</strong>
+                        <strong>
+                          {(translations && translations["Quantity"]) ||
+                            "Quantity"}
+                          {" : "}
+                        </strong>
                         <span>{product.quantity}</span>
                       </p>
                     </div>
@@ -96,11 +121,15 @@ export default function SiteViewproduct() {
                 <section className="mb-8">
                   <div className="bg-blocks-color shadow-md rounded-lg p-4">
                     <h2 className="text-2xl border-b py-3 font-semibold flex justify-between">
-                      Discount
+                      {(translations && translations["Discount"]) || "Discount"}
                     </h2>
                     <div className="flex flex-col gap-4 py-2">
                       <p className="flex justify-between">
-                        <strong>Discount:</strong>
+                        <strong>
+                          {(translations && translations["Discount"]) ||
+                            "Discount"}
+                          {" : "}
+                        </strong>
                         <span>{product.discount} %</span>
                       </p>
                     </div>
@@ -108,20 +137,32 @@ export default function SiteViewproduct() {
                 </section>
               </div>
 
-              <div className="xl:w-3/4 lg:w-full text-dark">
+              <div className="xl:w-3/4 w-full text-dark">
                 <ImagesSection productid={id} />
                 <section className="mb-8">
                   <div className="bg-blocks-color shadow-md rounded-lg p-4">
                     <h2 className="text-2xl border-b py-3 font-semibold flex justify-between">
-                      product Description
+                      {(translations && translations["product Description"]) ||
+                        "product Description"}
                     </h2>
                     <div className="flex flex-col gap-4 py-2 text-start">
                       <p className="flex flex-col">
-                        <strong>English Description</strong>{" "}
+                        <strong>
+                          {" "}
+                          {(translations &&
+                            translations["Description English"]) ||
+                            "Description English"}
+                          {" : "}
+                        </strong>{" "}
                         {product.en_description}
                       </p>
                       <p className="flex flex-col">
-                        <strong>Arabic Description</strong>{" "}
+                        <strong>
+                          {(translations &&
+                            translations["Description Arabic"]) ||
+                            "Description Arabic"}
+                          {" : "}
+                        </strong>{" "}
                         {product.ar_description}
                       </p>
                     </div>

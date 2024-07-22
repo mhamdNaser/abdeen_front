@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BiSolidChevronUp, BiSolidChevronDown } from "react-icons/bi";
 import axiosClient from "../../../axios-client";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function ProductCardInCart({
   product,
@@ -12,6 +13,7 @@ export default function ProductCardInCart({
   onTotalCostChange,
 }) {
   const [productDetails, setProductDetails] = useState(null);
+  const { translations, language } = useTranslation();
 
   useEffect(() => {
     axiosClient.get(`site/show-product/${product.id}`).then((res) => {
@@ -31,18 +33,24 @@ export default function ProductCardInCart({
   }
 
   return (
-    <div className="border bg-blocks-color rounded-lg shadow-lg flex xl:flex-row flex-col justify-between items-center">
+    <div className="border bg-blocks-color rounded-lg shadow-lg flex xl:flex-row flex-col justify-between items-center xl:items-end">
       <div className="flex xl:flex-row flex-col xl:w-1/2 w-full text-start">
         <img
           src={import.meta.env.VITE_WEBSITE_URL + productDetails.image}
           alt={productDetails.en_name}
           className="xl:w-40 xl:min-h-40 xl:max-h-full w-full object-cover"
         />
-        <div className="flex flex-col text-start ps-3 py-2">
-          <h4 className="font-bold text-lg mb-2">{productDetails.en_name}</h4>
+        <div className="flex flex-col text-start justify-end ps-3 py-2">
+          <h4 className="font-bold text-lg mb-2">
+            {language === "ar"
+              ? productDetails.ar_name
+              : productDetails.en_name}
+          </h4>
           <div className="text-md text-gray-600 max-w-[180px] overflow-hidden whitespace-nowrap">
             <p className="truncate">
-              {productDetails.en_description}
+              {language === "ar"
+                ? productDetails.ar_description
+                : productDetails.en_description}
             </p>
           </div>
 
@@ -75,17 +83,22 @@ export default function ProductCardInCart({
                           : "",
                       opacity:
                         selectedTags?.[attribute] === tag.id ||
-                          (selectedTags?.[attribute] === undefined &&
-                            tagIndex === 0)
+                        (selectedTags?.[attribute] === undefined &&
+                          tagIndex === 0)
                           ? "1"
                           : "0.4",
                     }}
-                    className={`focus:outline-background-color outline-none ${attribute.toUpperCase() !== "COLOR"
+                    className={`focus:outline-background-color outline-none ${
+                      attribute.toUpperCase() !== "COLOR"
                         ? "rounded-sm px-2"
                         : "rounded-full min-h-6 min-w-6"
-                      }  text-sm`}
+                    }  text-sm`}
                   >
-                    {attribute.toUpperCase() !== "COLOR" ? tag.en_name : ""}
+                    {attribute.toUpperCase() !== "COLOR"
+                      ? language === "ar"
+                        ? tag.ar_name
+                        : tag.en_name
+                      : ""}
                   </div>
                 ))}
               </div>
@@ -93,14 +106,16 @@ export default function ProductCardInCart({
           ))}
         </div>
       </div>
-      <div className="w-1/4 xl:flex hidden flex-col gap-y-3 text-start">
+      <div className="w-1/4 xl:flex hidden flex-col gap-y-3 py-3 text-start">
         <div className="flex text-md">
-          Quantity in Cart:
+          {(translations && translations["Quantity in Cart"]) ||
+            "Quantity in Cart"}
           <span
-            className={`ml-2 flex items-center gap-2 ${product.quantity > productDetails.quantity
+            className={`ml-2 text-greenColor font-bold flex items-center px-2 gap-2 ${
+              product.quantity > productDetails.quantity
                 ? "text-red-500"
                 : "text-black"
-              }`}
+            }`}
           >
             {product.quantity}
             <div className="flex items-center border gap-2 p-1">
@@ -120,18 +135,22 @@ export default function ProductCardInCart({
           </span>
         </div>
         <div className="text-md">
-          Product public_price: {productDetails.public_price}
+          {(translations && translations["Product public_price"]) ||
+            "Product public_price"}
+          {" :"} {productDetails.public_price}
         </div>
       </div>
-      <div className="xl:w-1/6 w-full lg:text-end md:text-start xl:px-8 px-3 py-3">
+      <div className="xl:w-1/6 w-full md:text-start px-3 py-3">
         <div className="w-full xl:hidden flex flex-col gap-y-3 text-start">
           <div className="flex text-md">
-            Quantity in Cart:
+            {(translations && translations["Quantity in Cart"]) ||
+              "Quantity in Cart"}
             <span
-              className={`ml-2 flex items-center gap-2 ${product.quantity > productDetails.quantity
+              className={`ml-2 flex items-center gap-2 ${
+                product.quantity > productDetails.quantity
                   ? "text-red-500"
                   : "text-black"
-                }`}
+              }`}
             >
               {product.quantity}
               <div className="flex items-center justify-end border gap-2 p-1">
@@ -151,12 +170,22 @@ export default function ProductCardInCart({
             </span>
           </div>
           <div className="text-md">
-            Product public_price: {productDetails.public_price}
+            {(translations && translations["Product public_price"]) ||
+              "Product public_price"}
+            {" :"} {productDetails.public_price}
           </div>
         </div>
         <div className="text-md">
-          Total public_price: {productDetails.public_price * product.quantity}
+          {(translations && translations["Total public_price"]) ||
+            "Total public_price"}
+          {" :"} {productDetails.public_price * product.quantity}
         </div>
+        {product.quantity > productDetails.quantity ? (
+          <small className="text-redColor">
+            {(translations && translations["Demand exceeds supply."]) ||
+              "Demand exceeds supply."}
+          </small>
+        ) : null}
       </div>
     </div>
   );

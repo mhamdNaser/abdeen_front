@@ -30,7 +30,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex flex-col lg:flex-row w-full min-h-[600px] items-center">
+      <div className="flex flex-col lg:flex-row w-full min-h-[600px] 2xl:min-h-[760px] items-center">
         <div className="flex flex-col w-full lg:w-1/2 items-center lg:items-start">
           <div className="flex flex-col lg:flex-row items-center">
             <img src="/image/watches.png" alt="Watches" />
@@ -53,7 +53,11 @@ export default function Home() {
           </div>
         </div>
         <div
-          className={` ${language === "ar" ? "font-serif text-white lg:text-redColor xl:text-white" : "text-redColor lg:text-white"}
+          className={` ${
+            language === "ar"
+              ? "font-serif text-slate-200"
+              : "text-slate-200"
+          }
           flex flex-col w-full lg:w-1/3 m-auto text-center gap-y-4  p-4 lg:p-0`}
         >
           <p className="text-lg sm:text-xl font-semibold">
@@ -86,7 +90,7 @@ export default function Home() {
                     <Link
                       to={`${media.link}`}
                       target="_blank"
-                      className="hover:text-black text-white"
+                      className="hover:text-black text-slate-200"
                       key={media.title}
                     >
                       <FaSquareFacebook size={32} />
@@ -97,7 +101,7 @@ export default function Home() {
                     <Link
                       to={`${media.link}`}
                       target="_blank"
-                      className="hover:text-black text-white"
+                      className="hover:text-black text-slate-200"
                       key={media.title}
                     >
                       <FaSquareInstagram size={32} />
@@ -108,7 +112,7 @@ export default function Home() {
                     <Link
                       to={`${media.link}`}
                       target="_blank"
-                      className="hover:text-black text-white"
+                      className="hover:text-black text-slate-200"
                       key={media.title}
                     >
                       <FaSquareWhatsapp size={32} />
@@ -118,7 +122,7 @@ export default function Home() {
                   return null; // لتجنب ظهور أي شيء إذا لم يكن العنوان متوافق
                 }
               })}
-            {/* <button className="hover:text-black text-white">
+            {/* <button className="hover:text-black text-slate-200">
               <FaSquareXTwitter size={32} />
             </button> */}
           </div>

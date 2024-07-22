@@ -80,6 +80,9 @@ export default function CardsPage() {
     axiosClient
       .post("site/store-order", {
         products: orderData,
+        price: totalCost,
+        tax: taxAmount,
+        delivery: DELIVERY_CHARGE,
         totalprice: parseInt(finalTotal.toFixed(2)),
       })
       .then((data) => {
@@ -132,7 +135,7 @@ export default function CardsPage() {
   return (
     <div className="flex xl:flex-row flex-col-reverse h-fit min-h-[720px] py-8">
       <div className="xl:w-3/4 w-full flex flex-col px-12">
-        <h3 className="text-4xl font-bold py-8">Items in Your Cart</h3>
+        <h3 className="xl:text-4xl text-lg font-bold py-8">Items in Your Cart</h3>
         <div className="flex flex-col gap-y-5">
           {cardsProducts.length === 0 ? (
             <div className="px-5 py-4 bg-blocks-color">Add Product To Make Order</div>

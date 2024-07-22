@@ -9,6 +9,7 @@ import { BsFiletypeXls, BsFiletypePdf } from "react-icons/bs";
 
 const Table = ({
   Title,
+  print,
   columns,
   direction,
   data,
@@ -63,18 +64,24 @@ const Table = ({
             filteredDataLength={filteredData.length}
           />
           <Search query={query} onSearchChange={setQuery} />
-          <button
-            onClick={exportToPDF}
-            className="bg-redColor text-xl text-white px-2"
-          >
-            <BsFiletypePdf />
-          </button>
-          <button
-            onClick={exportToExcel}
-            className="bg-greenColor text-xl text-white px-2"
-          >
-            <BsFiletypeXls />
-          </button>
+          {print === false ? (
+            null
+          ): (
+              <>
+              <button
+                onClick={exportToPDF}
+                className="bg-redColor text-xl text-white px-2"
+              >
+                <BsFiletypePdf />
+              </button>
+              <button
+                onClick={exportToExcel}
+                className="bg-greenColor text-xl text-white px-2"
+              >
+                <BsFiletypeXls />
+              </button>
+            </>
+          )}
         </div>
       </div>
       <table
