@@ -24,8 +24,13 @@ export default function ProductCardInCart({
   useEffect(() => {
     if (productDetails) {
       const totalCost = product.quantity * productDetails.public_price;
-      onTotalCostChange(product.id, totalCost);
+      const totalDiscount =
+        product.quantity *
+        (productDetails.public_price *
+        (productDetails.discount / 100)); 
+      onTotalCostChange(product.id, totalCost, totalDiscount);
     }
+    console.log(product.discount);
   }, [productDetails, product.quantity]);
 
   if (!productDetails) {
@@ -137,7 +142,13 @@ export default function ProductCardInCart({
         <div className="text-md">
           {(translations && translations["Product public_price"]) ||
             "Product public_price"}
-          {" :"} {productDetails.public_price}
+          {" :"} {parseFloat(productDetails.public_price).toFixed(2)}
+        </div>
+        <div className="text-md">
+          {(translations && translations["Product Discount"]) ||
+            "Product Discount"}
+          {" :"} {parseFloat(productDetails.discount)}
+          {"%"}
         </div>
       </div>
       <div className="xl:w-1/6 w-full md:text-start px-3 py-3">
@@ -172,13 +183,31 @@ export default function ProductCardInCart({
           <div className="text-md">
             {(translations && translations["Product public_price"]) ||
               "Product public_price"}
-            {" :"} {productDetails.public_price}
+            {" :"} {parseFloat(productDetails.public_price).toFixed(2)}
           </div>
+          <div className="text-md">
+            {(translations && translations["Product Discount"]) ||
+              "Product Discount"}
+            {" :"} {parseFloat(productDetails.discount)}
+            {"%"}
+          </div>
+        </div>
+        <div className="text-md">
+          {(translations && translations["Total Discount"]) || "Total Discount"}
+          {" :"}
+          {parseFloat(
+            productDetails.public_price *
+              product.quantity *
+              (productDetails.discount / 100)
+          ).toFixed(2)}
         </div>
         <div className="text-md">
           {(translations && translations["Total public_price"]) ||
             "Total public_price"}
-          {" :"} {productDetails.public_price * product.quantity}
+          {" :"}
+          {parseFloat(productDetails.public_price * product.quantity).toFixed(
+            2
+          )}
         </div>
         {product.quantity > productDetails.quantity ? (
           <small className="text-redColor">

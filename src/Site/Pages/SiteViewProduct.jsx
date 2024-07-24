@@ -105,7 +105,7 @@ export default function SiteViewproduct() {
                           {(translations && translations["Price"]) || "Price"}
                           {" : "}
                         </strong>
-                        <span>{product.cost_Price}</span>
+                        <span>{parseFloat(product.cost_Price).toFixed(2)}</span>
                       </p>
                       <p className="flex justify-between">
                         <strong>

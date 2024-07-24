@@ -39,6 +39,8 @@ import AllProduct from "./Site/Pages/AllProduct";
 import CardsPage from "./Site/Pages/CardsPage";
 import ProductByCategory from "./Site/Pages/ProductByCategory";
 import SiteViewProduct from "./Site/Pages/SiteViewProduct";
+import Delivery from "./Admin/Pages/Order_cart/Delivery";
+import AllTax from "./Admin/Pages/Order_cart/AllTax";
 
 const router = createBrowserRouter([
   {
@@ -195,6 +197,14 @@ const router = createBrowserRouter([
       {
         path: "/admin/termsconditions",
         element: <TermsConditions />,
+      },
+      {
+        path: "/admin/delivery",
+        element: <Delivery />
+      },
+      {
+        path: "/admin/tax",
+        element: <AllTax />
       },
     ],
   },

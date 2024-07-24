@@ -209,7 +209,7 @@ export default function AllProducts() {
     },
     {
       name: "Price",
-      selector: (row) => row.public_price,
+      selector: (row) => parseFloat(row.public_price).toFixed(2),
       minWidth: "15%",
     },
     {

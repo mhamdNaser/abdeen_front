@@ -63,17 +63,19 @@ const ProductCard = ({ product, addToCart, likeProduct, viewProduct, buttontitle
         {/* <p className="text-gray-600">{product.en_description}</p> */}
         {product.discount === 0 ? (
           <p className="text-blue-500 font-semibold">
-            {product.public_price} JD
+            {parseFloat(product.public_price).toFixed(2)} {"JD"}
           </p>
         ) : (
           <p className="flex gap-3">
             <span className="text-red-500 font-bold line-through">
-              {product.public_price} JD
+              {parseFloat(product.public_price).toFixed(2)} {"JD"}
             </span>
             <span className="text-blue-500 font-semibold">
-              {product.public_price -
-                (product.public_price * product.discount) / 100}{" "}
-              JD
+              {parseFloat(product.public_price).toFixed(2) -
+                (parseFloat(product.public_price).toFixed(2) *
+                  parseFloat(product.discount).toFixed(2)) /
+                  100}{" "}
+              {"JD"}
             </span>
           </p>
         )}

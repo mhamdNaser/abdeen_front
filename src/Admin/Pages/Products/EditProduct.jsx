@@ -77,7 +77,7 @@ export default function EditProduct({
         title: "cost Price",
         name: "cost_Price",
         type: "number",
-        value: data?.cost_Price,
+        value: parseFloat(data?.cost_Price).toFixed(2),
         validationProps: {
           required: {
             value: true,
@@ -90,7 +90,7 @@ export default function EditProduct({
         title: "public price",
         name: "public_price",
         type: "number",
-        value: data?.public_price,
+        value: parseFloat(data?.public_price).toFixed(2),
         validationProps: {
           required: {
             value: true,

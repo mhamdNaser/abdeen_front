@@ -58,6 +58,14 @@
       "path": "/admin/allorder",
       "perId": "showUsers"
     },
+    "Tax": {
+      "path": "/admin/tax",
+      "perId": "showUsers"
+    },
+    "Delivery": {
+      "path": "/admin/delivery",
+      "perId": "showUsers"
+    },
     "All Cart": {
       "path": "/admin/allcart",
       "perId": "showArchivedUser"

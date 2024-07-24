@@ -68,16 +68,18 @@ const HorProductCard = ({
         <div className="xl:py-4 py-1 px-1">
           {product.discount === 0 ? (
             <p className="text-blue-500 font-semibold">
-              {product.public_price} JD
+              {parseFloat(product.public_price).toFixed(2)} {"JD"}
             </p>
           ) : (
             <p className="flex gap-3">
               <span className="text-red-500 font-bold line-through">
-                {product.public_price} JD
+                {parseFloat(product.public_price).toFixed(2)} {"JD"}
               </span>
               <span className="text-blue-500 font-semibold">
-                {product.public_price -
-                  (product.public_price * product.discount) / 100}{" "}
+                {parseFloat(product.public_price).toFixed(2) -
+                  (parseFloat(product.public_price).toFixed(2) *
+                    parseFloat(product.discount).toFixed(2)) /
+                    100}{" "}
                 JD
               </span>
             </p>

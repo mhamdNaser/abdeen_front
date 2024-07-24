@@ -16,7 +16,7 @@ const Button = ({
     <Link
       to={goto}
       state={linkState}
-      className={`flex justify-between gap-1 ${
+      className={`flex justify-between ${Icon && title ? "gap-1" : ""} ${
         width && `w-[${width}]`
       } items-center cursor-pointer px-3 py-2 ${color}  ${hoverStyles} transition-all text-center rounded-[4px]`}
     >
@@ -26,7 +26,7 @@ const Button = ({
   ) : (
     <div
       onClick={onClickFun}
-      className={`flex justify-between gap-1 ${
+      className={`flex justify-between ${Icon && title ? "gap-1" : ""} ${
         width && `w-[${width}]`
       } items-center cursor-pointer px-3 py-2 ${color} ${hoverStyles} transition-all text-center rounded-[4px]`}
     >

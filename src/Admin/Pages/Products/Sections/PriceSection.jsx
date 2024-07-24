@@ -19,7 +19,7 @@ export default function PriceSection({ product, saveProduct }) {
           <div className="flex flex-col gap-4 py-2">
             <p className="flex justify-between">
               <strong>Price:</strong>
-              <span>{product.cost_Price}</span>
+              <span>{parseFloat(product.cost_Price).toFixed(2)}</span>
             </p>
             <p className="flex justify-between">
               <strong>Quantity:</strong>
@@ -27,7 +27,9 @@ export default function PriceSection({ product, saveProduct }) {
             </p>
             <p className="flex justify-between pt-2 border-t border-gray-100">
               <strong>Total:</strong>
-              <span>{product.quantity * product.cost_Price}</span>
+              <span>
+                {parseFloat(product.quantity * product.cost_Price).toFixed(2)}
+              </span>
             </p>
           </div>
         </div>

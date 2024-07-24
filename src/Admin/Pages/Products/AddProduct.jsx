@@ -67,7 +67,7 @@ export default function AddProduct({
       {
         title: "cost Price",
         name: "cost_Price",
-        type: "number",
+        type: "text",
         validationProps: {
           required: {
             value: true,
@@ -79,7 +79,7 @@ export default function AddProduct({
       {
         title: "public price",
         name: "public_price",
-        type: "number",
+        type: "text",
         validationProps: {
           required: {
             value: true,
@@ -163,8 +163,8 @@ export default function AddProduct({
     formData.append("ar_name", values.ar_name);
     formData.append("en_description", values.en_description);
     formData.append("ar_description", values.ar_description);
-    formData.append("cost_Price", values.cost_Price);
-    formData.append("public_price", values.public_price);
+    formData.append("cost_Price", parseFloat(values.cost_Price));
+    formData.append("public_price", parseFloat(values.public_price));
     formData.append("quantity", values.quantity);
     formData.append("category_id", parseInt(values.category_id));
     formData.append("brand_id", parseInt(values.brand_id));

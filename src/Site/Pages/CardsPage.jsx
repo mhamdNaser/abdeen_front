@@ -3,15 +3,24 @@ import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosClient from "../../axios-client";
 import ProductCardInCart from "../Components/products/ProductCardInCart";
+import { useTranslation } from "../../provider/TranslationProvider";
+import { BiSolidEditAlt } from "react-icons/bi";
+import { useLocation } from "../../provider/LocationProvider";
 
-const TAX_RATE = 0.15;
-const DELIVERY_CHARGE = 10;
+// const TAX_RATE = 0.15;
+// const DELIVERY_CHARGE = 10;
 
-export default function CardsPage() {
+export default function CardsPage({ title }) {
   const { setBackground, getCardProductNum } = useOutletContext();
+  const { translations } = useTranslation();
   const [cardsProducts, setCardsProducts] = useState([]);
+  const [deliveries, setDelivery] = useState([]);
   const [selectedTags, setSelectedTags] = useState({});
   const [totalCosts, setTotalCosts] = useState({});
+  const [totalDiscounts, setTotalDiscounts] = useState({});
+  const [tax, setTax] = useState();
+  const [deliveryform, setDeliveryForm] = useState(false);
+  const [deliveryCharge, setDeliveryCharge] = useState(0)
 
   useEffect(() => {
     setBackground(false);
@@ -20,13 +29,28 @@ export default function CardsPage() {
 
   useEffect(() => {
     getInitialItem();
+    getDelivery();
+    getTax();
+    console.log(totalDiscounts);
   }, [setCardsProducts]);
 
-  const getInitialItem = () => { 
+  const getDelivery = () => { 
+    axiosClient.get("site/all-deliveries").then((res)=>{ 
+      setDelivery(res.data.data);
+    });
+  }
+
+  const getTax = () => { 
+    axiosClient.get("site/tax").then((res)=>{ 
+      setTax(res.data.data[0].tax);
+    });
+  }
+
+  const getInitialItem = () => {
     const initialProducts =
       JSON.parse(localStorage.getItem("Card_products")) || [];
     setCardsProducts(initialProducts);
-  }
+  };
 
   const updateLocalStorage = (products) => {
     localStorage.setItem("Card_products", JSON.stringify(products));
@@ -63,12 +87,21 @@ export default function CardsPage() {
     }));
   };
 
-  const handleTotalCostChange = (productId, totalCost) => {
+  const showDeiveryform = () => {
+    setDeliveryForm(true);
+  };
+
+  const handleTotalCostChange = (productId, totalCost, totalDiscount) => {
     setTotalCosts((prevTotalCosts) => ({
       ...prevTotalCosts,
       [productId]: totalCost,
     }));
+    setTotalDiscounts((prevTotalDiscount) => ({
+      ...prevTotalDiscount,
+      [productId]: totalDiscount,
+    }));
   };
+
 
   const submitOrder = () => {
     const id = toast.loading("Error , Log In Please...");
@@ -82,8 +115,9 @@ export default function CardsPage() {
         products: orderData,
         price: totalCost,
         tax: taxAmount,
-        delivery: DELIVERY_CHARGE,
+        delivery: deliveryCharge,
         totalprice: parseInt(finalTotal.toFixed(2)),
+        totaldiscount: parseInt(totalDiscount.toFixed(2)),
       })
       .then((data) => {
         if (data.success === false) {
@@ -129,16 +163,30 @@ export default function CardsPage() {
     0
   );
 
-  const taxAmount = totalCost * TAX_RATE;
-  const finalTotal = totalCost + taxAmount + DELIVERY_CHARGE;
+  const totalDiscount = Object.values(totalDiscounts).reduce(
+    (total, cost) => total + cost,
+    0
+  );
+
+  const taxAmount = totalCost * (tax / 100);
+    const finalTotal =
+      totalCost - totalDiscount + taxAmount + parseInt(deliveryCharge);
 
   return (
     <div className="flex xl:flex-row flex-col-reverse h-fit min-h-[720px] py-8">
       <div className="xl:w-3/4 w-full flex flex-col px-12">
-        <h3 className="xl:text-4xl text-lg font-bold py-8">Items in Your Cart</h3>
+        <h3 className="xl:text-4xl text-lg font-bold py-8">
+          {!title
+            ? (translations && translations["Items in Your Cart"]) ||
+              "Items in Your Cart"
+            : (translations && translations[title]) || title}
+        </h3>
         <div className="flex flex-col gap-y-5">
           {cardsProducts.length === 0 ? (
-            <div className="px-5 py-4 bg-blocks-color">Add Product To Make Order</div>
+            <div className="px-5 py-4 bg-blocks-color">
+              {(translations && translations["Add Product To Make Order"]) ||
+                "Add Product To Make Order"}
+            </div>
           ) : (
             cardsProducts.map((product, index) => (
               <ProductCardInCart
@@ -157,27 +205,71 @@ export default function CardsPage() {
             onClick={submitOrder}
             className="bg-blue-500 text-white w-1/6 min-w-fit px-4 py-2 rounded-lg hover:bg-blue-600"
           >
-            Submit Order
+            {(translations && translations["Submit Order"]) || "Submit Order"}
           </button>
         </div>
       </div>
       <div className="xl:w-1/4 w-full flex flex-col px-12">
-        <h3 className="text-xl font-bold py-8">Order</h3>
+        <h3 className="text-xl font-bold py-8">
+          {(translations && translations["Order"]) || "Order"}
+        </h3>
         <div className="flex flex-col gap-y-5 bg-blocks-color p-4">
           <p className="flex justify-between w-full">
-            Total Cost:
+            {(translations && translations["Total Price"]) || "Total Price"}
+            {" : "}
             <span>{totalCost.toFixed(2)}</span>
           </p>
           <p className="flex justify-between w-full">
-            Tax (15%):
-            <span>{taxAmount.toFixed(2)}</span>
+            {(translations && translations["Discount"]) || "Discount"}
+            {" : "}
+            <span>{Number(totalDiscount).toFixed(2)}</span>
+          </p>
+          <p className="flex justify-between w-full border-t border-b py-3">
+            {(translations && translations["The net amount"]) ||
+              "The net amount"}
+            {" : "}
+            <span>{Number(totalCost - totalDiscount).toFixed(2)}</span>
+          </p>
+          <p className="flex justify-between items-center w-full">
+            <div className="flex items-center gap-2  w-fit">
+              {(translations && translations["Delivery"]) || "Delivery"}
+              <button onClick={showDeiveryform}>
+                <BiSolidEditAlt />
+              </button>
+              {" : "}
+            </div>
+            <span>{Number(deliveryCharge).toFixed(2)}</span>
           </p>
           <p className="flex justify-between w-full">
-            Delivery Charge:
-            <span>{DELIVERY_CHARGE.toFixed(2)}</span>
+            {(translations && translations["Tax"]) || "Tax"} (15%){" : "}
+            <span>{Number(taxAmount).toFixed(2)}</span>
           </p>
+          {deliveryform && (
+            <div className="flex w-full">
+              <select
+                type="text"
+                className="input-box w-full"
+                onChange={(e) => setDeliveryCharge(e.target.value)}
+              >
+                <option value={0}>
+                  {(translations && translations["Without Delivery"]) ||
+                    "Without Delivery"}
+                </option>
+                {deliveries.map((delivery, index) => (
+                  <option key={index} value={delivery.cost}>
+                    {delivery.country}
+                    {delivery.state && " / "}
+                    {delivery?.state}
+                    {delivery.city && " / "}
+                    {delivery?.city}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
           <p className="flex border-t py-2 justify-between w-full font-bold">
-            Final Total:
+            {(translations && translations["Final Total"]) || "Final Total"}
+            {" : "}
             <span>{finalTotal.toFixed(2)}</span>
           </p>
         </div>
