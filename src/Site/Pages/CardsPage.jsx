@@ -170,7 +170,7 @@ export default function CardsPage({ title }) {
 
   const taxAmount = totalCost * (tax / 100);
     const finalTotal =
-      totalCost - totalDiscount + taxAmount + parseInt(deliveryCharge);
+      totalCost - totalDiscount + taxAmount + parseFloat(deliveryCharge);
 
   return (
     <div className="flex xl:flex-row flex-col-reverse h-fit min-h-[720px] py-8">

@@ -35,7 +35,7 @@ export const AddDelivery = ({
       {
         title: "cost",
         name: "cost",
-        type: "number",
+        type: "text",
         validationProps: {
           required: {
             value: true,
