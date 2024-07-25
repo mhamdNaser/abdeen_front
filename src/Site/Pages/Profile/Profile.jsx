@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { useTranslation } from "../../../provider/TranslationProvider";
-import { BiSolidEditAlt, BiSolidXCircle } from "react-icons/bi";
+import { BiSolidEditAlt, BiSolidXCircle, BiSolidShow } from "react-icons/bi";
 import axiosClient from "../../../axios-client";
 import Table from "../../../components/Table";
 import { EditProfileInformation } from "./EditProfileInformation";
 import ModalContainer from "../../../components/ModalContainer";
 import EditProfileAddress from "./EditProfileAddress";
+import Button from "../../../components/Button";
 
 export default function Profile() {
   const { setBackground } = useOutletContext();
@@ -23,7 +24,7 @@ export default function Profile() {
     });
   };
 
-  const updateUser = (value) => { 
+  const updateUser = (value) => {
     if (value) {
       localStorage.setItem("USER", JSON.stringify(value));
       setUser(value);
@@ -49,45 +50,44 @@ export default function Profile() {
     {
       name: `${(translations && translations["Price"]) || "Price"}`,
       selector: (row) => row.price,
-      minWidth: "15%",
+      maxWidth: "fit-content",
     },
     {
       name: `${(translations && translations["Tax"]) || "Tax"}`,
       selector: (row) => parseFloat(row.tax).toFixed(2),
-      minWidth: "15%",
+      maxWidth: "fit-content",
     },
     {
       name: `${(translations && translations["Delivery"]) || "Delivery"}`,
       selector: (row) => row.delivery,
-      minWidth: "15%",
+      maxWidth: "fit-content",
     },
     {
       name: `${(translations && translations["Total Price"]) || "Total Price"}`,
       selector: (row) =>
         parseFloat(row.price + row.delivery + row.tax).toFixed(2),
-      minWidth: "15%",
+      maxWidth: "fit-content",
     },
     {
-      name: `${
-        (translations && translations["Total Discount"]) || "Total Discount"
-      }`,
+      name: `${(translations && translations["Total Discount"]) || "Total Discount"
+        }`,
       selector: (row) => row.total_discount,
-      minWidth: "15%",
+      maxWidth: "fit-content",
     },
     {
-      name: `${
-        (translations && translations["The net amount"]) || "The net amount"
-      }`,
+      name: `${(translations && translations["The net amount"]) || "The net amount"
+        }`,
       selector: (row) => row.total_price,
-      minWidth: "15%",
+      maxWidth: "fit-content",
     },
     {
       name: `${(translations && translations["Date"]) || "Date"}`,
       selector: (row) => row.date,
-      minWidth: "15%",
+      maxWidth: "fit-content",
     },
     {
       name: `${(translations && translations["Status"]) || "Status"}`,
+      maxWidth: "fit-content",
       selector: (row) => (
         <div>
           {row.status === "pending" ? (
@@ -99,13 +99,25 @@ export default function Profile() {
           )}
         </div>
       ),
-      maxWidth: "15%",
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <div className="flex gap-x-2 gap-y-1 items-center w-full flex-wrap">
+          <Button
+            isLink={false}
+            color={"bg-blueColor"}
+            Icon={<BiSolidShow />}
+            onClickFun={() => handleView(row.id, row.username)}
+          />
+        </div>
+      ),
     },
   ];
 
   return (
     <div className="flex xl:flex-row flex-col p-4 xl:p-10 gap-10">
-      <div className="xl:w-1/3 xl:min-w-fit w-full text-dark">
+      <div className="xl:w-1/3 xl:min-w-fit-content w-full text-dark">
         {/* User Information Section */}
         <section className="mb-8">
           <div className="bg-white shadow-md rounded-lg p-4 ">
@@ -158,13 +170,11 @@ export default function Profile() {
             </div>
           </div>
         </section>
-
         {/* Address Section */}
         <section className="xl:mb-8 mb-0 bg-white shadow-md rounded-lg p-4">
           <div className="flex justify-between">
             <h2 className="text-2xl border-b py-3 font-semibold mb-2">
               {(translations && translations["Address"]) || "Address"}
-              {" : "}
             </h2>
             <button onClick={() => setOpenEditAddress(true)}>
               <BiSolidEditAlt />
@@ -223,11 +233,32 @@ export default function Profile() {
         </section>
       </div>
       <div className="xl:w-3/5 w-full">
+        <section className="mb-8 bg-white grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 shadow-md rounded-lg px-8 py-6">
+          <div className="bg-redColor w-full h-40 flex flex-col p-6 text-white font-bold">
+            <h2>
+              {(translations && translations["Product Like"]) || "Product Like"}
+            </h2>
+          </div>
+          <div className="bg-redColor w-full h-40 flex flex-col p-6 text-white font-bold">
+            <h2>
+              {(translations && translations["Total Purchases"]) || "Total Purchases"}
+            </h2>
+          </div>
+          <div className="bg-redColor w-full h-40 flex flex-col p-6 text-white font-bold">
+            <h2>
+              {(translations && translations["Total Orders"]) || "Total Orders"}
+            </h2>
+          </div>
+          <div className="bg-redColor w-full h-40 flex flex-col p-6 text-white font-bold">
+            <h2>
+              {(translations && translations["Customer Rating"]) || "Customer Rating"}
+            </h2>
+          </div>
+        </section>
         {/* Orders Section */}
         <section className="mb-8 bg-white shadow-md rounded-lg p-4">
           <h2 className="text-2xl border-b py-3 font-semibold mb-2">
             {(translations && translations["Orders"]) || "Orders"}
-            {" : "}
           </h2>
           <div className="">
             <Table
