@@ -8,13 +8,14 @@ import { BiSolidEditAlt } from "react-icons/bi";
 import { useLocation } from "../../provider/LocationProvider";
 import ModalContainer from "../../components/ModalContainer";
 import Login from "./Auth/Login";
+import ReusableForm from "../../components/ReusableForm";
 
 // const TAX_RATE = 0.15;
 // const DELIVERY_CHARGE = 10;
 
 export default function CardsPage({ title }) {
   const { setBackground, getCardProductNum } = useOutletContext();
-   const { countries, states, cities } = useLocation();
+  const { countries, states, cities } = useLocation();
   const { translations } = useTranslation();
   const [cardsProducts, setCardsProducts] = useState([]);
   const [deliveries, setDelivery] = useState([]);
@@ -25,6 +26,124 @@ export default function CardsPage({ title }) {
   const [deliveryform, setDeliveryForm] = useState(false);
   const [deliveryCharge, setDeliveryCharge] = useState(0);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [stateOptions, setStateOptions] = useState([]);
+  const [cityOptions, setCityOptions] = useState([]);
+
+  const handleSelectChange = (name, value) => {
+    if (name === "country_id") {
+      const filteredStates = states.filter(
+        (state) => state.country_id == value
+      );
+      setStateOptions(filteredStates);
+    } else if (name === "state_id") {
+      const filteredCities = cities.filter((city) => city.state_id == value);
+      setCityOptions(filteredCities);
+    } else {
+      console.log(name, value);
+    }
+  };
+
+  let template = {
+    title: (translations && translations["Order Address"]) || "Order Address",
+    fields: [
+      {
+        name: "country_id",
+        title: "select the country",
+        type: "select",
+        options: [...countries],
+        optionText: "name",
+        optionValue: "id",
+      },
+      {
+        name: "state_id",
+        title: "select the state",
+        type: "select",
+        options: stateOptions,
+        optionText: "name",
+        optionValue: "id",
+      },
+      {
+        name: "city_id",
+        title: "select the city",
+        type: "select",
+        options: cityOptions,
+        optionText: "name",
+        optionValue: "id",
+      },
+      {
+        name: "address_1",
+        title: "insert the address_1",
+        type: "text",
+        optionText: "name",
+        optionValue: "id",
+      },
+      {
+        name: "address_2",
+        title: "insert the address_2",
+        type: "text",
+        optionText: "name",
+        optionValue: "name",
+      },
+      {
+        name: "address_3",
+        title: "insert the address_3",
+        type: "text",
+        optionText: "name",
+        optionValue: "name",
+      },
+    ],
+  };
+
+  const onSubmit = async (values) => {
+    const Id = toast.loading("submitting, please wait...");
+    const data = {
+      country_id: parseInt(values.country_id),
+      state_id: parseInt(values.state_id),
+      city_id: parseInt(values.city_id),
+      address_1: values.address_1,
+      address_2: values.address_2,
+      address_3: values.address_3,
+    };
+    axiosClient
+      .post(`/admin/update-user/${id}`, data)
+      .then((res) => {
+        if (res.data.success == true) {
+          setIsModalOpen((prev) => !prev);
+          getUser(res.data.User);
+          toast.update(Id, {
+            type: "success",
+            render: res.data.message,
+            closeOnClick: true,
+            isLoading: false,
+            autoClose: true,
+            closeButton: true,
+            pauseOnHover: false,
+          });
+        } else {
+          toast.update(Id, {
+            type: "error",
+            render: res.data.message,
+            closeOnClick: true,
+            isLoading: false,
+            autoClose: true,
+            closeButton: true,
+            pauseOnHover: false,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.update(Id, {
+          type: "success",
+          render: err.response.data.mes,
+          closeOnClick: true,
+          isLoading: false,
+          autoClose: true,
+          closeButton: true,
+          pauseOnHover: false,
+        });
+      });
+  };
 
   useEffect(() => {
     setBackground(false);
@@ -37,14 +156,14 @@ export default function CardsPage({ title }) {
     getTax();
   }, [setCardsProducts]);
 
-  const getDelivery = () => { 
-    axiosClient.get("site/all-deliveries").then((res)=>{ 
+  const getDelivery = () => {
+    axiosClient.get("site/all-deliveries").then((res) => {
       setDelivery(res.data.data);
     });
   }
 
-  const getTax = () => { 
-    axiosClient.get("site/tax").then((res)=>{ 
+  const getTax = () => {
+    axiosClient.get("site/tax").then((res) => {
       setTax(res.data.data[0].tax);
     });
   }
@@ -173,8 +292,8 @@ export default function CardsPage({ title }) {
   );
 
   const taxAmount = totalCost * (tax / 100);
-    const finalTotal =
-      totalCost - totalDiscount + taxAmount + parseFloat(deliveryCharge);
+  const finalTotal =
+    totalCost - totalDiscount + taxAmount + parseFloat(deliveryCharge);
 
   return (
     <div className="flex xl:flex-row flex-col-reverse h-fit min-h-[720px] py-8">
@@ -182,7 +301,7 @@ export default function CardsPage({ title }) {
         <h3 className="xl:text-4xl text-lg font-bold py-8">
           {!title
             ? (translations && translations["Items in Your Cart"]) ||
-              "Items in Your Cart"
+            "Items in Your Cart"
             : (translations && translations[title]) || title}
         </h3>
         <div className="flex flex-col gap-y-5">
@@ -214,7 +333,7 @@ export default function CardsPage({ title }) {
         </div>
       </div>
       <div className="xl:w-1/4 w-full flex flex-col px-12">
-        <div>
+        <div className="sticky top-0">
           <h3 className="text-xl font-bold py-8">
             {(translations && translations["Order"]) || "Order"}
           </h3>
@@ -285,13 +404,15 @@ export default function CardsPage({ title }) {
             {(translations && translations["Address"]) || "Address"}
           </h3>
           <div className="flex flex-col gap-y-5 bg-blocks-color p-4">
-            <select name="country" id="">
-              {countries.map((country, index) => (
-                <option key={index} value={country.id}>
-                  {country.name}
-                </option>
-              ))}
-            </select>
+            <ReusableForm
+              template={template}
+              onSubmit={onSubmit}
+              // validate={validate}
+              btnWidth={"w-full"}
+              btnText={"edit"}
+              addedStyles={""}
+              onSelectChange={handleSelectChange}
+            />
           </div>
         </div>
       </div>
