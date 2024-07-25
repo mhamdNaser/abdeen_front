@@ -147,8 +147,12 @@ export default function ProductCardInCart({
         <div className="text-md">
           {(translations && translations["Product Discount"]) ||
             "Product Discount"}
-          {" :"} {parseFloat(productDetails.discount)}
-          {"%"}
+          {" :"}{" "}
+          <span className="text-redColor">
+            {productDetails.discount > 0
+              ? parseFloat(productDetails.discount) + "%"
+              : null}
+          </span>
         </div>
       </div>
       <div className="xl:w-1/6 w-full md:text-start px-3 py-3">
@@ -188,8 +192,12 @@ export default function ProductCardInCart({
           <div className="text-md">
             {(translations && translations["Product Discount"]) ||
               "Product Discount"}
-            {" :"} {parseFloat(productDetails.discount)}
-            {"%"}
+            {" :"}{" "}
+            <span className="text-redColor">
+              {productDetails.discount > 0
+                ? parseFloat(productDetails.discount) + "%"
+                : null}
+            </span>
           </div>
         </div>
         <div className="text-md">

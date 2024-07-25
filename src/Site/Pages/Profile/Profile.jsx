@@ -1,31 +1,49 @@
 import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { useTranslation } from "../../../provider/TranslationProvider";
-import {
-  BiSolidCheckCircle,
-  BiSolidXCircle,
-} from "react-icons/bi";
+import { BiSolidEditAlt, BiSolidXCircle } from "react-icons/bi";
 import axiosClient from "../../../axios-client";
 import Table from "../../../components/Table";
+import { EditProfileInformation } from "./EditProfileInformation";
+import ModalContainer from "../../../components/ModalContainer";
+import EditProfileAddress from "./EditProfileAddress";
 
 export default function Profile() {
   const { setBackground } = useOutletContext();
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("USER")));
+  const [user, setUser] = useState({});
   const { translations, language } = useTranslation();
   const [order, setOrder] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [openEditform, setOpenEditForm] = useState(false);
+  const [openEditaddress, setOpenEditAddress] = useState(false);
 
-  const getOrder = () => { 
-    axiosClient.get(`site/show-oreders/${user.id}`).then((res) => { 
+  const getOrder = () => {
+    axiosClient.get(`site/show-oreders/${user?.id}`).then((res) => {
       setOrder(res.data.data);
     });
+  };
+
+  const updateUser = (value) => { 
+    if (value) {
+      localStorage.setItem("USER", JSON.stringify(value));
+      setUser(value);
+    } else {
+      setUser(JSON.parse(localStorage.getItem("USER")));
+    }
   }
 
+
   useEffect(() => {
-    getOrder();
+    updateUser();
     setBackground(false);
     return () => setBackground(true); // Cleanup function to reset the background when the component unmounts
   }, [setBackground]);
+
+  useEffect(() => {
+    if (user?.id) {
+      getOrder();
+    }
+  }, [user]);
 
   const columns = [
     {
@@ -35,7 +53,7 @@ export default function Profile() {
     },
     {
       name: `${(translations && translations["Tax"]) || "Tax"}`,
-      selector: (row) => row.tax,
+      selector: (row) => parseFloat(row.tax).toFixed(2),
       minWidth: "15%",
     },
     {
@@ -45,6 +63,21 @@ export default function Profile() {
     },
     {
       name: `${(translations && translations["Total Price"]) || "Total Price"}`,
+      selector: (row) =>
+        parseFloat(row.price + row.delivery + row.tax).toFixed(2),
+      minWidth: "15%",
+    },
+    {
+      name: `${
+        (translations && translations["Total Discount"]) || "Total Discount"
+      }`,
+      selector: (row) => row.total_discount,
+      minWidth: "15%",
+    },
+    {
+      name: `${
+        (translations && translations["The net amount"]) || "The net amount"
+      }`,
       selector: (row) => row.total_price,
       minWidth: "15%",
     },
@@ -76,10 +109,15 @@ export default function Profile() {
         {/* User Information Section */}
         <section className="mb-8">
           <div className="bg-white shadow-md rounded-lg p-4 ">
-            <h2 className="text-2xl border-b py-3 font-semibold">
-              {(translations && translations["User Information"]) ||
-                "User Information"}
-            </h2>
+            <div className="flex justify-between">
+              <h2 className="text-2xl border-b py-3 font-semibold">
+                {(translations && translations["User Information"]) ||
+                  "User Information"}
+              </h2>
+              <button onClick={() => setOpenEditForm(true)}>
+                <BiSolidEditAlt />
+              </button>
+            </div>
             <div className="flex xl:flex-row flex-col gap-6 py-4">
               <img
                 className="xl:h-40 xl:w-40 w-full"
@@ -122,12 +160,17 @@ export default function Profile() {
         </section>
 
         {/* Address Section */}
-        <section className="xl:mb-8 mb-0">
-          <h2 className="text-2xl font-semibold mb-2">
-            {(translations && translations["Address"]) || "Address"}
-            {" : "}
-          </h2>
-          <div className="bg-white shadow-md rounded-lg p-4 flex flex-col-reverse gap-4">
+        <section className="xl:mb-8 mb-0 bg-white shadow-md rounded-lg p-4">
+          <div className="flex justify-between">
+            <h2 className="text-2xl border-b py-3 font-semibold mb-2">
+              {(translations && translations["Address"]) || "Address"}
+              {" : "}
+            </h2>
+            <button onClick={() => setOpenEditAddress(true)}>
+              <BiSolidEditAlt />
+            </button>
+          </div>
+          <div className=" flex flex-col gap-4">
             <p className="flex justify-between">
               <strong>
                 {(translations && translations["Country"]) || "Country"}
@@ -149,31 +192,48 @@ export default function Profile() {
               </strong>{" "}
               {user.city}
             </p>
+            {user.address_1 && (
+              <p className="flex justify-between">
+                <strong>
+                  {(translations && translations["address_1"]) || "address_1"}
+                  {" : "}
+                </strong>{" "}
+                {user.address_1}
+              </p>
+            )}
+            {user.address_2 && (
+              <p className="flex justify-between">
+                <strong>
+                  {(translations && translations["address_2"]) || "address_2"}
+                  {" : "}
+                </strong>{" "}
+                {user.address_2}
+              </p>
+            )}
+            {user.address_3 && (
+              <p className="flex justify-between">
+                <strong>
+                  {(translations && translations["address_3"]) || "address_3"}
+                  {" : "}
+                </strong>{" "}
+                {user.address_3}
+              </p>
+            )}
           </div>
         </section>
-
-        {/* Additional Sections */}
-        {/* <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-2">
-            Additional Information
-          </h2>
-          <div className="bg-white shadow-md rounded-lg p-4">
-            <p>
-              <strong>Membership:</strong> Gold Member
-            </p>
-            <p>
-              <strong>Joined Date:</strong> January 1, 2020
-            </p>
-          </div>
-        </section> */}
       </div>
       <div className="xl:w-3/5 w-full">
         {/* Orders Section */}
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-2">Orders</h2>
-          <div className="bg-white shadow-md rounded-lg p-4">
+        <section className="mb-8 bg-white shadow-md rounded-lg p-4">
+          <h2 className="text-2xl border-b py-3 font-semibold mb-2">
+            {(translations && translations["Orders"]) || "Orders"}
+            {" : "}
+          </h2>
+          <div className="">
             <Table
-              Title={(translations && translations["orders Table"]) || "orders Table"}
+              Title={
+                (translations && translations["orders Table"]) || "orders Table"
+              }
               // direction={direction}
               columns={columns}
               data={order}
@@ -186,6 +246,32 @@ export default function Profile() {
           </div>
         </section>
       </div>
+      {openEditform && (
+        <ModalContainer
+          isModalOpen={openEditform}
+          setIsModalOpen={setOpenEditForm}
+          component={
+            <EditProfileInformation
+              data={user}
+              getUser={updateUser}
+              setIsModalOpen={setOpenEditForm}
+            />
+          }
+        />
+      )}
+      {openEditaddress && (
+        <ModalContainer
+          isModalOpen={openEditaddress}
+          setIsModalOpen={setOpenEditAddress}
+          component={
+            <EditProfileAddress
+              data={user}
+              getUser={updateUser}
+              setIsModalOpen={setOpenEditAddress}
+            />
+          }
+        />
+      )}
     </div>
   );
 }

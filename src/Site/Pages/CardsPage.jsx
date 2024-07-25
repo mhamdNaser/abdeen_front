@@ -6,12 +6,15 @@ import ProductCardInCart from "../Components/products/ProductCardInCart";
 import { useTranslation } from "../../provider/TranslationProvider";
 import { BiSolidEditAlt } from "react-icons/bi";
 import { useLocation } from "../../provider/LocationProvider";
+import ModalContainer from "../../components/ModalContainer";
+import Login from "./Auth/Login";
 
 // const TAX_RATE = 0.15;
 // const DELIVERY_CHARGE = 10;
 
 export default function CardsPage({ title }) {
   const { setBackground, getCardProductNum } = useOutletContext();
+   const { countries, states, cities } = useLocation();
   const { translations } = useTranslation();
   const [cardsProducts, setCardsProducts] = useState([]);
   const [deliveries, setDelivery] = useState([]);
@@ -20,7 +23,8 @@ export default function CardsPage({ title }) {
   const [totalDiscounts, setTotalDiscounts] = useState({});
   const [tax, setTax] = useState();
   const [deliveryform, setDeliveryForm] = useState(false);
-  const [deliveryCharge, setDeliveryCharge] = useState(0)
+  const [deliveryCharge, setDeliveryCharge] = useState(0);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
 
   useEffect(() => {
     setBackground(false);
@@ -31,7 +35,6 @@ export default function CardsPage({ title }) {
     getInitialItem();
     getDelivery();
     getTax();
-    console.log(totalDiscounts);
   }, [setCardsProducts]);
 
   const getDelivery = () => { 
@@ -116,8 +119,8 @@ export default function CardsPage({ title }) {
         price: totalCost,
         tax: taxAmount,
         delivery: deliveryCharge,
-        totalprice: parseInt(finalTotal.toFixed(2)),
-        totaldiscount: parseInt(totalDiscount.toFixed(2)),
+        totalprice: parseFloat(finalTotal.toFixed(2)),
+        totaldiscount: parseFloat(totalDiscount.toFixed(2)),
       })
       .then((data) => {
         if (data.success === false) {
@@ -146,6 +149,7 @@ export default function CardsPage({ title }) {
         }
       })
       .catch((err) => {
+        setLoginModalOpen(true);
         toast.update(id, {
           type: "error",
           render: err.response.message,
@@ -210,70 +214,94 @@ export default function CardsPage({ title }) {
         </div>
       </div>
       <div className="xl:w-1/4 w-full flex flex-col px-12">
-        <h3 className="text-xl font-bold py-8">
-          {(translations && translations["Order"]) || "Order"}
-        </h3>
-        <div className="flex flex-col gap-y-5 bg-blocks-color p-4">
-          <p className="flex justify-between w-full">
-            {(translations && translations["Total Price"]) || "Total Price"}
-            {" : "}
-            <span>{totalCost.toFixed(2)}</span>
-          </p>
-          <p className="flex justify-between w-full">
-            {(translations && translations["Discount"]) || "Discount"}
-            {" : "}
-            <span>{Number(totalDiscount).toFixed(2)}</span>
-          </p>
-          <p className="flex justify-between w-full border-t border-b py-3">
-            {(translations && translations["The net amount"]) ||
-              "The net amount"}
-            {" : "}
-            <span>{Number(totalCost - totalDiscount).toFixed(2)}</span>
-          </p>
-          <p className="flex justify-between items-center w-full">
-            <div className="flex items-center gap-2  w-fit">
-              {(translations && translations["Delivery"]) || "Delivery"}
-              <button onClick={showDeiveryform}>
-                <BiSolidEditAlt />
-              </button>
+        <div>
+          <h3 className="text-xl font-bold py-8">
+            {(translations && translations["Order"]) || "Order"}
+          </h3>
+          <div className="flex flex-col gap-y-5 bg-blocks-color p-4">
+            <p className="flex justify-between w-full">
+              {(translations && translations["Total Price"]) || "Total Price"}
               {" : "}
-            </div>
-            <span>{Number(deliveryCharge).toFixed(2)}</span>
-          </p>
-          <p className="flex justify-between w-full">
-            {(translations && translations["Tax"]) || "Tax"} (15%){" : "}
-            <span>{Number(taxAmount).toFixed(2)}</span>
-          </p>
-          {deliveryform && (
-            <div className="flex w-full">
-              <select
-                type="text"
-                className="input-box w-full"
-                onChange={(e) => setDeliveryCharge(e.target.value)}
-              >
-                <option value={0}>
-                  {(translations && translations["Without Delivery"]) ||
-                    "Without Delivery"}
-                </option>
-                {deliveries.map((delivery, index) => (
-                  <option key={index} value={delivery.cost}>
-                    {delivery.country}
-                    {delivery.state && " / "}
-                    {delivery?.state}
-                    {delivery.city && " / "}
-                    {delivery?.city}
+              <span>{totalCost.toFixed(2)}</span>
+            </p>
+            <p className="flex justify-between w-full ">
+              {(translations && translations["Discount"]) || "Discount"}
+              {" : "}
+              <span>{Number(totalDiscount).toFixed(2)}</span>
+            </p>
+            <p className="flex justify-between w-full border-t border-b py-3">
+              {(translations && translations["The net amount"]) ||
+                "The net amount"}
+              {" : "}
+              <span>{Number(totalCost - totalDiscount).toFixed(2)}</span>
+            </p>
+            <p className="flex justify-between items-center w-full">
+              <div className="flex items-center gap-2  w-fit">
+                {(translations && translations["Delivery"]) || "Delivery"}
+                <button onClick={showDeiveryform}>
+                  <BiSolidEditAlt />
+                </button>
+                {" : "}
+              </div>
+              <span>{Number(deliveryCharge).toFixed(2)}</span>
+            </p>
+            <p className="flex justify-between w-full">
+              {(translations && translations["Tax"]) || "Tax"} (15%){" : "}
+              <span>{Number(taxAmount).toFixed(2)}</span>
+            </p>
+            {deliveryform && (
+              <div className="flex w-full">
+                <select
+                  type="text"
+                  className="input-box w-full"
+                  onChange={(e) => setDeliveryCharge(e.target.value)}
+                >
+                  <option value={0}>
+                    {(translations && translations["Without Delivery"]) ||
+                      "Without Delivery"}
                   </option>
-                ))}
-              </select>
-            </div>
-          )}
-          <p className="flex border-t py-2 justify-between w-full font-bold">
-            {(translations && translations["Final Total"]) || "Final Total"}
-            {" : "}
-            <span>{finalTotal.toFixed(2)}</span>
-          </p>
+                  {deliveries.map((delivery, index) => (
+                    <option key={index} value={delivery.cost}>
+                      {delivery.country}
+                      {delivery.state && " / "}
+                      {delivery?.state}
+                      {delivery.city && " / "}
+                      {delivery?.city}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+            <p className="flex border-t py-2 justify-between w-full font-bold">
+              {(translations && translations["Final Total Price"]) ||
+                "Final Total Price"}
+              {" : "}
+              <span>{finalTotal.toFixed(2)}</span>
+            </p>
+          </div>
+        </div>
+        <div>
+          <h3 className="text-xl font-bold py-8">
+            {(translations && translations["Address"]) || "Address"}
+          </h3>
+          <div className="flex flex-col gap-y-5 bg-blocks-color p-4">
+            <select name="country" id="">
+              {countries.map((country, index) => (
+                <option key={index} value={country.id}>
+                  {country.name}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
+      {loginModalOpen && (
+        <ModalContainer
+          isModalOpen={loginModalOpen}
+          setIsModalOpen={setLoginModalOpen}
+          component={<Login setIsAddModalOpen={setLoginModalOpen} />}
+        />
+      )}
     </div>
   );
 }
