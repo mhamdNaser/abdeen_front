@@ -333,7 +333,7 @@ export default function CardsPage({ title }) {
         </div>
       </div>
       <div className="xl:w-1/4 w-full flex flex-col px-12">
-        <div className="sticky top-0">
+        <div className="">
           <h3 className="text-xl font-bold py-8">
             {(translations && translations["Order"]) || "Order"}
           </h3>
