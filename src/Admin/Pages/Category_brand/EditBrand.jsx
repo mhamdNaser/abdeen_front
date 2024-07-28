@@ -2,9 +2,14 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import axiosClient from "../../../axios-client";
 import ReusableForm from "../../../components/ReusableForm";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function EditBrand({ data, getBrands, setIsModalOpen, countries }) {
   const [image, setImage] = useState(data?.image);
+   const { translations, language } = useTranslation();
+   const [direction, setDirection] = useState(
+     language === "ar" ? "rtl" : "ltr"
+   );
 
   let template = {
     title: "Edit brand",
@@ -17,7 +22,7 @@ export default function EditBrand({ data, getBrands, setIsModalOpen, countries }
         imgStyle: "w-[100px] h-[100px]",
       },
       {
-        title: "English name",
+        title: "English Name",
         name: "en_name",
         type: "text",
         value: data?.en_name,
@@ -30,7 +35,7 @@ export default function EditBrand({ data, getBrands, setIsModalOpen, countries }
         styles: "lg:w-[48%]",
       },
       {
-        title: "Arabic name",
+        title: "Arabic Name",
         name: "ar_name",
         type: "text",
         value: data?.ar_name,
@@ -58,7 +63,7 @@ export default function EditBrand({ data, getBrands, setIsModalOpen, countries }
         optionValue: "id",
       },
       {
-        title: "English description",
+        title: "English Description",
         name: "en_description",
         type: "textArea",
         value: data?.en_description,
@@ -70,7 +75,7 @@ export default function EditBrand({ data, getBrands, setIsModalOpen, countries }
         },
       },
       {
-        title: "Arabic description",
+        title: "Arabic Description",
         name: "ar_description",
         type: "textArea",
         value: data?.ar_description,
@@ -138,6 +143,8 @@ export default function EditBrand({ data, getBrands, setIsModalOpen, countries }
 
   return (
     <ReusableForm
+      translations={translations}
+      direction={direction}
       template={template}
       onSubmit={onSubmit}
       validate={validate}

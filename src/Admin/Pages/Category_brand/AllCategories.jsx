@@ -18,6 +18,7 @@ import {
 } from "react-icons/bi";
 import EditCategory from "./EditCategory";
 import AddCategory from "./AddCategory";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function AllCategories() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,7 +28,8 @@ export default function AllCategories() {
   const [categorieslist, setCategoriesList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
-  const [language, setLanguage] = useState(localStorage.getItem("LANGUAGE"));
+  const { translations, language } = useTranslation();
+  
 
   const getCategories = async () => {
     const res = await axiosClient.get("/admin/all-categories");
@@ -184,14 +186,15 @@ export default function AllCategories() {
 
   const handleDelete = (id) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: translations.sure_delete || "Are you sure?",
+      text: translations.alert_delete || "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
       theme: "dark",
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: translations.not_yes || "cancel",
+      confirmButtonText: translations.yes_delete || "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
         deleteFunc(id);
@@ -213,18 +216,18 @@ export default function AllCategories() {
       minWidth: "15%",
     },
     {
-      name: "name",
+      name: "Name",
       selector: (row) => (language === "ar" ? row.ar_name : row.en_name),
       minWidth: "15%",
     },
     {
-      name: "description",
+      name: "Description",
       selector: (row) =>
         language === "ar" ? row.ar_description : row.en_description,
       minWidth: "15%",
     },
     {
-      name: "parent",
+      name: "Parent",
       selector: (row) =>
         row.parent === null
           ? "no parent"
@@ -334,7 +337,7 @@ export default function AllCategories() {
       active: false,
     },
     {
-      title: "categories table",
+      title: "Categories Table",
       url: "/admin/allcategories",
       active: true,
     },
@@ -370,11 +373,11 @@ export default function AllCategories() {
         />
         {isModalOpen && (
           <ModalContainer
+            direction={language === "ar" ? "rtl" : "ltr"}
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
             component={
               <EditCategory
-                language={language}
                 data={clickedRow}
                 categories={categorieslist}
                 getCategories={getCategories}
@@ -386,11 +389,11 @@ export default function AllCategories() {
 
         {isAddModalOpen && (
           <ModalContainer
+            direction={language === "ar" ? "rtl" : "ltr"}
             isModalOpen={isAddModalOpen}
             setIsModalOpen={setIsAddModalOpen}
             component={
               <AddCategory
-                language={language}
                 categories={categorieslist}
                 getCategories={getCategories}
                 setIsAddModalOpen={setIsAddModalOpen}
@@ -402,6 +405,7 @@ export default function AllCategories() {
           <Table
             Title={"Categories Table"}
             direction={direction}
+            translations={translations}
             columns={columns}
             data={categories}
             hasEditPermission={true} // Assuming you have a way to determine this

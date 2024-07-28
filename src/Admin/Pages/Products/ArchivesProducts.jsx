@@ -8,12 +8,10 @@ import Loading from "../../../components/Loading";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import {
-  BiSolidEditAlt,
   BiSolidTrashAlt,
   BiSolidAnalyse,
-  BiSolidCheckCircle,
-  BiSolidXCircle,
 } from "react-icons/bi";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function ArchivesProducts() {
   const [clickedRow, setClickedRow] = useState();
@@ -23,6 +21,7 @@ export default function ArchivesProducts() {
   const [direction, setDirection] = useState();
   const [brands, setBrands] = useState();
   const [categories, setCategories] = useState();
+  const { translations, language } = useTranslation();
 
   const getProduct = async () => {
     const res = await axiosClient.get("/admin/all-archives-products");
@@ -42,7 +41,7 @@ export default function ArchivesProducts() {
 
   const deleteFunc = async (id) => {
     const res = await axiosClient
-      .get(`/admin/delete-product/${id}`)
+      .get(`/admin/delete-archiveproduct/${id}`)
       .then((data) => {
         if (data.success === false) {
           toast.update(id, {
@@ -96,15 +95,97 @@ export default function ArchivesProducts() {
     getBrands();
   }, []);
 
-  const editBtnFun = (row) => {
-    setIsModalOpen(true);
-    setClickedRow(row);
+
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: translations.sure_delete || "Are you sure?",
+      text: translations.alert_delete || "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      theme: "dark",
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: translations.not_yes || "cancel",
+      confirmButtonText: translations.yes_delete || "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteFunc(id);
+        getProduct();
+      }
+    });
   };
 
-  const changestatus = async (values) => {
+  const columns = [
+    {
+      name: "image",
+      selector: (row) => (
+        <img
+          src={import.meta.env.VITE_WEBSITE_URL + row.image}
+          alt={row.name}
+          className="w-16 h-16 object-cover rounded-full"
+        />
+      ),
+      minWidth: "15%",
+    },
+    {
+      name: "Name",
+      selector: (row) => (language === "ar" ? row.ar_name : row.en_name),
+      minWidth: "15%",
+    },
+    {
+      name: "Brand",
+      selector: (row) => (language === "ar" ? row.ar_brand : row.en_brand),
+      minWidth: "15%",
+    },
+    {
+      name: "Category",
+      selector: (row) =>
+        language === "ar" ? row.ar_category : row.en_category,
+      minWidth: "15%",
+    },
+    {
+      name: "made in",
+      selector: (row) => row.made_in,
+      minWidth: "15%",
+    },
+    {
+      name: "Cost Price",
+      selector: (row) => row.cost_Price,
+      minWidth: "15%",
+    },
+    {
+      name: "Quantity",
+      selector: (row) => row.quantity,
+      minWidth: "15%",
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <div className="flex gap-x-2 gap-y-1 items-center w-full flex-wrap">
+          {/* {hasEditPermission && ( */}
+          <Button
+            isLink={false}
+            color={"bg-greenColor"}
+            Icon={<BiSolidAnalyse />}
+            onClickFun={() => returnProduct(row.id)}
+          />
+          {/* )} */}
+          <Button
+            isLink={false}
+            color={"bg-redColor"}
+            Icon={<BiSolidTrashAlt />}
+            onClickFun={() => handleDelete(row.id)}
+          />
+        </div>
+      ),
+    },
+  ];
+
+  const returnProduct = (value) => {
     const id = toast.loading("Error , Check your input again...");
     axiosClient
-      .get(`/admin/changestatus-product/${values}`)
+      .post(`/admin/update-product/${value}`)
       .then((data) => {
         if (data.success === false) {
           toast.update(id, {
@@ -142,106 +223,10 @@ export default function ArchivesProducts() {
       });
   };
 
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      theme: "dark",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        deleteFunc(id);
-        getProduct();
-      }
-    });
-  };
-
-  const columns = [
-    {
-      name: "image",
-      selector: (row) => (
-        <img
-          src={import.meta.env.VITE_WEBSITE_URL + row.image}
-          alt={row.name}
-          className="w-16 h-16 object-cover rounded-full"
-        />
-      ),
-      minWidth: "15%",
-    },
-    {
-      name: "name",
-      selector: (row) => row.name,
-      minWidth: "15%",
-    },
-    {
-      name: "brand",
-      selector: (row) => row.brand,
-      minWidth: "15%",
-    },
-    {
-      name: "category",
-      selector: (row) => row.category,
-      minWidth: "15%",
-    },
-    {
-      name: "made_in",
-      selector: (row) => row.made_in,
-      minWidth: "15%",
-    },
-    {
-      name: "price",
-      selector: (row) => row.price,
-      minWidth: "15%",
-    },
-    {
-      name: "quantity",
-      selector: (row) => row.quantity,
-      minWidth: "15%",
-    },
-    {
-      name: "Status",
-      selector: (row) => (
-        <button onClick={() => changestatus(row.id)}>
-          {row.status !== 0 ? (
-            <BiSolidCheckCircle size={20} className="text-greenColor" />
-          ) : (
-            <BiSolidXCircle size={20} />
-          )}
-        </button>
-      ),
-      maxWidth: "15%",
-    },
-    {
-      name: "Actions",
-      cell: (row) => (
-        <div className="flex gap-x-2 gap-y-1 items-center w-full flex-wrap">
-          {/* {hasEditPermission && ( */}
-          <Button
-            isLink={false}
-            color={"bg-greenColor"}
-            Icon={<BiSolidAnalyse />}
-            onClickFun={() => editBtnFun(row)}
-          />
-          {/* )} */}
-          <Button
-            isLink={false}
-            color={"bg-redColor"}
-            Icon={<BiSolidTrashAlt />}
-            onClickFun={() => handleDelete(row.id)}
-          />
-        </div>
-      ),
-    },
-  ];
-
   const archiveSelectedItems = () => {
     const id = toast.loading("Error , Check your input again...");
     axiosClient
-      .post("/admin/delete-products", { array: selectedItems })
+      .post("/admin/update-product", { array: selectedItems })
       .then((data) => {
         if (data.success === false) {
           toast.update(id, {
@@ -290,7 +275,7 @@ export default function ArchivesProducts() {
       active: false,
     },
     {
-      title: "products table",
+      title: "Products Archive Table",
       url: "/admin/allproducts",
       active: true,
     },
@@ -306,14 +291,6 @@ export default function ArchivesProducts() {
               <div>
                 <Button
                   isLink={false}
-                  color={"bg-greenColor text-xl text-white px-2"}
-                  Icon={<BiSolidAnalyse />}
-                  onClickFun={archiveSelectedItems}
-                />
-              </div>
-              <div>
-                <Button
-                  isLink={false}
                   color={"bg-redColor text-xl text-white px-2"}
                   Icon={<BiSolidTrashAlt />}
                   onClickFun={archiveSelectedItems}
@@ -324,8 +301,9 @@ export default function ArchivesProducts() {
         />
         <div className="my-4">
           <Table
-            Title={"products Table"}
+            Title={"Products Archive Table"}
             direction={direction}
+            translations={translations}
             columns={columns}
             data={products}
             hasEditPermission={true} // Assuming you have a way to determine this

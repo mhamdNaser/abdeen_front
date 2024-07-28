@@ -65,54 +65,12 @@
     "Delivery": {
       "path": "/admin/delivery",
       "perId": "showUsers"
-    },
-    "All Cart": {
-      "path": "/admin/allcart",
-      "perId": "showArchivedUser"
-    },
-    "Today Order": {
-      "path": "/admin/todayorder",
-      "perId": "showArchivedUser"
     }
   },
   "Locations Manage": {
     "Country": {
       "path": "/admin/allcountries",
       "perId": "showUsers"
-    }
-  },
-  "Notifications": {
-    "name": null,
-    "path": "/admin/dashboard/notifications",
-    "perId": "showLanguages"
-  },
-  "Pages Settings": {
-    "Home page": {
-      "path": "/admin/HomePageSetting",
-      "name": null,
-      "perId": "showLanguages"
-    },
-    "privacy page": {
-      "path": "/admin/privacy",
-      "name": null,
-      "perId": "showLanguages"
-    },
-    "terms & conditions page": {
-      "path": "/admin/termsconditions",
-      "name": null,
-      "perId": "showLanguages"
-    },
-    "contact us": {
-      "path": "/admin/contactsetting",
-      "name": null,
-      "perId": "showLanguages"
-    }
-  },
-  "General Settings": {
-    "place holder image": {
-      "path": "/admin/dashboard/generalSettings/placeHolderImage",
-      "name": null,
-      "perId": "showLanguages"
     }
   },
   "Languages": {

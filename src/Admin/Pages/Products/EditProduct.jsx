@@ -2,16 +2,18 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import axiosClient from "../../../axios-client";
 import ReusableForm from "../../../components/ReusableForm";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function EditProduct({
   data,
   brands,
   categories,
-  language,
   getProduct,
   setIsModalOpen,
 }) {
   const [image, setImage] = useState(data?.image);
+  const { translations, language } = useTranslation();
+  const [direction, setDirection] = useState(language === "ar" ? "rtl" : "ltr");
 
   let template = {
     title: "Edit Product",
@@ -24,7 +26,7 @@ export default function EditProduct({
         imgStyle: "w-[100px] h-[100px]",
       },
       {
-        title: "sku",
+        title: "Sku",
         name: "sku",
         type: "text",
         value: data?.sku,
@@ -36,7 +38,7 @@ export default function EditProduct({
         },
       },
       {
-        title: "English name",
+        title: "English Name",
         name: "en_name",
         type: "text",
         value: data?.en_name,
@@ -49,7 +51,7 @@ export default function EditProduct({
         styles: "lg:w-[48%]",
       },
       {
-        title: "Arabic name",
+        title: "Arabic Name",
         name: "ar_name",
         type: "text",
         value: data?.ar_name,
@@ -62,7 +64,7 @@ export default function EditProduct({
         styles: "lg:w-[48%]",
       },
       {
-        title: "English description",
+        title: "English Description",
         name: "en_description",
         type: "textArea",
         value: data?.en_description,
@@ -74,7 +76,7 @@ export default function EditProduct({
         },
       },
       {
-        title: "cost Price",
+        title: "Cost Price",
         name: "cost_Price",
         type: "number",
         value: parseFloat(data?.cost_Price).toFixed(2),
@@ -87,7 +89,7 @@ export default function EditProduct({
         styles: "lg:w-[48%]",
       },
       {
-        title: "public price",
+        title: "Public Price",
         name: "public_price",
         type: "number",
         value: parseFloat(data?.public_price).toFixed(2),
@@ -100,7 +102,7 @@ export default function EditProduct({
         styles: "lg:w-[48%]",
       },
       {
-        title: "quantity",
+        title: "Quantity",
         name: "quantity",
         type: "number",
         value: data?.quantity,
@@ -112,7 +114,7 @@ export default function EditProduct({
         },
       },
       {
-        title: "Arabic description",
+        title: "Arabic Description",
         name: "ar_description",
         type: "textArea",
         value: data?.ar_description,
@@ -125,7 +127,7 @@ export default function EditProduct({
       },
       {
         name: "category_id",
-        title: "select the category",
+        title: "select the Category",
         type: "select",
         options: [...categories],
         validationProps: {
@@ -140,7 +142,7 @@ export default function EditProduct({
       },
       {
         name: "brand_id",
-        title: "select the brand",
+        title: "select the Brand",
         type: "select",
         options: [...brands],
         validationProps: {
@@ -215,6 +217,8 @@ export default function EditProduct({
   const validate = () => {};
   return (
     <ReusableForm
+      direction={direction}
+      translations={translations}
       template={template}
       onSubmit={onSubmit}
       validate={validate}

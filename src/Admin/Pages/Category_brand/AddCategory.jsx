@@ -2,11 +2,14 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import axiosClient from "../../../axios-client";
 import ReusableForm from "../../../components/ReusableForm";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
-export default function AddCategory({ language, getCategories, setIsAddModalOpen, categories }) {
+export default function AddCategory({ getCategories, setIsAddModalOpen, categories }) {
   const [image, setImage] = useState();
   const [stateOptions, setStateOptions] = useState([]);
   const [cityOptions, setCityOptions] = useState([]);
+  const { translations, language } = useTranslation();
+  const [direction, setDirection] = useState(language === "ar" ? "rtl" : "ltr");
 
   const handleSelectChange = (name, value) => {
     if (name === "country_id") {
@@ -42,7 +45,7 @@ export default function AddCategory({ language, getCategories, setIsAddModalOpen
         imgStyle: "w-[100px] h-[100px]",
       },
       {
-        title: "English name",
+        title: "English Name",
         name: "en_name",
         type: "text",
         validationProps: {
@@ -54,7 +57,7 @@ export default function AddCategory({ language, getCategories, setIsAddModalOpen
         styles: "lg:w-[48%]",
       },
       {
-        title: "Arabic name",
+        title: "Arabic Name",
         name: "ar_name",
         type: "text",
         validationProps: {
@@ -67,7 +70,7 @@ export default function AddCategory({ language, getCategories, setIsAddModalOpen
       },
       {
         name: "parent_id",
-        title: "select the parent",
+        title: "select the parent category",
         type: "select",
         options: [...categories],
         validationProps: {
@@ -76,11 +79,11 @@ export default function AddCategory({ language, getCategories, setIsAddModalOpen
             message: "this field is required",
           },
         },
-        optionText:  language === "ar" ? "ar_name" : "en_name",
+        optionText: language === "ar" ? "ar_name" : "en_name",
         optionValue: "id",
       },
       {
-        title: "English description",
+        title: "English Description",
         name: "en_description",
         type: "textArea",
         validationProps: {
@@ -91,7 +94,7 @@ export default function AddCategory({ language, getCategories, setIsAddModalOpen
         },
       },
       {
-        title: "Arabic description",
+        title: "Arabic Description",
         name: "ar_description",
         type: "textArea",
         validationProps: {
@@ -163,6 +166,8 @@ export default function AddCategory({ language, getCategories, setIsAddModalOpen
 
   return (
     <ReusableForm
+      translations={translations}
+      direction={direction}
       template={template}
       onSubmit={onSubmit}
       validate={validate}

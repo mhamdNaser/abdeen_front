@@ -24,6 +24,7 @@ export default function EditProfileAddress({data, getUser, setIsModalOpen }) {
       console.log(name, value);
     }
   };
+  
   let template = {
     title: "edit address details",
     fields: [

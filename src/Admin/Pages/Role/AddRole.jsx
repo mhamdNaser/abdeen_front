@@ -2,11 +2,14 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import axiosClient from "../../../axios-client";
 import ReusableForm from "../../../components/ReusableForm";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function AddRole({ getRoles, setIsAddModalOpen }) {
   const [image, setImage] = useState();
   const [stateOptions, setStateOptions] = useState([]);
   const [cityOptions, setCityOptions] = useState([]);
+  const { translations, language } = useTranslation();
+  const [direction, setDirection] = useState(language === "ar" ? "rtl" : "ltr");
 
   const handleSelectChange = (name, value) => {
     if (name === "country_id") {
@@ -28,7 +31,7 @@ export default function AddRole({ getRoles, setIsAddModalOpen }) {
     title: "add role",
     fields: [
       {
-        title: "name",
+        title: "Name",
         name: "name",
         type: "text",
         validationProps: {
@@ -37,7 +40,6 @@ export default function AddRole({ getRoles, setIsAddModalOpen }) {
             message: "this field is required",
           },
         },
-        styles: "lg:w-[48%]",
       },
     ],
   };
@@ -91,6 +93,8 @@ export default function AddRole({ getRoles, setIsAddModalOpen }) {
 
   return (
     <ReusableForm
+      translations={translations}
+      direction={direction}
       template={template}
       onSubmit={onSubmit}
       validate={validate}

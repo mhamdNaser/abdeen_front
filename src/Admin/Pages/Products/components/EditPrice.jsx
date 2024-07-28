@@ -4,36 +4,44 @@ import axiosClient from "../../../../axios-client";
 import { useTranslation } from "../../../../provider/TranslationProvider";
 import { useState } from "react";
 
-export default function EditDescription({
-  data,
-  getProduct,
-  setIsModalOpen,
-}) {
+export default function EditPrice({ data, getProduct, setIsModalOpen }) {
   const { translations, language } = useTranslation();
-    const [direction, setDirection] = useState(
-      language === "ar" ? "rtl" : "ltr"
-    );
+  const [direction, setDirection] = useState(language === "ar" ? "rtl" : "ltr");
 
   let template = {
     title: "Edit Information Product",
     fields: [
       {
-        title: "English Description",
-        name: "en_description",
-        type: "textArea",
-        value: data?.en_description,
+        title: "Cost Price",
+        name: "cost_Price",
+        type: "text",
+        value: parseFloat(data?.cost_Price).toFixed(2),
         validationProps: {
           required: {
             value: true,
             message: "this field is required",
           },
         },
+        styles: "lg:w-[48%]",
       },
       {
-        title: "Arabic Description",
-        name: "ar_description",
-        type: "textArea",
-        value: data?.ar_description,
+        title: "Public Price",
+        name: "public_price",
+        type: "number",
+        value: parseFloat(data?.public_price).toFixed(2),
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+        styles: "lg:w-[48%]",
+      },
+      {
+        title: "Quantity",
+        name: "quantity",
+        type: "number",
+        value: data?.quantity,
         validationProps: {
           required: {
             value: true,
@@ -47,8 +55,9 @@ export default function EditDescription({
   const onSubmit = async (values) => {
     const id = toast.loading("Error , Check your input again...");
     const formData = new FormData();
-    formData.append("en_description", values.en_description);
-    formData.append("ar_description", values.ar_description);
+    formData.append("cost_Price", values.cost_Price);
+    formData.append("public_price", values.public_price);
+    formData.append("quantity", values.quantity);
 
     console.log(formData);
     axiosClient

@@ -4,19 +4,22 @@ import axiosClient from "../../../axios-client";
 import ReusableForm from "../../../components/ReusableForm";
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function EditTag({ attid ,data, getTags, setIsModalOpen }) {
   const [color, setColor] = useColor(data?.en_description);
   const [image, setImage] = useState();
   const [ardescriptionText, setArDescriptionText] = useState("");
   const [endescriptionText, setEnDescriptionText] = useState("");
+  const { translations, language } = useTranslation();
+  const [direction, setDirection] = useState(language === "ar" ? "rtl" : "ltr");
 
 
   let template = {
-    title: "add tag",
+    title: "",
     fields: [
       {
-        title: "English name",
+        title: "English Name",
         name: "en_name",
         type: "text",
         value: data?.en_name,
@@ -29,7 +32,7 @@ export default function EditTag({ attid ,data, getTags, setIsModalOpen }) {
         styles: "lg:w-[48%]",
       },
       {
-        title: "Arabic name",
+        title: "Arabic Name",
         name: "ar_name",
         type: "text",
         value: data?.ar_name,
@@ -102,7 +105,10 @@ export default function EditTag({ attid ,data, getTags, setIsModalOpen }) {
 
   return (
     <div className="p-5">
-      <h1 className="font-bold text-2xl bt-3 pb-3">Edit Tags</h1>
+      <h1 className="font-bold text-2xl bt-3 pb-3">
+        {" "}
+        {(translations && translations[`Edit Tag`]) || "Edit Tag"}
+      </h1>
       {data?.attribute.toUpperCase() === "COLOR" ? (
         <ColorPicker
           height={128}
@@ -138,6 +144,8 @@ export default function EditTag({ attid ,data, getTags, setIsModalOpen }) {
         </>
       )}
       <ReusableForm
+        direction={direction}
+        translations={translations}
         template={template}
         onSubmit={onSubmit}
         validate={validate}

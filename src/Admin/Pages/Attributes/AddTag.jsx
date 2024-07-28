@@ -6,6 +6,7 @@ import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
 import Button from "../../../components/Button";
 import { BiSolidPalette, BiSolidDetail } from "react-icons/bi";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function AddTag({ attid, getTags, setIsAddModalOpen }) {
   const [color, setColor] = useColor("hex", "#121212");
@@ -13,6 +14,8 @@ export default function AddTag({ attid, getTags, setIsAddModalOpen }) {
   const [description, setDescription] = useState(false);
   const [ardescriptionText, setArDescriptionText] = useState("");
   const [endescriptionText, setEnDescriptionText] = useState("");
+  const { translations, language } = useTranslation();
+  const [direction, setDirection] = useState(language === "ar" ? "rtl" : "ltr");
 
   const showColorPicker = () => {
     setColorPicker(!colorpicker);
@@ -23,10 +26,10 @@ export default function AddTag({ attid, getTags, setIsAddModalOpen }) {
   };
 
   let template = {
-    title: "add tag",
+    title: "",
     fields: [
       {
-        title: "English name",
+        title: "English Name",
         name: "en_name",
         type: "text",
         validationProps: {
@@ -38,7 +41,7 @@ export default function AddTag({ attid, getTags, setIsAddModalOpen }) {
         styles: "lg:w-[48%]",
       },
       {
-        title: "Arabic name",
+        title: "Arabic Name",
         name: "ar_name",
         type: "text",
         validationProps: {
@@ -112,7 +115,9 @@ export default function AddTag({ attid, getTags, setIsAddModalOpen }) {
 
   return (
     <div className="p-5">
-      <h1 className="font-bold text-2xl bt-3 pb-3">Add Tags</h1>
+      <h1 className="font-bold text-2xl bt-3 pb-3">
+        {(translations && translations[`Add Tag`]) || "Add Tag"}
+      </h1>
       <div className="flex py-3 gap-4">
         <Button
           isLink={false}
@@ -140,7 +145,9 @@ export default function AddTag({ attid, getTags, setIsAddModalOpen }) {
       {description && (
         <>
           <div>
-            <label htmlFor="description">Description</label>
+            <label htmlFor="description">
+              {(translations && translations[`Description`]) || "Description"}
+            </label>
             <textarea
               className="input-box w-full"
               type="text"
@@ -150,7 +157,9 @@ export default function AddTag({ attid, getTags, setIsAddModalOpen }) {
             />
           </div>
           <div>
-            <label htmlFor="description">Description</label>
+            <label htmlFor="description">
+              {(translations && translations[`Description`]) || "Description"}
+            </label>
             <textarea
               className="input-box w-full"
               type="text"
@@ -162,6 +171,8 @@ export default function AddTag({ attid, getTags, setIsAddModalOpen }) {
         </>
       )}
       <ReusableForm
+        direction={direction}
+        translations={translations}
         template={template}
         onSubmit={onSubmit}
         validate={validate}

@@ -9,6 +9,7 @@ const CustomSelect = ({
   optionValue,
   optionText,
   onSelectChange,
+  translations,
 }) => {
   const {
     title,
@@ -44,7 +45,9 @@ const CustomSelect = ({
       <label
         htmlFor={name}
         className="input-label"
-        dangerouslySetInnerHTML={{ __html: title }}
+        dangerouslySetInnerHTML={{
+          __html: (translations && translations[`${title}`]) || title,
+        }}
       ></label>
       <select
         name={name}

@@ -8,12 +8,15 @@ import useExport from "../hooks/useExport";
 import { BsFiletypeXls, BsFiletypePdf } from "react-icons/bs";
 
 const Table = ({
+  header,
+  footer,
   Title,
   print,
   columns,
   direction,
   data,
   hasEditPermission,
+  translations,
   editBtnFun,
   handleDelete,
   setSelectedItemsProp,
@@ -45,45 +48,46 @@ const Table = ({
 
   return (
     <div className="overflow-x-auto">
-      <div className="flex justify-between items-center">
-        <div
-          className={`text-xl font-bold ${
-            direction === "rtl" ? "text-right" : "text-left"
-          }`}
-        >
-          {Title}
-        </div>
-        <div
-          className={`flex gap-4 ${
-            direction === "rtl" ? "flex-row-reverse" : ""
-          } mb-4`}
-        >
-          <RowsPerPage
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={setRowsPerPage}
-            filteredDataLength={filteredData.length}
-          />
-          <Search query={query} onSearchChange={setQuery} />
-          {print === false ? (
-            null
-          ): (
+      {header === false ? null : (
+        <div className="flex justify-between items-center">
+          <div
+            className={`text-xl font-bold ${
+              direction === "rtl" ? "text-right" : "text-left"
+            }`}
+          >
+            {(translations && translations[`${Title}`]) || Title}
+          </div>
+          <div
+            className={`flex gap-4 ${
+              direction === "rtl" ? "flex-row-reverse" : ""
+            } mb-4`}
+          >
+            <RowsPerPage
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={setRowsPerPage}
+              filteredDataLength={filteredData.length}
+            />
+            <Search query={query} onSearchChange={setQuery} />
+            {print === false ? null : (
               <>
-              <button
-                onClick={exportToPDF}
-                className="bg-redColor text-xl text-white px-2"
-              >
-                <BsFiletypePdf />
-              </button>
-              <button
-                onClick={exportToExcel}
-                className="bg-greenColor text-xl text-white px-2"
-              >
-                <BsFiletypeXls />
-              </button>
-            </>
-          )}
+                <button
+                  onClick={exportToPDF}
+                  className="bg-redColor text-xl text-white px-2"
+                >
+                  <BsFiletypePdf />
+                </button>
+                <button
+                  onClick={exportToExcel}
+                  className="bg-greenColor text-xl text-white px-2"
+                >
+                  <BsFiletypeXls />
+                </button>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      )}
+
       <table
         className="min-w-full bg-white shadow-md overflow-hidden"
         dir={direction}
@@ -99,7 +103,8 @@ const Table = ({
                 }`}
                 style={{ maxWidth: column.maxWidth }}
               >
-                {column.name}
+                {(translations && translations[`${column.name}`]) ||
+                  column.name}
               </th>
             ))}
           </tr>
@@ -150,11 +155,13 @@ const Table = ({
           )}
         </tbody>
       </table>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      {footer === false ? null : (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
     </div>
   );
 };

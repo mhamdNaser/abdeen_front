@@ -13,6 +13,7 @@ const ReusableForm = ({
   setImage,
   image,
   formType,
+  translations,
   onSelectChange,
   direction,
 }) => {
@@ -54,12 +55,15 @@ const ReusableForm = ({
       onSubmit={handleSubmit(onSubmit)}
     >
       <h3
-        dangerouslySetInnerHTML={{ __html: title }}
+        dangerouslySetInnerHTML={{
+          __html: (translations && translations[`${title}`]) || title,
+        }}
         className="font-bold text-2xl bt-3"
       ></h3>
       <div className="flex gap-2 flex-wrap justify-between">
         {fields.map((field, i) => (
           <FormField
+            translations={translations}
             key={field.name}
             field={field}
             register={register}
@@ -77,7 +81,7 @@ const ReusableForm = ({
         disabled={!isValid || isSubmitting}
         className={`bg-redColor text-white p-2 outline-none border-none ${btnWidth} text-base px-6 rounded-[4px] disabled:bg-gray-600`}
       >
-        {btnText}
+        {(translations && translations[`${btnText}`]) || btnText}
       </button>
     </form>
   );

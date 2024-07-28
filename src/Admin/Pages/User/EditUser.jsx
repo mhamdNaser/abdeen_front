@@ -2,9 +2,15 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import ReusableForm from "../../../components/ReusableForm";
 import axiosClient from "../../../axios-client";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export const EditUser = ({ data, getUsers, setIsModalOpen }) => {
   const [image, setImage] = useState(data?.image);
+    const { translations, language } = useTranslation();
+    const [direction, setDirection] = useState(
+      language === "ar" ? "rtl" : "ltr"
+  );
+  
   console.log(data.id);
   let template = {
     title: "edit user details",
@@ -17,7 +23,7 @@ export const EditUser = ({ data, getUsers, setIsModalOpen }) => {
         imgStyle: "w-[100px] h-[100px]",
       },
       {
-        title: "name",
+        title: "Name",
         name: "name",
         type: "text",
         value: data.name,
@@ -30,7 +36,7 @@ export const EditUser = ({ data, getUsers, setIsModalOpen }) => {
         styles: "lg:w-[100%]",
       },
       {
-        title: "username",
+        title: "UserName",
         name: "username",
         type: "text",
         value: data.username,
@@ -43,7 +49,7 @@ export const EditUser = ({ data, getUsers, setIsModalOpen }) => {
         styles: "lg:w-[100%]",
       },
       {
-        title: "email",
+        title: "Email",
         name: "email",
         value: data.email,
         type: "email",
@@ -56,7 +62,7 @@ export const EditUser = ({ data, getUsers, setIsModalOpen }) => {
         styles: "lg:w-[100%]",
       },
       {
-        title: "phone",
+        title: "Phone",
         name: "phone",
         value: data.phone,
         type: "number",
@@ -129,6 +135,8 @@ export const EditUser = ({ data, getUsers, setIsModalOpen }) => {
   return (
     <>
       <ReusableForm
+        translations={translations}
+        direction={direction}
         template={template}
         onSubmit={onSubmit}
         validate={validate}

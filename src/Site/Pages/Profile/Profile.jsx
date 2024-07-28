@@ -1,28 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { useTranslation } from "../../../provider/TranslationProvider";
-import { BiSolidEditAlt, BiSolidXCircle, BiSolidShow } from "react-icons/bi";
-import axiosClient from "../../../axios-client";
-import Table from "../../../components/Table";
+import { BiSolidEditAlt } from "react-icons/bi";
 import { EditProfileInformation } from "./EditProfileInformation";
 import ModalContainer from "../../../components/ModalContainer";
 import EditProfileAddress from "./EditProfileAddress";
-import Button from "../../../components/Button";
+import OrderTable from "./OrderTable";
 
 export default function Profile() {
   const { setBackground } = useOutletContext();
   const [user, setUser] = useState({});
-  const { translations, language } = useTranslation();
-  const [order, setOrder] = useState([]);
-  const [selectedItems, setSelectedItems] = useState([]);
+  const { translations, language } = useTranslation()
   const [openEditform, setOpenEditForm] = useState(false);
   const [openEditaddress, setOpenEditAddress] = useState(false);
-
-  const getOrder = () => {
-    axiosClient.get(`site/show-oreders/${user?.id}`).then((res) => {
-      setOrder(res.data.data);
-    });
-  };
 
   const updateUser = (value) => {
     if (value) {
@@ -40,80 +30,6 @@ export default function Profile() {
     return () => setBackground(true); // Cleanup function to reset the background when the component unmounts
   }, [setBackground]);
 
-  useEffect(() => {
-    if (user?.id) {
-      getOrder();
-    }
-  }, [user]);
-
-  const columns = [
-    {
-      name: `${(translations && translations["Price"]) || "Price"}`,
-      selector: (row) => row.price,
-      maxWidth: "fit-content",
-    },
-    {
-      name: `${(translations && translations["Tax"]) || "Tax"}`,
-      selector: (row) => parseFloat(row.tax).toFixed(2),
-      maxWidth: "fit-content",
-    },
-    {
-      name: `${(translations && translations["Delivery"]) || "Delivery"}`,
-      selector: (row) => row.delivery,
-      maxWidth: "fit-content",
-    },
-    {
-      name: `${(translations && translations["Total Price"]) || "Total Price"}`,
-      selector: (row) =>
-        parseFloat(row.price + row.delivery + row.tax).toFixed(2),
-      maxWidth: "fit-content",
-    },
-    {
-      name: `${(translations && translations["Total Discount"]) || "Total Discount"
-        }`,
-      selector: (row) => row.total_discount,
-      maxWidth: "fit-content",
-    },
-    {
-      name: `${(translations && translations["The net amount"]) || "The net amount"
-        }`,
-      selector: (row) => row.total_price,
-      maxWidth: "fit-content",
-    },
-    {
-      name: `${(translations && translations["Date"]) || "Date"}`,
-      selector: (row) => row.date,
-      maxWidth: "fit-content",
-    },
-    {
-      name: `${(translations && translations["Status"]) || "Status"}`,
-      maxWidth: "fit-content",
-      selector: (row) => (
-        <div>
-          {row.status === "pending" ? (
-            <span className="bg-blueColor text-white py-1 px-2 rounded-lg text-xs">
-              {row.status}
-            </span>
-          ) : (
-            <BiSolidXCircle size={20} />
-          )}
-        </div>
-      ),
-    },
-    {
-      name: "Actions",
-      cell: (row) => (
-        <div className="flex gap-x-2 gap-y-1 items-center w-full flex-wrap">
-          <Button
-            isLink={false}
-            color={"bg-blueColor"}
-            Icon={<BiSolidShow />}
-            onClickFun={() => handleView(row.id, row.username)}
-          />
-        </div>
-      ),
-    },
-  ];
 
   return (
     <div className="flex xl:flex-row flex-col p-4 xl:p-10 gap-10">
@@ -233,7 +149,8 @@ export default function Profile() {
         </section>
       </div>
       <div className="xl:w-3/5 w-full">
-        <section className="mb-8 bg-white grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 shadow-md rounded-lg px-8 py-6">
+        {/* Cards Section */}
+        {/* <section className="mb-8 bg-white grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 shadow-md rounded-lg px-8 py-6">
           <div className="bg-redColor w-full h-40 flex flex-col p-6 text-white font-bold">
             <h2>
               {(translations && translations["Product Like"]) || "Product Like"}
@@ -241,7 +158,8 @@ export default function Profile() {
           </div>
           <div className="bg-redColor w-full h-40 flex flex-col p-6 text-white font-bold">
             <h2>
-              {(translations && translations["Total Purchases"]) || "Total Purchases"}
+              {(translations && translations["Total Purchases"]) ||
+                "Total Purchases"}
             </h2>
           </div>
           <div className="bg-redColor w-full h-40 flex flex-col p-6 text-white font-bold">
@@ -251,29 +169,18 @@ export default function Profile() {
           </div>
           <div className="bg-redColor w-full h-40 flex flex-col p-6 text-white font-bold">
             <h2>
-              {(translations && translations["Customer Rating"]) || "Customer Rating"}
+              {(translations && translations["Customer Rating"]) ||
+                "Customer Rating"}
             </h2>
           </div>
-        </section>
+        </section> */}
         {/* Orders Section */}
         <section className="mb-8 bg-white shadow-md rounded-lg p-4">
           <h2 className="text-2xl border-b py-3 font-semibold mb-2">
             {(translations && translations["Orders"]) || "Orders"}
           </h2>
           <div className="">
-            <Table
-              Title={
-                (translations && translations["orders Table"]) || "orders Table"
-              }
-              // direction={direction}
-              columns={columns}
-              data={order}
-              print={false}
-              hasEditPermission={true} // Assuming you have a way to determine this
-              editBtnFun={(row) => console.log("Edit", row)} // Replace with your edit function
-              handleDelete={(id) => console.log("Delete", id)} // Replace with your delete function
-              setSelectedItemsProp={setSelectedItems}
-            />
+            <OrderTable />
           </div>
         </section>
       </div>

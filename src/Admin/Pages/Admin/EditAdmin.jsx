@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import ReusableForm from "../../../components/ReusableForm";
 import axiosClient from "../../../axios-client";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export const EditAdmin = ({
   data,
@@ -10,6 +11,8 @@ export const EditAdmin = ({
   setIsModalOpen,
   roles,
 }) => {
+  const { translations, language } = useTranslation();
+  const [direction, setDirection] = useState(language === "ar" ? "rtl" : "ltr");
   const [image, setImage] = useState(data?.image);
   let template = {
     title: "edit admin details",
@@ -22,7 +25,7 @@ export const EditAdmin = ({
         imgStyle: "w-[100px] h-[100px]",
       },
       {
-        title: "name",
+        title: "Name",
         name: "name",
         type: "text",
         value: data.name,
@@ -35,7 +38,7 @@ export const EditAdmin = ({
         styles: "lg:w-[100%]",
       },
       {
-        title: "username",
+        title: "UserName",
         name: "username",
         type: "text",
         value: data.username,
@@ -48,7 +51,7 @@ export const EditAdmin = ({
         styles: "lg:w-[100%]",
       },
       {
-        title: "email",
+        title: "Email",
         name: "email",
         value: data.email,
         type: "email",
@@ -61,7 +64,7 @@ export const EditAdmin = ({
         styles: "lg:w-[100%]",
       },
       {
-        title: "phone",
+        title: "Phone",
         name: "phone",
         value: data.phone,
         type: "number",
@@ -151,6 +154,8 @@ export const EditAdmin = ({
   return (
     <>
       <ReusableForm
+        direction={direction}
+        translations={translations}
         template={template}
         onSubmit={onSubmit}
         validate={validate}

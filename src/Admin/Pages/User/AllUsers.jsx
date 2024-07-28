@@ -21,6 +21,7 @@ import { AddUser } from "./AddUser";
 import { EditUser } from "./EditUser";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "../../../provider/LocationProvider";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function AllUsers() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,6 +32,7 @@ export default function AllUsers() {
   const [selectedItems, setSelectedItems] = useState([]); // Add this state
   const navigate = useNavigate();
   const { countries, states, cities } = useLocation();
+  const { translations, language } = useTranslation();
 
   
 
@@ -143,14 +145,15 @@ export default function AllUsers() {
 
   const handleDelete = (id) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: translations.sure_delete || "Are you sure?",
+      text: translations.alert_delete || "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
       theme: "dark",
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: translations.not_yes || "cancel",
+      confirmButtonText: translations.yes_delete || "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
         deleteFunc(id);
@@ -161,18 +164,23 @@ export default function AllUsers() {
 
   const columns = [
     {
-      name: "Username",
+      name: "UserName",
       selector: (row) => row.username,
       maxWidth: "15%",
     },
     {
-      name: "Full Name",
+      name: "Name",
       selector: (row) => row.name,
       maxWidth: "15%",
     },
     {
       name: "Email",
       selector: (row) => row.email,
+      maxWidth: "15%",
+    },
+    {
+      name: "Phone",
+      selector: (row) => row.phone,
       maxWidth: "15%",
     },
     {
@@ -186,11 +194,6 @@ export default function AllUsers() {
           )}
         </button>
       ),
-      maxWidth: "15%",
-    },
-    {
-      name: "Phone",
-      selector: (row) => row.phone,
       maxWidth: "15%",
     },
     {
@@ -273,7 +276,7 @@ export default function AllUsers() {
       active: false,
     },
     {
-      title: "users table",
+      title: "Users Table",
       url: "/admin/allusers",
       active: true,
     },
@@ -309,6 +312,7 @@ export default function AllUsers() {
         />
         {isModalOpen && (
           <ModalContainer
+            direction={language === "ar" ? "rtl" : "ltr"}
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
             component={
@@ -326,6 +330,7 @@ export default function AllUsers() {
 
         {isAddModalOpen && (
           <ModalContainer
+            direction={language === "ar" ? "rtl" : "ltr"}
             isModalOpen={isAddModalOpen}
             setIsModalOpen={setIsAddModalOpen}
             component={
@@ -341,8 +346,10 @@ export default function AllUsers() {
         )}
         <div className="my-4">
           <Table
+            Title={"Users Table"}
             columns={columns}
             data={admins}
+            translations={translations}
             hasEditPermission={true} // Assuming you have a way to determine this
             editBtnFun={(row) => console.log("Edit", row)} // Replace with your edit function
             handleDelete={(id) => console.log("Delete", id)} // Replace with your delete function

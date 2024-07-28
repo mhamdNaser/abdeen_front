@@ -20,6 +20,7 @@ import {
 import AddAttribute from "./AddAttribute";
 import EditAttribute from "./EditAttribute";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function AllAttributes() {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export default function AllAttributes() {
   const [loading, setLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
   const [direction, setDirection] = useState();
-  const [language, setLanguage] = useState(localStorage.getItem("LANGUAGE"));
+  const { translations, language } = useTranslation();
 
   const getAttributes = async () => {
     const res = await axiosClient.get("/admin/all-attributes");
@@ -140,14 +141,15 @@ export default function AllAttributes() {
 
   const handleDelete = (id) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: translations.sure_delete || "Are you sure?",
+      text: translations.alert_delete || "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
       theme: "dark",
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: translations.not_yes || "cancel",
+      confirmButtonText: translations.yes_delete || "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
         deleteFunc(id);
@@ -162,12 +164,12 @@ export default function AllAttributes() {
 
   const columns = [
     {
-      name: "English name",
+      name: "English Name",
       selector: (row) => row.en_name,
       minWidth: "15%",
     },
     {
-      name: "Arabic name",
+      name: "Arabic Name",
       selector: (row) => row.ar_name,
       minWidth: "15%",
     },
@@ -265,7 +267,7 @@ export default function AllAttributes() {
       active: false,
     },
     {
-      title: "attributes table",
+      title: "Attributes Table",
       url: "/admin/allattributes",
       active: true,
     },
@@ -283,7 +285,7 @@ export default function AllAttributes() {
                 <Button
                   isLink={false}
                   color={"bg-greenColor text-xl text-white px-2"}
-                  Icon={<BiSolidAlarmAdd  />}
+                  Icon={<BiSolidAlarmAdd />}
                   onClickFun={() => setIsAddModalOpen((prev) => !prev)}
                 />
               </div>
@@ -301,6 +303,7 @@ export default function AllAttributes() {
         />
         {isModalOpen && (
           <ModalContainer
+            direction={language === "ar" ? "rtl" : "ltr"}
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
             component={
@@ -315,6 +318,7 @@ export default function AllAttributes() {
 
         {isAddModalOpen && (
           <ModalContainer
+            direction={language === "ar" ? "rtl" : "ltr"}
             isModalOpen={isAddModalOpen}
             setIsModalOpen={setIsAddModalOpen}
             component={
@@ -327,8 +331,9 @@ export default function AllAttributes() {
         )}
         <div className="my-4">
           <Table
-            Title={"attributes Table"}
+            Title={"Attributes Table"}
             direction={direction}
+            translations={translations}
             columns={columns}
             data={attributes}
             hasEditPermission={true} // Assuming you have a way to determine this

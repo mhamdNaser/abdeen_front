@@ -1,34 +1,25 @@
 import React, { useState, useEffect } from "react";
-import axiosClient from "../../../axios-client";
-import Button from "../../../components/Button";
-import Table from "../../../components/Table";
-import { Page } from "../../../components/StyledComponents";
-import PageTitle from "../../../components/PageTitle";
-import Loading from "../../../components/Loading";
-import { BiBlock, BiSolidAlarmAdd, BiSolidShow } from "react-icons/bi";
+import Button from "../../../../components/Button";
+import Table from "../../../../components/Table";
+import { Page } from "../../../../components/StyledComponents";
+import Loading from "../../../../components/Loading";
+import { BiBlock, BiSolidShow } from "react-icons/bi";
 import { IoIosDoneAll } from "react-icons/io";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { TbTruckReturn } from "react-icons/tb";
-import { useTranslation } from "../../../provider/TranslationProvider";
-import ViewOrder from "./order/ViewOrder";
-import ModalContainer from "../../../components/ModalContainer";
+import { useTranslation } from "../../../../provider/TranslationProvider";
+import ModalContainer from "../../../../components/ModalContainer";
+import axiosClient from "../../../../axios-client";
+import ViewOrder from "../../Order_cart/order/ViewOrder";
 import { toast } from "react-toastify";
 
-export default function AllOrder() {
+export default function PendingOrder({ order, getOrder, getData }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clickedRow, setClickedRow] = useState();
   const [loading, setLoading] = useState(true);
   const { translations, language } = useTranslation();
-  const [order, setOrder] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [direction, setDirection] = useState();
-
-  const getOrder = () => {
-    axiosClient.get(`admin/all-orders`).then((res) => {
-      setOrder(res.data.data);
-    });
-  };
-
 
   useEffect(() => {
     try {
@@ -43,57 +34,10 @@ export default function AllOrder() {
     setDirection(language === "ar" ? "rtl" : "ltr");
   }, []);
 
-
   const showOrder = (row) => {
     setIsModalOpen(true);
     setClickedRow(row);
   };
-
-
-  const changestatus = async (orderid, value) => {
-    const order = { status: value };
-    console.log(order, orderid);
-    const id = toast.loading("Updating status...");
-
-    axiosClient
-      .post(`/admin/changstatus-orders/${orderid}`, order)
-      .then((data) => {
-        if (data.success === false) {
-          toast.update(id, {
-            type: "error",
-            render: data.data.message,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        } else {
-          getOrder();
-          toast.update(id, {
-            type: "success",
-            render: data.data.message,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        }
-      })
-      .catch((err) => {
-        toast.update(id, {
-          type: "error",
-          render: err.response.message,
-          closeOnClick: true,
-          isLoading: false,
-          autoClose: true,
-          closeButton: true,
-          pauseOnHover: false,
-        });
-      });
-  };
-
 
   const columns = [
     {
@@ -195,51 +139,72 @@ export default function AllOrder() {
     },
   ];
 
+  const changestatus = async (orderid, value) => {
+    const id = toast.loading("Updating status...");
+    const order = { status: value };
+    console.log(order, orderid);
+
+    axiosClient
+      .post(`/admin/changstatus-orders/${orderid}`, order)
+      .then((data) => {
+        if (data.success === false) {
+          toast.update(id, {
+            type: "error",
+            render: data.data.message,
+            closeOnClick: true,
+            isLoading: false,
+            autoClose: true,
+            closeButton: true,
+            pauseOnHover: false,
+          });
+        } else {
+            getOrder();
+            getData();
+          toast.update(id, {
+            type: "success",
+            render: data.data.message,
+            closeOnClick: true,
+            isLoading: false,
+            autoClose: true,
+            closeButton: true,
+            pauseOnHover: false,
+          });
+        }
+      })
+      .catch((err) => {
+        toast.update(id, {
+          type: "error",
+          render: err.response.message,
+          closeOnClick: true,
+          isLoading: false,
+          autoClose: true,
+          closeButton: true,
+          pauseOnHover: false,
+        });
+      });
+  };
+
   if (loading) {
     return <Loading />;
   }
-
-  const links = [
-    {
-      title: "home",
-      url: "/admin/",
-      active: false,
-    },
-    {
-      title: "orders Table",
-      url: "/admin/allbrands",
-      active: true,
-    },
-  ];
-
   return (
     <>
-      <Page>
-        <PageTitle
-          links={links}
-          right={
-            // hasAddPermission && (
-            <>
-              <div>
-                <Button
-                  isLink={false}
-                  color={"bg-greenColor text-xl text-white px-2"}
-                  Icon={<BiSolidAlarmAdd />}
-                  onClickFun={() => setIsAddModalOpen((prev) => !prev)}
-                />
-              </div>
-              <div>
-                {/* <Button
-                  isLink={false}
-                  color={"bg-redColor text-xl text-white px-2"}
-                  Icon={<BiSolidFileExport />}
-                  onClickFun={archiveSelectedItems}
-                /> */}
-              </div>
-            </>
-            // )
-          }
-        />
+      <Page className="p-4">
+        <div className="my-4 bg-blocks-color p-6 rounded-md">
+          <Table
+            Title={"orders Table"}
+            direction={direction}
+            translations={translations}
+            columns={columns}
+            data={order}
+            print={false}
+            header={false}
+            footer={false}
+            editBtnFun={(row) => console.log("Edit", row)} // Replace with your edit function
+            handleDelete={(id) => console.log("Delete", id)} // Replace with your delete function
+            setSelectedItemsProp={setSelectedItems}
+          />
+        </div>
         {isModalOpen && (
           <ModalContainer
             direction={direction}
@@ -250,33 +215,6 @@ export default function AllOrder() {
             }
           />
         )}
-
-        {/* {isAddModalOpen && (
-          <ModalContainer
-            isModalOpen={isAddModalOpen}
-            setIsModalOpen={setIsAddModalOpen}
-            component={
-              <AddBrand
-                countries={countries}
-                getBrands={getBrands}
-                setIsAddModalOpen={setIsAddModalOpen}
-              />
-            }
-          />
-        )} */}
-        <div className="my-4">
-          <Table
-            Title={"orders Table"}
-            direction={direction}
-            translations={translations}
-            columns={columns}
-            data={order}
-            hasEditPermission={true} // Assuming you have a way to determine this
-            editBtnFun={(row) => console.log("Edit", row)} // Replace with your edit function
-            handleDelete={(id) => console.log("Delete", id)} // Replace with your delete function
-            setSelectedItemsProp={setSelectedItems}
-          />
-        </div>
       </Page>
     </>
   );

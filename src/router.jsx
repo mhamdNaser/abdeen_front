@@ -4,7 +4,6 @@ import NotFound from "./Site/Pages/NotFound";
 import SiteLayout from "./components/SiteLayout";
 import AdminLayout from "./components/AdminLayout";
 import AdminLogin from "./Admin/Pages/Auth/AdminLogin";
-import Index from "./Admin/Pages/Index";
 import ProtectedRoute from "./Admin/Components/ProtectedRoute ";
 import AllAdmins from "./Admin/Pages/Admin/AllAdmins";
 import AllRoles from "./Admin/Pages/Role/AllRoles";
@@ -28,11 +27,8 @@ import AllTags from "./Admin/Pages/Attributes/AllTags";
 import AllProducts from "./Admin/Pages/Products/AllProducts";
 import ArchivesProducts from "./Admin/Pages/Products/ArchivesProducts";
 import AllOrder from "./Admin/Pages/Order_cart/AllOrder";
-import TodayOrder from "./Admin/Pages/Order_cart/InholdOrder";
-import AllCart from "./Admin/Pages/Order_cart/AllCart";
 import HomePage from "./Admin/Pages/Pages/HomePage";
 import Profile from "./Site/Pages/Profile/Profile";
-import PersonalProfile from "./Admin/Pages/Admin/PersonalProfile";
 import EditWord from "./Admin/Pages/Languages/EditWord";
 import ViewProduct from "./Admin/Pages/Products/ViewProduct";
 import AllProduct from "./Site/Pages/AllProduct";
@@ -41,6 +37,8 @@ import ProductByCategory from "./Site/Pages/ProductByCategory";
 import SiteViewProduct from "./Site/Pages/SiteViewProduct";
 import Delivery from "./Admin/Pages/Order_cart/Delivery";
 import AllTax from "./Admin/Pages/Order_cart/AllTax";
+import ViewOrder from "./Site/Pages/Profile/ViewOrder";
+import Index from "./Admin/Pages/home/Index";
 
 const router = createBrowserRouter([
   {
@@ -71,6 +69,10 @@ const router = createBrowserRouter([
         path: "/siteviewproduct/:id/:name",
         element: <SiteViewProduct />,
       },
+      {
+        path: "/vieworder/:id",
+        element: <ViewOrder />,
+      },
     ],
   },
 
@@ -95,8 +97,8 @@ const router = createBrowserRouter([
         element: <AdminArchives />,
       },
       {
-        path: "/admin/personalProfile/:id/:name",
-        element: <PersonalProfile />,
+        path: "/admin/personalProfile",
+        element: <AdminProfile />,
       },
       {
         path: "/admin/adminProfile/:id/:name",
@@ -175,14 +177,6 @@ const router = createBrowserRouter([
         element: <AllOrder />,
       },
       {
-        path: "/admin/todayorder",
-        element: <TodayOrder />,
-      },
-      {
-        path: "/admin/allcart",
-        element: <AllCart />,
-      },
-      {
         path: "/admin/HomePageSetting",
         element: <HomePage />,
       },
@@ -200,11 +194,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/admin/delivery",
-        element: <Delivery />
+        element: <Delivery />,
       },
       {
         path: "/admin/tax",
-        element: <AllTax />
+        element: <AllTax />,
       },
     ],
   },

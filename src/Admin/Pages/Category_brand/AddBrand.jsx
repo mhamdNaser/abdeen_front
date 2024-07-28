@@ -2,10 +2,13 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import axiosClient from "../../../axios-client";
 import ReusableForm from "../../../components/ReusableForm";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function AddBrand({ getBrands, setIsAddModalOpen, countries }) {
     console.log(countries);
   const [image, setImage] = useState();
+  const { translations, language } = useTranslation();
+  const [direction, setDirection] = useState(language === "ar" ? "rtl" : "ltr");
 
   let template = {
     title: "add Brand",
@@ -25,7 +28,7 @@ export default function AddBrand({ getBrands, setIsAddModalOpen, countries }) {
         imgStyle: "w-[100px] h-[100px]",
       },
       {
-        title: "English name",
+        title: "English Name",
         name: "en_name",
         type: "text",
         validationProps: {
@@ -37,7 +40,7 @@ export default function AddBrand({ getBrands, setIsAddModalOpen, countries }) {
         styles: "lg:w-[48%]",
       },
       {
-        title: "Arabic name",
+        title: "Arabic Name",
         name: "ar_name",
         type: "text",
         validationProps: {
@@ -64,7 +67,7 @@ export default function AddBrand({ getBrands, setIsAddModalOpen, countries }) {
         styles: "lg:w-[48%]",
       },
       {
-        title: "English description",
+        title: "English Description",
         name: "en_description",
         type: "textArea",
         validationProps: {
@@ -75,7 +78,7 @@ export default function AddBrand({ getBrands, setIsAddModalOpen, countries }) {
         },
       },
       {
-        title: "Arabic description",
+        title: "Arabic Description",
         name: "ar_description",
         type: "textArea",
         validationProps: {
@@ -143,6 +146,8 @@ export default function AddBrand({ getBrands, setIsAddModalOpen, countries }) {
 
   return (
     <ReusableForm
+      translations={translations}
+      direction={direction}
       template={template}
       onSubmit={onSubmit}
       validate={validate}
@@ -151,7 +156,7 @@ export default function AddBrand({ getBrands, setIsAddModalOpen, countries }) {
       addedStyles={"md:w-[400px] lg:w-[800px]"}
       image={image}
       setImage={setImage}
-    //   onSelectChange={handleSelectChange}
+      //   onSelectChange={handleSelectChange}
     />
   );
 }

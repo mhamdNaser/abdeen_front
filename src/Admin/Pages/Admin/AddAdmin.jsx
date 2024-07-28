@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import axiosClient from "../../../axios-client";
 import ReusableForm from "../../../components/ReusableForm";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export const AddAdmin = ({
   getAdmins,
@@ -14,6 +15,8 @@ export const AddAdmin = ({
   const [image, setImage] = useState();
   const [stateOptions, setStateOptions] = useState([]);
   const [cityOptions, setCityOptions] = useState([]);
+  const { translations, language } = useTranslation();
+  const [direction, setDirection] = useState(language === "ar" ? "rtl" : "ltr");
 
   const handleSelectChange = (name, value) => {
     if (name === "country_id") {
@@ -25,8 +28,7 @@ export const AddAdmin = ({
     } else if (name === "state_id") {
       const filteredCities = cities.filter((city) => city.state_id == value);
       setCityOptions(filteredCities);
-    }
-    else { 
+    } else {
       console.log(name, value);
     }
   };
@@ -85,7 +87,7 @@ export const AddAdmin = ({
         styles: "lg:w-[48%]",
       },
       {
-        title: "Username",
+        title: "UserName",
         name: "username",
         type: "text",
         validationProps: {
@@ -97,7 +99,7 @@ export const AddAdmin = ({
         styles: "lg:w-[48%]",
       },
       {
-        title: "email",
+        title: "Email",
         name: "email",
         type: "email",
         validationProps: {
@@ -121,7 +123,7 @@ export const AddAdmin = ({
         styles: "lg:w-[48%]",
       },
       {
-        title: "password",
+        title: "Password",
         name: "password",
         type: "password",
         autocomplete: "off",
@@ -255,6 +257,8 @@ export const AddAdmin = ({
 
   return (
     <ReusableForm
+      translations={translations}
+      direction={direction}
       template={template}
       onSubmit={onSubmit}
       validate={validate}

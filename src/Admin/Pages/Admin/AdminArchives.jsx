@@ -5,24 +5,21 @@ import Table from "../../../components/Table";
 import { Page } from "../../../components/StyledComponents";
 import PageTitle from "../../../components/PageTitle";
 import Loading from "../../../components/Loading";
-import ModalContainer from "../../../components/ModalContainer";
-import { EditAdmin } from "./EditAdmin";
-import { AddAdmin } from "./AddAdmin";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import {
   BiSolidTrashAlt,
   BiSolidAnalyse,
-  BiSolidFileExport,
 } from "react-icons/bi";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function AdminArchives() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [clickedRow, setClickedRow] = useState();
   const [admins, setAdmins] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedItems, setSelectedItems] = useState([]); // Add this state
+  const [selectedItems, setSelectedItems] = useState([]); 
+  const { translations } = useTranslation();
 
   const getAdmins = async () => {
     const res = await axiosClient.get("/admin/admin-archives");
@@ -127,14 +124,15 @@ export default function AdminArchives() {
 
   const handleDelete = (id) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: translations.sure_delete || "Are you sure?",
+      text: translations.alert_delete || "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
       theme: "dark",
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: translations.not_yes || "cancel",
+      confirmButtonText: translations.yes_delete || "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
         deleteFunc(id);
@@ -185,12 +183,12 @@ export default function AdminArchives() {
 
   const columns = [
     {
-      name: "Username",
+      name: "UserName",
       selector: (row) => row.username,
       maxWidth: "15%",
     },
     {
-      name: "Full Name",
+      name: "Name",
       selector: (row) => row.name,
       maxWidth: "15%",
     },
@@ -241,7 +239,7 @@ export default function AdminArchives() {
       active: false,
     },
     {
-      title: "admins archives",
+      title: "Admins Archives Table",
       url: "/admin/alladmins",
       active: true,
     },
@@ -272,6 +270,7 @@ export default function AdminArchives() {
             Title={"Admins Archives Table"}
             columns={columns}
             data={admins}
+            translations={translations}
             hasEditPermission={true} // Assuming you have a way to determine this
             editBtnFun={(row) => console.log("Edit", row)} // Replace with your edit function
             handleDelete={(id) => console.log("Delete", id)} // Replace with your delete function

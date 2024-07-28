@@ -20,9 +20,9 @@ import {
 import AddProduct from "./AddProduct";
 import EditProduct from "./EditProduct";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function AllProducts() {
-  const [language, setLanguage] = useState(localStorage.getItem("LANGUAGE"));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [clickedRow, setClickedRow] = useState();
@@ -33,6 +33,7 @@ export default function AllProducts() {
   const [brands, setBrands] = useState();
   const [categories, setCategories] = useState();
   const navigate = useNavigate();
+  const { translations, language } = useTranslation();
 
   const getProduct = async () => {
     const res = await axiosClient.get("/admin/all-products");
@@ -154,14 +155,15 @@ export default function AllProducts() {
 
   const handleDelete = (id) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: translations.sure_delete || "Are you sure?",
+      text: translations.alert_delete || "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
       theme: "dark",
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: translations.not_yes || "cancel",
+      confirmButtonText: translations.yes_delete || "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
         deleteFunc(id);
@@ -187,23 +189,28 @@ export default function AllProducts() {
       minWidth: "15%",
     },
     {
-      name: "name",
+      name: "Sku",
+      selector: (row) =>  row.sku ,
+      minWidth: "15%",
+    },
+    {
+      name: "Name",
       selector: (row) => (language === "ar" ? row.ar_name : row.en_name),
       minWidth: "15%",
     },
     {
-      name: "brand",
+      name: "Brand",
       selector: (row) => (language === "ar" ? row.ar_brand : row.en_brand),
       minWidth: "15%",
     },
     {
-      name: "category",
+      name: "Category",
       selector: (row) =>
         language === "ar" ? row.ar_category : row.en_category,
       minWidth: "15%",
     },
     {
-      name: "made_in",
+      name: "made in",
       selector: (row) => row.made_in,
       minWidth: "15%",
     },
@@ -213,7 +220,7 @@ export default function AllProducts() {
       minWidth: "15%",
     },
     {
-      name: "quantity",
+      name: "Quantity",
       selector: (row) => row.quantity,
       minWidth: "15%",
     },
@@ -311,7 +318,7 @@ export default function AllProducts() {
       active: false,
     },
     {
-      title: "products table",
+      title: "Products Table",
       url: "/admin/allproducts",
       active: true,
     },
@@ -347,6 +354,7 @@ export default function AllProducts() {
         />
         {isModalOpen && (
           <ModalContainer
+            direction={language === "ar" ? "rtl" : "ltr"}
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
             component={
@@ -364,6 +372,7 @@ export default function AllProducts() {
 
         {isAddModalOpen && (
           <ModalContainer
+            direction={language === "ar" ? "rtl" : "ltr"}
             isModalOpen={isAddModalOpen}
             setIsModalOpen={setIsAddModalOpen}
             component={
@@ -379,8 +388,9 @@ export default function AllProducts() {
         )}
         <div className="my-4">
           <Table
-            Title={"products Table"}
+            Title={"Products Table"}
             direction={direction}
+            translations={translations}
             columns={columns}
             data={products}
             hasEditPermission={true} // Assuming you have a way to determine this

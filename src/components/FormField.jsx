@@ -11,6 +11,7 @@ const FormField = ({
   image,
   onSelectChange,
   defaultvalue,
+  translations,
 }) => {
   const {
     title,
@@ -36,7 +37,9 @@ const FormField = ({
           <label
             htmlFor={name}
             className="input-label"
-            dangerouslySetInnerHTML={{ __html: title }}
+            dangerouslySetInnerHTML={{
+              __html: (translations && translations[`${title}`]) || title,
+            }}
           ></label>
           <input
             className="input-box bg-blocks-color"
@@ -58,7 +61,9 @@ const FormField = ({
         <div className={`input-field w-full ${styles}`}>
           <label
             htmlFor={name}
-            dangerouslySetInnerHTML={{ __html: title }}
+            dangerouslySetInnerHTML={{
+              __html: (translations && translations[`${title}`]) || title,
+            }}
             className="input-label"
           ></label>
           <input
@@ -80,7 +85,9 @@ const FormField = ({
       return (
         <div className={`input-field w-full ${styles}`}>
           <label
-            dangerouslySetInnerHTML={{ __html: title }}
+            dangerouslySetInnerHTML={{
+              __html: (translations && translations[`${title}`]) || title,
+            }}
             htmlFor={name}
             className="input-label"
           ></label>
@@ -103,7 +110,9 @@ const FormField = ({
       return (
         <div className={`input-field w-full ${styles}`}>
           <label
-            dangerouslySetInnerHTML={{ __html: title }}
+            dangerouslySetInnerHTML={{
+              __html: (translations && translations[`${title}`]) || title,
+            }}
             htmlFor={name}
             className="input-label"
           ></label>
@@ -126,7 +135,9 @@ const FormField = ({
       return (
         <div className={`input-field w-full ${styles}`}>
           <label
-            dangerouslySetInnerHTML={{ __html: title }}
+            dangerouslySetInnerHTML={{
+              __html: (translations && translations[`${title}`]) || title,
+            }}
             htmlFor={name}
             className="input-label"
           ></label>
@@ -149,7 +160,9 @@ const FormField = ({
       return (
         <div className={`input-field w-full ${styles}`}>
           <label
-            dangerouslySetInnerHTML={{ __html: title }}
+            dangerouslySetInnerHTML={{
+              __html: (translations && translations[`${title}`]) || title,
+            }}
             htmlFor={name}
             className="input-label"
           ></label>
@@ -178,7 +191,9 @@ const FormField = ({
             id={name}
             {...register(name, validationProps)}
           />
-          <label htmlFor={name}>{title}</label>
+          <label htmlFor={name}>
+            {(translations && translations[`${title}`]) || title}
+          </label>
           {errors && errors[name] && (
             <span className="red-text">{errors[name]["message"]}</span>
           )}
@@ -197,7 +212,9 @@ const FormField = ({
                 {...register(name, validationProps)}
               />
               <div className="slider"></div>
-              <label htmlFor={name}>{title}</label>
+              <label htmlFor={name}>
+                {(translations && translations[`${title}`]) || title}
+              </label>
             </div>
           </label>
         </div>
@@ -205,6 +222,7 @@ const FormField = ({
     case "select":
       return (
         <CustomSelect
+          translations={translations}
           key={name}
           field={field}
           register={register}
@@ -256,7 +274,8 @@ const FormField = ({
                     className="absolute top-[50%] left-[50%] text-sm w-max"
                     style={{ transform: "translate(-50%, -50%)" }}
                   >
-                    choose a file
+                    {(translations && translations["choose a file"]) ||
+                      "choose a file"}
                   </span>
                 )}
               </div>
@@ -288,7 +307,9 @@ const FormField = ({
     default:
       return (
         <div key={name}>
-          <span className="red-text">Invalid Field</span>
+          <span className="red-text">
+            {(translations && translations["Invalid Field"]) || "Invalid Field"}
+          </span>
         </div>
       );
   }

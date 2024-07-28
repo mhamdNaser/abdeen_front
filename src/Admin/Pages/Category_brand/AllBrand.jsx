@@ -11,14 +11,14 @@ import { toast } from "react-toastify";
 import {
   BiSolidEditAlt,
   BiSolidTrashAlt,
-  BiSolidShow,
   BiSolidFileExport,
-  BiSolidAlarmAdd ,
+  BiSolidAlarmAdd,
   BiSolidCheckCircle,
   BiSolidXCircle,
 } from "react-icons/bi";
 import AddBrand from "./AddBrand";
 import EditBrand from "./EditBrand";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function AllBrand() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,7 +28,7 @@ export default function AllBrand() {
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
-  const [language, setLanguage] = useState(localStorage.getItem("LANGUAGE"));
+  const { translations, language } = useTranslation();
 
   const getBrands = async () => {
     const res = await axiosClient.get("/admin/all-brands");
@@ -147,14 +147,15 @@ export default function AllBrand() {
 
   const handleDelete = (id) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: translations.sure_delete || "Are you sure?",
+      text: translations.alert_delete || "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
       theme: "dark",
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: translations.not_yes || "cancel",
+      confirmButtonText: translations.yes_delete || "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
         deleteFunc(id);
@@ -176,18 +177,18 @@ export default function AllBrand() {
       minWidth: "15%",
     },
     {
-      name: "name",
+      name: "Name",
       selector: (row) => (language === "ar" ? row.ar_name : row.en_name),
       minWidth: "15%",
     },
     {
-      name: "description",
+      name: "Description",
       selector: (row) =>
         language === "ar" ? row.ar_description : row.en_description,
       minWidth: "15%",
     },
     {
-      name: "country",
+      name: "Country",
       selector: (row) => row.country,
       minWidth: "15%",
     },
@@ -271,7 +272,7 @@ export default function AllBrand() {
   if (loading) {
     return <Loading />;
   }
-
+  
   const links = [
     {
       title: "home",
@@ -279,7 +280,7 @@ export default function AllBrand() {
       active: false,
     },
     {
-      title: "brands table",
+      title: "Brands Table",
       url: "/admin/allbrands",
       active: true,
     },
@@ -297,7 +298,7 @@ export default function AllBrand() {
                 <Button
                   isLink={false}
                   color={"bg-greenColor text-xl text-white px-2"}
-                  Icon={<BiSolidAlarmAdd  />}
+                  Icon={<BiSolidAlarmAdd />}
                   onClickFun={() => setIsAddModalOpen((prev) => !prev)}
                 />
               </div>
@@ -315,6 +316,7 @@ export default function AllBrand() {
         />
         {isModalOpen && (
           <ModalContainer
+            direction={language === "ar" ? "rtl" : "ltr"}
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
             component={
@@ -330,6 +332,7 @@ export default function AllBrand() {
 
         {isAddModalOpen && (
           <ModalContainer
+            direction={language === "ar" ? "rtl" : "ltr"}
             isModalOpen={isAddModalOpen}
             setIsModalOpen={setIsAddModalOpen}
             component={
@@ -343,8 +346,9 @@ export default function AllBrand() {
         )}
         <div className="my-4">
           <Table
-            Title={"brands Table"}
+            Title={"Brands Table"}
             direction={direction}
+            translations={translations}
             columns={columns}
             data={brands}
             hasEditPermission={true} // Assuming you have a way to determine this

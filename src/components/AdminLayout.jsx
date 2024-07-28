@@ -174,7 +174,7 @@ export default function AdminLayout() {
                 </span>
               </div>
               <Link
-                to={`/admin/personalProfile/${admin.id}/${admin.name}`}
+                to={`/admin/personalProfile`}
                 className="font-bold ps-6 py-2 text-primary-text hover:bg-background-color transition-all duration-400 ease-in-out"
               >
                 {translations?.Edit_Profile || "Edit Profile"}

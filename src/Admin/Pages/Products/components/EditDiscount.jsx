@@ -1,14 +1,19 @@
 import { toast } from "react-toastify";
 import ReusableForm from "../../../../components/ReusableForm";
 import axiosClient from "../../../../axios-client";
+import { useTranslation } from "../../../../provider/TranslationProvider";
+import { useState } from "react";
 
 export default function EditDiscount({ data, getProduct, setIsModalOpen }) {
+const { translations, language } = useTranslation();
+  const [direction, setDirection] = useState(language === "ar" ? "rtl" : "ltr");
+  
   let template = {
     title: "Edit Discount",
     fields: [
       {
         title: "Please enter the discount percentage in the input field.",
-        name: "discount",
+        name: "Discount",
         type: "number",
         value: data?.discount,
         validationProps: {
@@ -70,6 +75,8 @@ export default function EditDiscount({ data, getProduct, setIsModalOpen }) {
   const validate = () => {};
   return (
     <ReusableForm
+      direction={direction}
+      translations={translations}
       template={template}
       onSubmit={onSubmit}
       validate={validate}

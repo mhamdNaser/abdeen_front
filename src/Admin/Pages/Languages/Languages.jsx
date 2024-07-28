@@ -6,17 +6,14 @@ import { Page } from "../../../components/StyledComponents";
 import Button from "../../../components/Button";
 import Table from "../../../components/Table";
 import PageTitle from "../../../components/PageTitle";
-import {
-  BiSolidCheckCircle,
-  BiSolidXCircle,
-} from "react-icons/bi";
-
+import { BiSolidCheckCircle, BiSolidXCircle } from "react-icons/bi";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function Languages() {
   const [langs, setLangs] = useState();
-  const [language, setLanguage] = useState([]);
+  const [newlanguage, setLanguage] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
-
+  const { translations, language } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedLang, setSelectedLang] = useState();
 
@@ -67,13 +64,10 @@ export default function Languages() {
       });
   };
 
-
-
-  const deleteLang = async (langId) => { 
-    
+  const deleteLang = async (langId) => {
     const id = toast.loading("submitting, please wait...");
     try {
-      const res = await axiosClient.get(`/admin/delete-language/${langId}`);;
+      const res = await axiosClient.get(`/admin/delete-language/${langId}`);
       toast.update(id, {
         type: "success",
         render: res.data.mes,
@@ -95,7 +89,7 @@ export default function Languages() {
         pauseOnHover: false,
       });
     }
-  }
+  };
 
   useEffect(() => {
     getData();
@@ -103,24 +97,24 @@ export default function Languages() {
 
   const columns = [
     {
-      name: "Id",
+      name: "ID",
       selector: (row) => row.id,
       sortable: true,
     },
     {
-      name: "name",
+      name: "Name",
       selector: (row) => row.name,
     },
     {
-      name: "direction",
+      name: "Direction",
       selector: (row) => row.direction,
     },
     {
-      name: "slug",
+      name: "Slug",
       selector: (row) => row.slug,
     },
     {
-      name: "status",
+      name: "Status",
       selector: (row) => (
         <button onClick={() => changestatus(row.id)}>
           {row.status !== 0 ? (
@@ -132,7 +126,7 @@ export default function Languages() {
       ),
     },
     {
-      name: "actions",
+      name: "Actions",
       minWidth: "30%",
       cell: (row) => {
         return (
@@ -170,9 +164,7 @@ export default function Languages() {
 
   return (
     <Page className="flex items-start flex-col justify-between gap-6">
-      <PageTitle
-        links={links}
-      />
+      <PageTitle links={links} />
       <div className="bg-blocks-color component-shadow px-4 py-3 rounded-md w-full">
         <Addlanguage getData={getData} />
       </div>
@@ -180,7 +172,8 @@ export default function Languages() {
         <Table
           Title={"Admins Table"}
           columns={columns}
-          data={language}
+          translations={translations}
+          data={newlanguage}
           hasEditPermission={true} // Assuming you have a way to determine this
           editBtnFun={(row) => console.log("Edit", row)} // Replace with your edit function
           handleDelete={(id) => console.log("Delete", id)} // Replace with your delete function

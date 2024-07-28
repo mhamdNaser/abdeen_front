@@ -12,6 +12,7 @@ import {
   BiSolidAnalyse,
   BiSolidFileExport,
 } from "react-icons/bi";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function UserArchives() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,7 +20,8 @@ export default function UserArchives() {
   const [clickedRow, setClickedRow] = useState();
   const [admins, setAdmins] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedItems, setSelectedItems] = useState([]); // Add this state
+  const [selectedItems, setSelectedItems] = useState([]); 
+  const { translations, language } = useTranslation();
 
   const getAdmins = async () => {
     const res = await axiosClient.get("/admin/user-archives");
@@ -124,14 +126,15 @@ export default function UserArchives() {
 
   const handleDelete = (id) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: translations.sure_delete || "Are you sure?",
+      text: translations.alert_delete || "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
       theme: "dark",
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: translations.not_yes || "cancel",
+      confirmButtonText: translations.yes_delete || "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
         deleteFunc(id);
@@ -182,12 +185,12 @@ export default function UserArchives() {
 
   const columns = [
     {
-      name: "Username",
+      name: "UserName",
       selector: (row) => row.username,
       maxWidth: "15%",
     },
     {
-      name: "Full Name",
+      name: "Name",
       selector: (row) => row.name,
       maxWidth: "15%",
     },
@@ -233,7 +236,7 @@ export default function UserArchives() {
       active: false,
     },
     {
-      title: "users archives",
+      title: "Users Archive Table",
       url: "/admin/userarchives",
       active: true,
     },
@@ -261,9 +264,10 @@ export default function UserArchives() {
         />
         <div className="my-4">
           <Table
-            Title={"Admins Archives Table"}
+            Title={"Users Archive Table"}
             columns={columns}
             data={admins}
+            translations={translations}
             hasEditPermission={true} // Assuming you have a way to determine this
             editBtnFun={(row) => console.log("Edit", row)} // Replace with your edit function
             handleDelete={(id) => console.log("Delete", id)} // Replace with your delete function

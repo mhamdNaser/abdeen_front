@@ -2,15 +2,20 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import axiosClient from "../../../axios-client";
 import ReusableForm from "../../../components/ReusableForm";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function EditRole({ data, getRoles, setIsModalOpen }) {
   const [image, setImage] = useState(data?.image);
-  console.log(data.id);
+   const { translations, language } = useTranslation();
+   const [direction, setDirection] = useState(
+     language === "ar" ? "rtl" : "ltr"
+  );
+  
   let template = {
-    title: "edit role details",
+    title: "edit role",
     fields: [
       {
-        title: "name",
+        title: "Name",
         name: "name",
         type: "text",
         value: data.name,
@@ -76,6 +81,8 @@ export default function EditRole({ data, getRoles, setIsModalOpen }) {
   return (
     <>
       <ReusableForm
+        translations={translations}
+        direction={direction}
         template={template}
         onSubmit={onSubmit}
         validate={validate}

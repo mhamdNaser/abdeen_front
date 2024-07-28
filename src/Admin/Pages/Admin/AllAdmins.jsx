@@ -33,8 +33,7 @@ export default function AllAdmins() {
   const navigate = useNavigate();
   const [roles, setRoles] = useState([]);
   const { countries, states, cities } = useLocation();
-  const { translations } = useTranslation();
-
+  const { translations ,language} = useTranslation();
   const getRoles = async () => {
     const res = await axiosClient.get("/admin/all-roles");
     setRoles(res?.data.data);
@@ -170,12 +169,12 @@ export default function AllAdmins() {
 
   const columns = [
     {
-      name: "Username",
+      name: "UserName",
       selector: (row) => row.username,
       maxWidth: "15%",
     },
     {
-      name: "Full Name",
+      name: "Name",
       selector: (row) => row.name,
       maxWidth: "15%",
     },
@@ -191,7 +190,7 @@ export default function AllAdmins() {
     },
     {
       name: "Role",
-      selector: (row) => row.role !== null ? row.role.name : "without role",
+      selector: (row) => (row.role !== null ? row.role.name : "without role"),
       maxWidth: "15%",
     },
     {
@@ -288,7 +287,7 @@ export default function AllAdmins() {
       active: false,
     },
     {
-      title: "admins table",
+      title: "Admins Table",
       url: "/admin/alladmins",
       active: true,
     },
@@ -324,6 +323,7 @@ export default function AllAdmins() {
         />
         {isModalOpen && (
           <ModalContainer
+            direction={language === "ar" ? "rtl" : "ltr"}
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
             component={
@@ -342,6 +342,7 @@ export default function AllAdmins() {
 
         {isAddModalOpen && (
           <ModalContainer
+            direction={language === "ar" ? "rtl" : "ltr"}
             isModalOpen={isAddModalOpen}
             setIsModalOpen={setIsAddModalOpen}
             component={
@@ -359,6 +360,7 @@ export default function AllAdmins() {
         <div className="my-4">
           <Table
             Title={"Admins Table"}
+            translations={translations}
             columns={columns}
             data={admins}
             hasEditPermission={true} // Assuming you have a way to determine this

@@ -20,6 +20,7 @@ import {
 import AddRole from "./AddRole";
 import EditRole from "./EditRole";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function AllRoles() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,7 +29,8 @@ export default function AllRoles() {
   const navigate = useNavigate();
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedItems, setSelectedItems] = useState([]); // Add this state
+  const [selectedItems, setSelectedItems] = useState([]); 
+  const { translations, language } = useTranslation();
 
   const getRoles = async () => {
     const res = await axiosClient.get("/admin/all-roles");
@@ -182,14 +184,15 @@ export default function AllRoles() {
 
   const handleDelete = (id) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: translations.sure_delete || "Are you sure?",
+      text: translations.alert_delete || "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
       theme: "dark",
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: translations.not_yes || "cancel",
+      confirmButtonText: translations.yes_delete || "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
         deleteFunc(id);
@@ -204,7 +207,7 @@ export default function AllRoles() {
 
   const columns = [
     {
-      name: "name",
+      name: "Name",
       selector: (row) => row.name,
       maxWidth: "15%",
     },
@@ -261,7 +264,7 @@ export default function AllRoles() {
       active: false,
     },
     {
-      title: "roles table",
+      title: "Roles Table",
       url: "/admin/allroles",
       active: true,
     },
@@ -279,9 +282,7 @@ export default function AllRoles() {
                 <Button
                   isLink={false}
                   color={"bg-greenColor text-xl text-white px-2"}
-                  Icon={
-                      <BiSolidAlarmAdd  />
-                  }
+                  Icon={<BiSolidAlarmAdd />}
                   onClickFun={() => setIsAddModalOpen((prev) => !prev)}
                 />
               </div>
@@ -299,6 +300,7 @@ export default function AllRoles() {
         />
         {isModalOpen && (
           <ModalContainer
+            direction={language === "ar" ? "rtl" : "ltr"}
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
             component={
@@ -313,6 +315,7 @@ export default function AllRoles() {
 
         {isAddModalOpen && (
           <ModalContainer
+            direction={language === "ar" ? "rtl" : "ltr"}
             isModalOpen={isAddModalOpen}
             setIsModalOpen={setIsAddModalOpen}
             component={
@@ -328,6 +331,7 @@ export default function AllRoles() {
             Title={"Roles Table"}
             columns={columns}
             data={roles}
+            translations={translations}
             // hasEditPermission={true} // Assuming you have a way to determine this
             editBtnFun={(row) => console.log("Edit", row)} // Replace with your edit function
             handleDelete={(id) => console.log("Delete", id)} // Replace with your delete function

@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import ReusableForm from "../../../../components/ReusableForm";
 import axiosClient from "../../../../axios-client";
+import { useTranslation } from "../../../../provider/TranslationProvider";
 
 export default function EditInformation({
   data,
@@ -9,6 +10,10 @@ export default function EditInformation({
   setIsModalOpen,
 }) {
   const [image, setImage] = useState(data?.image);
+   const { translations, language } = useTranslation();
+   const [direction, setDirection] = useState(
+     language === "ar" ? "rtl" : "ltr"
+   );
 
   let template = {
     title: "Edit Information Product",
@@ -21,7 +26,7 @@ export default function EditInformation({
         imgStyle: "w-[100px] h-[100px]",
       },
       {
-        title: "sku",
+        title: "Sku",
         name: "sku",
         type: "text",
         value: data?.sku,
@@ -33,7 +38,7 @@ export default function EditInformation({
         },
       },
       {
-        title: "English name",
+        title: "English Name",
         name: "en_name",
         type: "text",
         value: data?.en_name,
@@ -46,7 +51,7 @@ export default function EditInformation({
         styles: "lg:w-[48%]",
       },
       {
-        title: "Arabic name",
+        title: "Arabic Name",
         name: "ar_name",
         type: "text",
         value: data?.ar_name,
@@ -113,6 +118,8 @@ export default function EditInformation({
   const validate = () => {};
   return (
     <ReusableForm
+      direction={direction}
+      translations={translations}
       template={template}
       onSubmit={onSubmit}
       validate={validate}

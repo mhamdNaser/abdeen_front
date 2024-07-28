@@ -32,7 +32,7 @@ export default function ViewProduct() {
       active: false,
     },
     {
-      title: "Products table",
+      title: "Products Table",
       url: "/admin/allproducts",
       active: false,
     },

@@ -6,8 +6,8 @@ import ModalContainer from "../../../components/ModalContainer";
 import axiosClient from "../../../axios-client";
 import EditAdrees from "./EditAdrees";
 import { useParams } from "react-router-dom";
-import { data } from "autoprefixer";
 import PageTitle from "../../../components/PageTitle";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function Profile() {
   const { id, name } = useParams();
@@ -18,6 +18,7 @@ export default function Profile() {
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
+  const { translations, language } = useTranslation();
 
   const getRoles = async () => {
     const res = await axiosClient.get("/admin/all-roles");
@@ -25,9 +26,16 @@ export default function Profile() {
   };
 
   const saveadmin = (admin) => {
-    axiosClient.get(`admin/show-admin/${id}`).then((data) => { 
-      setUser(data.data.admin)
-    });
+    if (id) {
+      axiosClient.get(`admin/show-admin/${id}`).then((data) => {
+        setUser(data.data.admin);
+      });
+    } else {
+      if (admin) {
+        localStorage.setItem("USER", JSON.stringify(admin));
+      }
+      setUser(JSON.parse(localStorage.getItem("USER")));
+    }
   };
 
   const getCountries = async () => {
@@ -45,11 +53,25 @@ export default function Profile() {
 
   useEffect(() => {
     saveadmin();
+  }, []);
+
+  useEffect(() => {
     getRoles();
+  }, [admin]);
+
+  useEffect(() => {
     getCountries();
     getStates();
     getCities();
-  }, [admin]);
+  }, []);
+
+  const editBtnFun = () => {
+    setIsModalOpen(true);
+  };
+
+  const addressBtnFun = () => {
+    setAddressModalOpen(true);
+  };
 
   const links = [
     {
@@ -70,17 +92,22 @@ export default function Profile() {
   ];
 
   return (
-    <>
+    <div className="py-6">
+      {name && <PageTitle links={links} />}
       <Page>
-        <PageTitle
-          links={links}
-        />
         <div className="flex p-10 gap-10">
           <div className="xl:w-2/5 lg:w-full text-dark">
             <section className="mb-8">
               <div className="bg-blocks-color shadow-md rounded-lg p-4 ">
                 <h2 className="text-2xl border-b py-3 font-semibold flex justify-between">
-                  Admin Information
+                  {(translations && translations[`Admin Information`]) ||
+                    "Admin Information"}
+
+                  {id || admin.id !== 1 ? (
+                    <button onClick={() => editBtnFun()}>
+                      <BiSolidEditAlt />
+                    </button>
+                  ) : null}
                 </h2>
                 <div className="xl:flex xl:flex-row sm:flex-col gap-6 py-4">
                   {admin.image !== null ? (
@@ -93,17 +120,34 @@ export default function Profile() {
                     <BiSolidUserCircle className="h-40 w-40" />
                   )}
                   <div className="flex flex-col-reverse gap-4">
-                    <p>
-                      <strong>Phone:</strong> {admin.phone}
+                    <p className="flex justify-between">
+                      <strong>
+                        {(translations && translations[`Phone`]) || "Phone"}
+                      </strong>
+                      {" : "}
+                      {admin.phone}
                     </p>
-                    <p>
-                      <strong>Email:</strong> {admin.email}
+                    <p className="flex justify-between">
+                      <strong>
+                        {(translations && translations[`Email`]) || "Email"}
+                      </strong>
+                      {" : "}
+                      {admin.email}
                     </p>
-                    <p>
-                      <strong>Name:</strong> {admin.name}
+                    <p className="flex justify-between">
+                      <strong>
+                        {(translations && translations[`Name`]) || "Name"}
+                      </strong>
+                      {" : "}
+                      {admin.name}
                     </p>
-                    <p>
-                      <strong>UserName:</strong> {admin.username}
+                    <p className="flex justify-between">
+                      <strong>
+                        {(translations && translations[`UserName`]) ||
+                          "UserName"}
+                      </strong>
+                      {" : "}
+                      {admin.username}
                     </p>
                   </div>
                 </div>
@@ -113,26 +157,56 @@ export default function Profile() {
             <section className="mb-8">
               <div className="bg-blocks-color shadow-md rounded-lg p-4">
                 <h2 className="text-2xl border-b py-3 font-semibold flex justify-between">
-                  Address
+                  {(translations && translations[`Address`]) || "Address"}
+                  <button onClick={() => addressBtnFun()}>
+                    <BiSolidEditAlt />
+                  </button>
                 </h2>
-                <div className="flex flex-col gap-4 py-2">
-                  <p>
-                    <strong>Country:</strong> {admin.country}
+                <div className="flex flex-col gap-4 py-2 pe-24">
+                  <p className="flex justify-between">
+                    <strong>
+                      {(translations && translations[`Country`]) || "Country"}
+                    </strong>
+                    {" : "}
+                    {admin.country}
                   </p>
-                  <p>
-                    <strong>State:</strong> {admin.state}
+                  <p className="flex justify-between">
+                    <strong>
+                      {(translations && translations[`State`]) || "State"}
+                    </strong>
+                    {" : "}
+                    {admin.state}
                   </p>
-                  <p>
-                    <strong>City:</strong> {admin.city}
+                  <p className="flex justify-between">
+                    <strong>
+                      {(translations && translations[`City`]) || "City"}
+                    </strong>
+                    {" : "}
+                    {admin.city}
                   </p>
-                  <p>
-                    <strong>address one:</strong> {admin.address_1}
+                  <p className="flex justify-between">
+                    <strong>
+                      {(translations && translations[`address_1`]) ||
+                        "address_1"}
+                    </strong>
+                    {" : "}
+                    {admin.address_1}
                   </p>
-                  <p>
-                    <strong>address two:</strong> {admin.address_2}
+                  <p className="flex justify-between">
+                    <strong>
+                      {(translations && translations[`address_2`]) ||
+                        "address_2"}
+                    </strong>
+                    {" : "}
+                    {admin.address_2}
                   </p>
-                  <p>
-                    <strong>address three:</strong> {admin.address_3}
+                  <p className="flex justify-between">
+                    <strong>
+                      {(translations && translations[`address_3`]) ||
+                        "address_3"}
+                    </strong>
+                    {" : "}
+                    {admin.address_3}
                   </p>
                 </div>
               </div>
@@ -141,6 +215,7 @@ export default function Profile() {
         </div>
         {isModalOpen && (
           <ModalContainer
+            direction={language === "ar" ? "rtl" : "ltr"}
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
             component={
@@ -158,6 +233,7 @@ export default function Profile() {
         )}
         {addressModalOpen && (
           <ModalContainer
+            direction={language === "ar" ? "rtl" : "ltr"}
             isModalOpen={addressModalOpen}
             setIsModalOpen={setAddressModalOpen}
             component={
@@ -173,6 +249,6 @@ export default function Profile() {
           />
         )}
       </Page>
-    </>
+    </div>
   );
 }

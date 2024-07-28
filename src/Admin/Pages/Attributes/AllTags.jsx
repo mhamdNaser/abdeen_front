@@ -19,6 +19,7 @@ import {
 import { useParams } from "react-router-dom";
 import AddTag from "./AddTag";
 import EditTag from "./EditTag";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function AllTags() {
   const { id, AttName } = useParams();
@@ -29,7 +30,7 @@ export default function AllTags() {
   const [loading, setLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
   const [direction, setDirection] = useState();
-  const [language, setLanguage] = useState(localStorage.getItem("LANGUAGE"));
+  const { translations, language } = useTranslation();
 
   const getTags = async () => {
     const res = await axiosClient.get(`/admin/all-tags-id/${id}`);
@@ -180,14 +181,15 @@ export default function AllTags() {
 
   const handleDelete = (id) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: translations.sure_delete || "Are you sure?",
+      text: translations.alert_delete || "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
       theme: "dark",
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: translations.not_yes || "cancel",
+      confirmButtonText: translations.yes_delete || "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
         deleteFunc(id);
@@ -198,7 +200,7 @@ export default function AllTags() {
 
   const columns = [
     {
-      name: "name",
+      name: "Name",
       selector: (row) =>
         row.attribute.toUpperCase() === "COLOR" ? (
           <span className="flex items-center gap-2">
@@ -222,13 +224,13 @@ export default function AllTags() {
       minWidth: "15%",
     },
     {
-      name: "description",
+      name: "Description",
       selector: (row) =>
         language === "ar" ? row.ar_description : row.en_description,
       minWidth: "15%",
     },
     {
-      name: "attribute",
+      name: "Attribute",
       selector: (row) => row.attribute,
       minWidth: "15%",
     },
@@ -284,7 +286,7 @@ export default function AllTags() {
       active: false,
     },
     {
-      title: `${AttName} Tags`,
+      title: `${AttName}`,
       url: "/admin/allTags",
       active: true,
     },
@@ -320,6 +322,7 @@ export default function AllTags() {
         />
         {isModalOpen && (
           <ModalContainer
+            direction={language === "ar" ? "rtl" : "ltr"}
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
             component={
@@ -335,6 +338,7 @@ export default function AllTags() {
 
         {isAddModalOpen && (
           <ModalContainer
+            direction={language === "ar" ? "rtl" : "ltr"}
             isModalOpen={isAddModalOpen}
             setIsModalOpen={setIsAddModalOpen}
             component={
@@ -350,6 +354,7 @@ export default function AllTags() {
           <Table
             Title={"Tags Table"}
             direction={direction}
+            translations={translations}
             columns={columns}
             data={Tags}
             hasEditPermission={true} // Assuming you have a way to determine this

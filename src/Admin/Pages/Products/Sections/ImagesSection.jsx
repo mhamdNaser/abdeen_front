@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import axiosClient from "../../../../axios-client";
 import ModalContainer from "../../../../components/ModalContainer";
 import { BiSolidTrashAlt } from "react-icons/bi";
+import { useTranslation } from "../../../../provider/TranslationProvider";
 
 export default function ImagesSection({ Productid }) {
   const [images, setImages] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { translations, language } = useTranslation();
 
   useEffect(() => {
     fetchImages();
@@ -68,7 +70,9 @@ export default function ImagesSection({ Productid }) {
       <section className="mb-8">
         <div className="bg-blocks-color shadow-md rounded-lg p-4">
           <h2 className="text-2xl border-b py-3 font-semibold flex justify-between">
-            Product Images
+            {(translations && translations["Product Images"]) ||
+              "Product Images"}
+
             <label className="relative text-xs cursor-pointer">
               <input
                 className="absolute inset-0 opacity-0 cursor-pointer"
@@ -78,7 +82,8 @@ export default function ImagesSection({ Productid }) {
                 onChange={handleImageUpload}
               />
               <span className="bg-blue-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition-colors">
-                Upload Images
+                {(translations && translations["Upload Images"]) ||
+                  "Upload Images"}
               </span>
             </label>
           </h2>
@@ -86,7 +91,7 @@ export default function ImagesSection({ Productid }) {
           <div className="flex flex-wrap justify-start">
             {images.length > 0 ? (
               images.map((image, index) => (
-                <div key={index} className="w-1/5 p-2">
+                <div key={index} className="w-1/5 p-2 z-0">
                   {image ? (
                     <div className="relative">
                       <img
@@ -102,13 +107,18 @@ export default function ImagesSection({ Productid }) {
                       </button>
                     </div>
                   ) : (
-                    <p className="text-center">Image not available.</p>
+                    <p className="text-center">
+                      {(translations && translations["Image not available."]) ||
+                        "Image not available."}
+                    </p>
                   )}
                 </div>
               ))
             ) : (
               <p className="text-center">
-                No images available for this product.
+                {(translations &&
+                  translations["No images available for this product."]) ||
+                  "No images available for this product."}
               </p>
             )}
           </div>
@@ -119,9 +129,12 @@ export default function ImagesSection({ Productid }) {
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           component={
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <h2 className="text-xl font-bold mb-4">Confirm Image Upload</h2>
-              <div className="mb-4 flex">
+            <div className="bg-white p-6 rounded-lg shadow-lg min-w-60">
+              <h2 className="text-xl font-bold mb-4">
+                {(translations && translations["Confirm Image Upload"]) ||
+                  "Confirm Image Upload"}
+              </h2>
+              <div className="mb-4 flex justify-center">
                 {Array.from(imageFiles).map((file, index) => (
                   <img
                     key={index}
@@ -131,18 +144,18 @@ export default function ImagesSection({ Productid }) {
                   />
                 ))}
               </div>
-              <div className="flex justify-end">
+              <div className="flex justify-between">
                 <button
                   onClick={() => setIsModalOpen(false)}
                   className="bg-gray-500 text-white py-2 px-4 rounded-lg mr-2"
                 >
-                  Cancel
+                  {(translations && translations["Cancel"]) || "Cancel"}
                 </button>
                 <button
                   onClick={uploadImages}
                   className="bg-blue-500 text-white py-2 px-4 rounded-lg"
                 >
-                  Confirm
+                  {(translations && translations["Confirm"]) || "Confirm"}
                 </button>
               </div>
             </div>

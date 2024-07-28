@@ -4,9 +4,10 @@ import Button from "../../../../components/Button";
 import AttributeSelect from "../components/AttributeSelect";
 import ColorSelect from "../components/ColorSelect";
 import axiosClient from "../../../../axios-client";
+import { useTranslation } from "../../../../provider/TranslationProvider";
+import { BiSolidTrashAlt } from "react-icons/bi";
 
 export default function TagsSection({ saveProduct, Productid }) {
-  const [language, setLanguage] = useState(localStorage.getItem("LANGUAGE"));
   const [productTags, setProductTags] = useState([]);
   const [attributes, setAttributes] = useState([]);
   const [tags, setTags] = useState([]);
@@ -15,6 +16,7 @@ export default function TagsSection({ saveProduct, Productid }) {
     product_id: {},
     price: 0,
   });
+  const { translations, language } = useTranslation();
 
   const handleChangeAttribute = (selectedId) => {
     axiosClient.get(`/admin/all-tags-id/${selectedId}`).then((res) => {
@@ -131,63 +133,75 @@ export default function TagsSection({ saveProduct, Productid }) {
   return (
     <div>
       <section className="mb-8 p-4 bg-blocks-color rounded-lg">
-        <h2 className="text-2xl border-b py-3 font-semibold">Attributes</h2>
+        <h2 className="text-2xl border-b py-3 font-semibold">
+          {(translations && translations["Attributes"]) || "Attributes"}
+        </h2>
         <div className="flex">
           <div className="w-1/2">
             <div className="bg-gray-100 p-4 rounded-lg shadow-md">
-              <h2 className="text-lg font-bold mb-4">Product Tags</h2>
+              <h2 className="text-lg font-bold mb-4">
+                {" "}
+                {(translations && translations["Product Tags"]) ||
+                  "Product Tags"}
+              </h2>
               <div className="grid grid-cols-1 gap-4">
                 {productTags.map((productTag) => (
                   <div
                     key={productTag.id}
-                    className="bg-white rounded-lg shadow-md p-4"
+                    className="flex justify-between bg-white rounded-lg shadow-md"
                   >
                     {/* Tag Color Display */}
-                    {productTag.en_attribute.toUpperCase() === "COLOR" && (
-                      <div
-                        className={`p-2 text-gray-100 rounded-lg mb-2`}
-                        style={{
-                          backgroundColor: productTag.tag_en_description,
-                        }}
-                      >
+                    {productTag.en_attribute.toUpperCase() === "COLOR" ? (
+                      <div className="flex gap-3">
+                        <div
+                          className={`text-gray-100 w-8`}
+                          style={{
+                            backgroundColor: productTag.tag_en_description,
+                          }}
+                        ></div>
+                        <div className="flex justify-between items-center mb-2 p-2">
+                          <div className="font-semibold">
+                            {language === "ar"
+                              ? productTag.ar_attribute
+                              : productTag.en_attribute}
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex justify-between items-center mb-2 p-2">
                         <div className="font-semibold">
-                          {productTag.tag_en_description}
+                          {language === "ar"
+                            ? productTag.ar_attribute
+                            : productTag.en_attribute}
                         </div>
                       </div>
                     )}
                     {/* Attribute and Name */}
-                    <div className="flex justify-between items-center mb-2">
-                      <div className="font-semibold">
-                        {productTag.en_attribute}
-                      </div>
-                      <div className="text-gray-600">
-                        {productTag.ar_attribute}
-                      </div>
-                    </div>
+
                     {/* Tag Name */}
-                    <div className="flex justify-between items-center mb-2">
+                    <div className="flex justify-between items-center p-2">
                       <div className="font-semibold">
-                        {productTag.tag_en_name}
-                      </div>
-                      <div className="text-gray-600">
-                        {productTag.tag_ar_name}
+                        {language === "ar"
+                          ? productTag.tag_ar_name
+                          : productTag.tag_en_name}
                       </div>
                     </div>
                     {/* Description */}
-                    <div className="flex justify-between items-center mb-2">
+                    <div className="flex justify-between items-center p-2">
                       <div className="font-semibold">
-                        {productTag.tag_en_description}
-                      </div>
-                      <div className="text-gray-600">
-                        {productTag.tag_ar_description}
+                        {language === "ar"
+                          ? productTag.tag_ar_description
+                          : productTag.tag_en_description}
                       </div>
                     </div>
-                    <Button
-                      isLink={false}
-                      color={"bg-redColor text-gray-100 w-fit"}
-                      title={"Delete"}
-                      onClickFun={() => DeleteProductTag(productTag.id)}
-                    />
+                    <div className="flex justify-between items-center p-2">
+                      <button
+                        className="bg-redColor px-4 py-2 rounded-md"
+                        onClick={() => DeleteProductTag()}
+                      >
+                        <BiSolidTrashAlt />
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -196,7 +210,8 @@ export default function TagsSection({ saveProduct, Productid }) {
           <div className="w-1/2 border-l px-4">
             <div className="py-3 bg-gray-100 mt-4">
               <h2 className="text-xl font-semibold px-3">
-                Add New Tag For Product
+                {(translations && translations["Add New Tag For Product"]) ||
+                  "Add New Tag For Product"}
               </h2>
             </div>
             <div className="py-4">
@@ -223,8 +238,11 @@ export default function TagsSection({ saveProduct, Productid }) {
             <div className="py-4">
               {/* Additional Charge Input */}
               <span className="text-gray-500 block mb-2">
-                Please confirm if there is an additional charge associated with
-                this tag.
+                {(translations &&
+                  translations[
+                    "Please Confirm If There Is An Additional Charge Associated With This Tag."
+                  ]) ||
+                  "Please Confirm If There Is An Additional Charge Associated With This Tag."}
               </span>
               <input
                 type="number"

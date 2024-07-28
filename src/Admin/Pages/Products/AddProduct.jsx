@@ -2,15 +2,17 @@ import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import axiosClient from "../../../axios-client";
 import ReusableForm from "../../../components/ReusableForm";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function AddProduct({
   getProduct,
   setIsAddModalOpen,
   brands,
-  categories,
-  language,
+  categories
 }) {
   const [image, setImage] = useState();
+  const { translations, language } = useTranslation();
+  const [direction, setDirection] = useState(language === "ar" ? "rtl" : "ltr");
 
   let template = {
     title: "add Product",
@@ -30,7 +32,7 @@ export default function AddProduct({
         imgStyle: "w-[100px] h-[100px]",
       },
       {
-        title: "sku",
+        title: "Sku",
         name: "sku",
         type: "text",
         validationProps: {
@@ -41,7 +43,7 @@ export default function AddProduct({
         },
       },
       {
-        title: "English name",
+        title: "English Name",
         name: "en_name",
         type: "text",
         validationProps: {
@@ -53,7 +55,7 @@ export default function AddProduct({
         styles: "lg:w-[48%]",
       },
       {
-        title: "Arabic name",
+        title: "Arabic Name",
         name: "ar_name",
         type: "text",
         validationProps: {
@@ -65,7 +67,7 @@ export default function AddProduct({
         styles: "lg:w-[48%]",
       },
       {
-        title: "cost Price",
+        title: "Cost Price",
         name: "cost_Price",
         type: "text",
         validationProps: {
@@ -77,7 +79,7 @@ export default function AddProduct({
         styles: "lg:w-[48%]",
       },
       {
-        title: "public price",
+        title: "Public Price",
         name: "public_price",
         type: "text",
         validationProps: {
@@ -89,7 +91,7 @@ export default function AddProduct({
         styles: "lg:w-[48%]",
       },
       {
-        title: "quantity",
+        title: "Quantity",
         name: "quantity",
         type: "number",
         validationProps: {
@@ -100,7 +102,7 @@ export default function AddProduct({
         },
       },
       {
-        title: "English description",
+        title: "English Description",
         name: "en_description",
         type: "textArea",
         validationProps: {
@@ -111,7 +113,7 @@ export default function AddProduct({
         },
       },
       {
-        title: "Arabic description",
+        title: "Arabic Description",
         name: "ar_description",
         type: "textArea",
         validationProps: {
@@ -123,7 +125,7 @@ export default function AddProduct({
       },
       {
         name: "category_id",
-        title: "select the category",
+        title: "select the Category",
         type: "select",
         options: [...categories],
         validationProps: {
@@ -138,7 +140,7 @@ export default function AddProduct({
       },
       {
         name: "brand_id",
-        title: "select the brand",
+        title: "select the Brand",
         type: "select",
         options: [...brands],
         validationProps: {
@@ -213,6 +215,8 @@ export default function AddProduct({
 
   return (
     <ReusableForm
+      direction={direction}
+      translations={translations}
       template={template}
       onSubmit={onSubmit}
       validate={validate}

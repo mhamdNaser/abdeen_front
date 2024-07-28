@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import ReusableForm from "../../../components/ReusableForm";
 import axiosClient from "../../../axios-client";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "../../../provider/TranslationProvider";
 
 export default function EditAdrees({
   countries,
@@ -11,6 +12,10 @@ export default function EditAdrees({
   setUser,
   setAddressModalOpen,
 }) {
+   const { translations, language } = useTranslation();
+   const [direction, setDirection] = useState(
+     language === "ar" ? "rtl" : "ltr"
+   );
   const { id, name } = useParams();
   const [stateOptions, setStateOptions] = useState([]);
   const [cityOptions, setCityOptions] = useState([]);
@@ -28,7 +33,7 @@ export default function EditAdrees({
     }
   };
   let template = {
-    title: "edit address details",
+    title: "edit address",
     fields: [
       {
         name: "country_id",
@@ -74,21 +79,21 @@ export default function EditAdrees({
       },
       {
         name: "address_1",
-        title: "insert the address_1",
+        title: "address_1",
         type: "text",
         optionText: "name",
         optionValue: "id",
       },
       {
         name: "address_2",
-        title: "insert the address_2",
+        title: "address_2",
         type: "text",
         optionText: "name",
         optionValue: "name",
       },
       {
         name: "address_3",
-        title: "insert the address_3",
+        title: "address_3",
         type: "text",
         optionText: "name",
         optionValue: "name",
@@ -151,6 +156,8 @@ export default function EditAdrees({
   return (
     <>
       <ReusableForm
+        translations={translations}
+        direction={direction}
         template={template}
         onSubmit={onSubmit}
         validate={validate}

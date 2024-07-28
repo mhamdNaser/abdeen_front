@@ -5,17 +5,15 @@ import axiosClient from "../../axios-client";
 import ProductCardInCart from "../Components/products/ProductCardInCart";
 import { useTranslation } from "../../provider/TranslationProvider";
 import { BiSolidEditAlt } from "react-icons/bi";
-import { useLocation } from "../../provider/LocationProvider";
 import ModalContainer from "../../components/ModalContainer";
 import Login from "./Auth/Login";
-import ReusableForm from "../../components/ReusableForm";
+import OrderAddressForm from "../Components/OrderAddressForm";
 
 // const TAX_RATE = 0.15;
 // const DELIVERY_CHARGE = 10;
 
 export default function CardsPage({ title }) {
   const { setBackground, getCardProductNum } = useOutletContext();
-  const { countries, states, cities } = useLocation();
   const { translations } = useTranslation();
   const [cardsProducts, setCardsProducts] = useState([]);
   const [deliveries, setDelivery] = useState([]);
@@ -24,126 +22,17 @@ export default function CardsPage({ title }) {
   const [totalDiscounts, setTotalDiscounts] = useState({});
   const [tax, setTax] = useState();
   const [deliveryform, setDeliveryForm] = useState(false);
+  const [paymentform, setPaymentForm] = useState(false);
   const [deliveryCharge, setDeliveryCharge] = useState(0);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
-  const [stateOptions, setStateOptions] = useState([]);
-  const [cityOptions, setCityOptions] = useState([]);
-
-  const handleSelectChange = (name, value) => {
-    if (name === "country_id") {
-      const filteredStates = states.filter(
-        (state) => state.country_id == value
-      );
-      setStateOptions(filteredStates);
-    } else if (name === "state_id") {
-      const filteredCities = cities.filter((city) => city.state_id == value);
-      setCityOptions(filteredCities);
-    } else {
-      console.log(name, value);
-    }
-  };
-
-  let template = {
-    title: (translations && translations["Order Address"]) || "Order Address",
-    fields: [
-      {
-        name: "country_id",
-        title: "select the country",
-        type: "select",
-        options: [...countries],
-        optionText: "name",
-        optionValue: "id",
-      },
-      {
-        name: "state_id",
-        title: "select the state",
-        type: "select",
-        options: stateOptions,
-        optionText: "name",
-        optionValue: "id",
-      },
-      {
-        name: "city_id",
-        title: "select the city",
-        type: "select",
-        options: cityOptions,
-        optionText: "name",
-        optionValue: "id",
-      },
-      {
-        name: "address_1",
-        title: "insert the address_1",
-        type: "text",
-        optionText: "name",
-        optionValue: "id",
-      },
-      {
-        name: "address_2",
-        title: "insert the address_2",
-        type: "text",
-        optionText: "name",
-        optionValue: "name",
-      },
-      {
-        name: "address_3",
-        title: "insert the address_3",
-        type: "text",
-        optionText: "name",
-        optionValue: "name",
-      },
-    ],
-  };
-
-  const onSubmit = async (values) => {
-    const Id = toast.loading("submitting, please wait...");
-    const data = {
-      country_id: parseInt(values.country_id),
-      state_id: parseInt(values.state_id),
-      city_id: parseInt(values.city_id),
-      address_1: values.address_1,
-      address_2: values.address_2,
-      address_3: values.address_3,
-    };
-    axiosClient
-      .post(`/admin/update-user/${id}`, data)
-      .then((res) => {
-        if (res.data.success == true) {
-          setIsModalOpen((prev) => !prev);
-          getUser(res.data.User);
-          toast.update(Id, {
-            type: "success",
-            render: res.data.message,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        } else {
-          toast.update(Id, {
-            type: "error",
-            render: res.data.message,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.update(Id, {
-          type: "success",
-          render: err.response.data.mes,
-          closeOnClick: true,
-          isLoading: false,
-          autoClose: true,
-          closeButton: true,
-          pauseOnHover: false,
-        });
-      });
-  };
+  const [address, setAddress] = useState({
+    country_id: "",
+    state_id: "",
+    city_id: "",
+    address_1: "",
+    address_2: "",
+    address_3: "",
+  });
 
   useEffect(() => {
     setBackground(false);
@@ -160,13 +49,13 @@ export default function CardsPage({ title }) {
     axiosClient.get("site/all-deliveries").then((res) => {
       setDelivery(res.data.data);
     });
-  }
+  };
 
   const getTax = () => {
     axiosClient.get("site/tax").then((res) => {
       setTax(res.data.data[0].tax);
     });
-  }
+  };
 
   const getInitialItem = () => {
     const initialProducts =
@@ -213,6 +102,10 @@ export default function CardsPage({ title }) {
     setDeliveryForm(true);
   };
 
+  const showPaymentform = () => {
+    setPaymentForm(!paymentform);
+  };
+
   const handleTotalCostChange = (productId, totalCost, totalDiscount) => {
     setTotalCosts((prevTotalCosts) => ({
       ...prevTotalCosts,
@@ -224,9 +117,9 @@ export default function CardsPage({ title }) {
     }));
   };
 
-
   const submitOrder = () => {
     const id = toast.loading("Error , Log In Please...");
+
     const orderData = cardsProducts.map((product) => ({
       ...product,
       selectedTags: selectedTags[product.id],
@@ -240,12 +133,13 @@ export default function CardsPage({ title }) {
         delivery: deliveryCharge,
         totalprice: parseFloat(finalTotal.toFixed(2)),
         totaldiscount: parseFloat(totalDiscount.toFixed(2)),
+        address: address, // Include the address in the request
       })
-      .then((data) => {
-        if (data.success === false) {
+      .then((res) => {
+        if (res.success === false) {
           toast.update(id, {
             type: "error",
-            render: data.data.message,
+            render: res.data.message,
             closeOnClick: true,
             isLoading: false,
             autoClose: true,
@@ -258,7 +152,7 @@ export default function CardsPage({ title }) {
           getCardProductNum();
           toast.update(id, {
             type: "success",
-            render: data.data.message,
+            render: res.data.message,
             closeOnClick: true,
             isLoading: false,
             autoClose: true,
@@ -301,7 +195,7 @@ export default function CardsPage({ title }) {
         <h3 className="xl:text-4xl text-lg font-bold py-8">
           {!title
             ? (translations && translations["Items in Your Cart"]) ||
-            "Items in Your Cart"
+              "Items in Your Cart"
             : (translations && translations[title]) || title}
         </h3>
         <div className="flex flex-col gap-y-5">
@@ -333,11 +227,11 @@ export default function CardsPage({ title }) {
         </div>
       </div>
       <div className="xl:w-1/4 w-full flex flex-col px-12">
-        <div className="">
-          <h3 className="text-xl font-bold py-8">
+        <div className="flex flex-col gap-y-5 bg-blocks-color p-4 mt-4">
+          <h3 className="text-xl font-bold ">
             {(translations && translations["Order"]) || "Order"}
           </h3>
-          <div className="flex flex-col gap-y-5 bg-blocks-color p-4">
+          <div className="flex flex-col gap-y-5 p-4">
             <p className="flex justify-between w-full">
               {(translations && translations["Total Price"]) || "Total Price"}
               {" : "}
@@ -399,20 +293,35 @@ export default function CardsPage({ title }) {
             </p>
           </div>
         </div>
+        <div className="flex flex-col gap-y-5 bg-blocks-color p-4 mt-4">
+          <p className="flex justify-between items-center w-full">
+            <div className="flex items-center gap-2  w-fit">
+              {(translations && translations["Payment Method"]) ||
+                "Payment Method"}
+              <button onClick={showPaymentform}>
+                <BiSolidEditAlt />
+              </button>
+              {" : "}
+            </div>
+          </p>
+          {paymentform && (
+            <div className="flex w-full">
+              <select
+                type="text"
+                className="input-box w-full"
+                onChange={(e) => setDeliveryCharge(e.target.value)}
+              >
+                <option value={0}>
+                  {(translations && translations["Cash On Delivery"]) ||
+                    "Cash On Delivery"}
+                </option>
+              </select>
+            </div>
+          )}
+        </div>
         <div>
-          <h3 className="text-xl font-bold py-8">
-            {(translations && translations["Address"]) || "Address"}
-          </h3>
-          <div className="flex flex-col gap-y-5 bg-blocks-color p-4">
-            <ReusableForm
-              template={template}
-              onSubmit={onSubmit}
-              // validate={validate}
-              btnWidth={"w-full"}
-              btnText={"edit"}
-              addedStyles={""}
-              onSelectChange={handleSelectChange}
-            />
+          <div className="flex flex-col gap-y-5 bg-blocks-color p-4 mt-4">
+            <OrderAddressForm setAddress={setAddress} />
           </div>
         </div>
       </div>
