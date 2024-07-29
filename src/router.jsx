@@ -39,6 +39,7 @@ import Delivery from "./Admin/Pages/Order_cart/Delivery";
 import AllTax from "./Admin/Pages/Order_cart/AllTax";
 import ViewOrder from "./Site/Pages/Profile/ViewOrder";
 import Index from "./Admin/Pages/home/Index";
+import SocialMedia from "./Admin/Pages/Pages/SocialMedia";
 
 const router = createBrowserRouter([
   {
@@ -191,6 +192,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/termsconditions",
         element: <TermsConditions />,
+      },
+      {
+        path: "/admin/socialmedia",
+        element: <SocialMedia />,
       },
       {
         path: "/admin/delivery",

@@ -73,6 +73,24 @@
       "perId": "showUsers"
     }
   },
+  "Pages Settings": {
+    "Privacy Page": {
+      "path": "/admin/privacy",
+      "perId": "showUsers"
+    },
+    "Contact Setting Page": {
+      "path": "/admin/contactsetting",
+      "perId": "showUsers"
+    },
+    "Terms Conditions Page": {
+      "path": "/admin/termsconditions",
+      "perId": "showUsers"
+    },
+    "Social Media": {
+      "path": "/admin/socialmedia",
+      "perId": "showUsers"
+    }
+  },
   "Languages": {
     "name": null,
     "path": "/admin/languages",

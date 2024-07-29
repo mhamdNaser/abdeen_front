@@ -12,16 +12,19 @@ import axiosClient from "../../../axios-client";
 import {
   BiSolidEditAlt,
   BiSolidTrashAlt,
-  BiSolidShow,
 } from "react-icons/bi";
+import EditDelivery from "./delivery/EditDelivery";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 export default function Delivery() {
-  const { translations } = useTranslation();
+  const { translations, language } = useTranslation();
   const { countries, states, cities } = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [delivery, setDelivery] = useState([]);
+  const [clickedRow, setClickedRow] = useState();
 
 
   const getDelivery = () => { 
@@ -30,6 +33,71 @@ export default function Delivery() {
       setDelivery(res.data.data);
     });
   }
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: translations.sure_delete || "Are you sure?",
+      text: translations.alert_delete || "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      theme: "dark",
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: translations.not_yes || "cancel",
+      confirmButtonText: translations.yes_delete || "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteFunc(id);
+        getDelivery();
+      }
+    });
+  };
+
+  const deleteFunc = async (value) => {
+     const id = toast.loading("Error , Check your input again...");
+    const res = await axiosClient
+      .get(`/admin/delete-delivery/${value}`)
+      .then((data) => {
+        if (data.success === false) {
+          toast.update(id, {
+            type: "error",
+            render: data.data.message,
+            closeOnClick: true,
+            isLoading: false,
+            autoClose: true,
+            closeButton: true,
+            pauseOnHover: false,
+          });
+        } else {
+          getDelivery();
+          toast.update(id, {
+            type: "success",
+            render: data.data.message,
+            closeOnClick: true,
+            isLoading: false,
+            autoClose: true,
+            closeButton: true,
+            pauseOnHover: false,
+          });
+        }
+      })
+      .catch((err) => {
+        toast.update(id, {
+          type: "error",
+          render: err.response.message,
+          closeOnClick: true,
+          isLoading: false,
+          autoClose: true,
+          closeButton: true,
+          pauseOnHover: false,
+        });
+      });
+  };
+
+  const editBtnFun = (row) => {
+    setIsModalOpen(true);
+    setClickedRow(row);
+  };
 
   useEffect(() => { 
     getDelivery();
@@ -87,12 +155,6 @@ export default function Delivery() {
             Icon={<BiSolidTrashAlt />}
             onClickFun={() => handleDelete(row.id)}
           />
-          <Button
-            isLink={false}
-            color={"bg-blueColor"}
-            Icon={<BiSolidShow />}
-            onClickFun={() => handleView(row.id, row.username)}
-          />
         </div>
       ),
     },
@@ -103,7 +165,6 @@ export default function Delivery() {
         <PageTitle
           links={links}
           right={
-            // hasAddPermission && (
             <>
               <div>
                 <Button
@@ -113,22 +174,15 @@ export default function Delivery() {
                   onClickFun={() => setIsAddModalOpen((prev) => !prev)}
                 />
               </div>
-              <div>
-                {/* <Button
-                  isLink={false}
-                  color={"bg-redColor text-xl text-white px-2"}
-                  Icon={<BiSolidFileExport />}
-                  onClickFun={archiveSelectedItems}
-                /> */}
-              </div>
+              <div></div>
             </>
-            // )
           }
         />
         <div className="my-4">
           <Table
             Title={"Admins Table"}
             columns={columns}
+            translations={translations}
             data={delivery}
             hasEditPermission={true} // Assuming you have a way to determine this
             editBtnFun={(row) => console.log("Edit", row)} // Replace with your edit function
@@ -136,9 +190,26 @@ export default function Delivery() {
             setSelectedItemsProp={setSelectedItems}
           />
         </div>
-
+        {isModalOpen && (
+          <ModalContainer
+            direction={language === "ar" ? "rtl" : "ltr"}
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            component={
+              <EditDelivery
+                data={clickedRow}
+                countries={countries}
+                states={states}
+                cities={cities}
+                getDelivery={getDelivery}
+                setIsModalOpen={setIsModalOpen}
+              />
+            }
+          />
+        )}
         {isAddModalOpen && (
           <ModalContainer
+            direction={language === "ar" ? "rtl" : "ltr"}
             isModalOpen={isAddModalOpen}
             setIsModalOpen={setIsAddModalOpen}
             component={
@@ -146,6 +217,7 @@ export default function Delivery() {
                 countries={countries}
                 states={states}
                 cities={cities}
+                getDelivery={getDelivery}
                 setIsAddModalOpen={setIsAddModalOpen}
               />
             }

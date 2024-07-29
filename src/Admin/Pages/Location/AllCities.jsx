@@ -147,7 +147,7 @@ export default function AllCities() {
       active: false,
     },
     {
-      title: `country table`,
+      title: `countries`,
       url: "/admin/allcountries",
       active: false,
     },

@@ -2,9 +2,10 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import axiosClient from "../../../../axios-client";
 import ReusableForm from "../../../../components/ReusableForm";
+import { useTranslation } from "../../../../provider/TranslationProvider";
 
 export const AddDelivery = ({
-  getAdmins,
+  getDelivery,
   setIsAddModalOpen,
   countries,
   states,
@@ -13,6 +14,8 @@ export const AddDelivery = ({
   const [image, setImage] = useState();
   const [stateOptions, setStateOptions] = useState([]);
   const [cityOptions, setCityOptions] = useState([]);
+  const { translations, language } = useTranslation();
+  const [direction, setDirection] = useState(language === "ar" ? "rtl" : "ltr");
 
   const handleSelectChange = (name, value) => {
     if (name === "country_id") {
@@ -33,7 +36,7 @@ export const AddDelivery = ({
     title: "add delivery",
     fields: [
       {
-        title: "cost",
+        title: "Cost",
         name: "cost",
         type: "text",
         validationProps: {
@@ -96,7 +99,7 @@ export const AddDelivery = ({
             pauseOnHover: false,
           });
         } else {
-          getAdmins();
+          getDelivery();
           setIsAddModalOpen((prev) => !prev);
           toast.update(id, {
             type: "success",
@@ -126,6 +129,8 @@ export const AddDelivery = ({
 
   return (
     <ReusableForm
+      direction={direction}
+      translations={translations}
       template={template}
       onSubmit={onSubmit}
       validate={validate}

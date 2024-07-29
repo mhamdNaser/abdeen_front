@@ -29,19 +29,19 @@ const Footer = ({ socialMedia }) => {
                 {(translations && translations["company"]) || "company"}
               </div>
               <div className="flex flex-col gap-5 items-start text-gray-300">
-                <Link to="/about" target="_blank" className="flex gap-2 items-center">
+                <Link to="/" target="_blank" className="flex gap-2 items-center">
                   <span>
                     {(translations && translations["about us"]) || "about us"}
                   </span>
                 </Link>
 
-                <Link to="/policy" target="_blank" className="flex gap-2 items-center">
+                <Link to="/" target="_blank" className="flex gap-2 items-center">
                   <span>
                     {(translations && translations["privacy policy"]) ||
                       "privacy policy"}
                   </span>
                 </Link>
-                <Link to="/condition" target="_blank" className="flex gap-2 items-center">
+                <Link to="/"  target="_blank" className="flex gap-2 items-center">
                   <span>
                     {(translations && translations["terms and conditions"]) ||
                       "terms and conditions"}
@@ -60,7 +60,7 @@ const Footer = ({ socialMedia }) => {
                       "help center"}
                   </span>
                 </Link> */}
-                <Link to="/contact" target="_blank" className="flex gap-2 items-center">
+                <Link to="/" target="_blank" className="flex gap-2 items-center">
                   <span>
                     {(translations && translations["contact"]) || "contact"}
                   </span>

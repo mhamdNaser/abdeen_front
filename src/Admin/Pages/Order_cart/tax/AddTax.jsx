@@ -1,18 +1,22 @@
 import { toast } from "react-toastify";
 import axiosClient from "../../../../axios-client";
 import ReusableForm from "../../../../components/ReusableForm";
+import { useTranslation } from "../../../../provider/TranslationProvider";
+import React , { useState } from "react";
 
 export const AddTax = ({
-  getAdmins,
+  getTax,
   setIsAddModalOpen,
 }) => {
+  const { translations, language } = useTranslation();
+  const [direction, setDirection] = useState(language === "ar" ? "rtl" : "ltr");
 
 
   let template = {
     title: "add Tax",
     fields: [
       {
-        title: "tax",
+        title: "Tax" + " < % > ",
         name: "tax",
         type: "text",
         validationProps: {
@@ -44,7 +48,7 @@ export const AddTax = ({
             pauseOnHover: false,
           });
         } else {
-          getAdmins();
+          getTax();
           setIsAddModalOpen((prev) => !prev);
           toast.update(id, {
             type: "success",
@@ -74,6 +78,8 @@ export const AddTax = ({
 
   return (
     <ReusableForm
+      direction={direction}
+      translations={translations}
       template={template}
       onSubmit={onSubmit}
       validate={validate}

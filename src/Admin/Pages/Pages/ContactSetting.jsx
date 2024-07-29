@@ -80,7 +80,7 @@ export default function ContactSetting() {
       return;
     }
 
-    axiosClient.delete(`/admin/delete-contact/${id}`).then((data) => {
+    axiosClient.get(`/admin/delete-contact/${id}`).then((data) => {
       getContact();
     });
   };

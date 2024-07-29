@@ -146,12 +146,12 @@ export default function AllStates() {
       active: false,
     },
     {
-      title: `country table`,
+      title: `countries`,
       url: "/admin/allcountries",
       active: false,
     },
     {
-      title: `${country} states`,
+      title: `${country}`,
       url: "/admin/allstates",
       active: true,
     },

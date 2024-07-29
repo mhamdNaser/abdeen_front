@@ -212,7 +212,7 @@ export default function AllCountries() {
       active: false,
     },
     {
-      title: "counties table",
+      title: "countries",
       url: "/admin/allcountries",
       active: true,
     },
