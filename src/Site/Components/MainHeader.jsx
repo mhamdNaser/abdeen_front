@@ -19,27 +19,17 @@ export default function MainHeader({ background, likeNum, cardProductNum, menuIt
 
   window.onscroll = function () {
     var navbar = document.getElementById("navbar");
-    //
-    if (!background) {
-      // navbar.classList.add("bg-white");
-      navbar.classList.add("text-dark");
-    } else {
+    
       if (window.scrollY > 0) {
-        navbar.classList.add("bg-white");
-        navbar.classList.remove("text-dark");
-        navbar.classList.remove("xl:text-white");
         navbar.classList.remove("shadow-none");
         navbar.classList.add("shadow-sm");
         navbar.classList.add("shadow-redColor");
       } else {
-        navbar.classList.remove("bg-white");
-        navbar.classList.remove("text-primary-text");
         navbar.classList.remove("shadow-sm");
         navbar.classList.remove("shadow-redColor");
         navbar.classList.add("xl:text-white");
         navbar.classList.add(" text-dark");
       }
-    }
   };
 
   const showlistMenu = () => {
@@ -49,19 +39,16 @@ export default function MainHeader({ background, likeNum, cardProductNum, menuIt
   return (
     <div
       id="navbar"
-      className={`w-full flex flex-row justify-between text-xl font-bold z-30 shadow-none h-auto py-4 ${
-        background
-          ? "text-dark xl:text-white bg-transparent"
-          : "text-dark bg-white"
-      } px-4 sm:px-6 sticky top-0 `}
-    >
+      className={`w-full flex flex-row justify-between text-white bg-[#3e3e3e] text-xl font-bold z-30 shadow-none h-auto py-4  px-4 sm:px-6 sticky top-0 `}
+       
+      >
       <div className="flex w-full items-center justify-between">
         <Link
           to={"/"}
           className="relative flex items-center w-full sm:w-1/2 justify-between "
         >
           <img
-            src="/image/logo.png"
+            src="/image/logo-dark.png"
             alt="Logo"
             className="w-1/4 max-w-[200px] min-w-[100px]"
           />

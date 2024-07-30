@@ -68,7 +68,7 @@ export default function SiteLayout() {
   return (
     <div className="menu-dropdown bg-blocks-color h-full">
       <TopHeader likeNum={likeNum} cardProductNum={cardProductNum} />
-      <div
+      {/* <div
         className={`${
           !background
             ? "bg-background-color"
@@ -76,7 +76,7 @@ export default function SiteLayout() {
             ? "bg-[url('/image/background-rtl.png')]"
             : "bg-[url('/image/background.png')]"
         } bg-cover bg-no-repeat bg-bottom bg-fixed max-fit`}
-      >
+      > */}
         <MainHeader
           menuItems={menuItems}
           background={background}
@@ -94,7 +94,7 @@ export default function SiteLayout() {
           }}
         />
         <Footer socialMedia={socialMedia} />
-      </div>
+      {/* </div> */}
     </div>
   );
 }

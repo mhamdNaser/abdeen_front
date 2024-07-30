@@ -36,9 +36,8 @@ export default function Home() {
             <img src="/image/watches.png" alt="Watches" />
             <div
               className={` ${
-                language === "ar" ? "w-fit font-serif" : "w-2/3"
+                language === "ar" ? "min-w-[420px] font-serif" : "w-2/3"
               } py-4 px-8 2xl:block hidden text-primary-text shadow-lg rounded-lg text-center lg:text-center`}
-              // style={{ minWidth: "1280px", minHeight: "600px" }}
             >
               <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold">
                 {(translations && translations["ELEGANCE"]) || "ELEGANCE"}
@@ -55,10 +54,10 @@ export default function Home() {
         <div
           className={` ${
             language === "ar"
-              ? "font-serif text-slate-200"
-              : "text-slate-200"
+              ? "font-serif"
+              : ""
           }
-          flex flex-col w-full lg:w-1/3 m-auto text-center gap-y-4  p-4 lg:p-0`}
+          text-slate-600 flex flex-col w-full lg:w-1/3 m-auto text-center gap-y-4  p-4 lg:p-0`}
         >
           <p className="text-lg sm:text-xl font-semibold">
             {(translations &&
