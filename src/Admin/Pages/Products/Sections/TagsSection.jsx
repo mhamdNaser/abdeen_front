@@ -197,7 +197,7 @@ export default function TagsSection({ saveProduct, Productid }) {
                     <div className="flex justify-between items-center p-2">
                       <button
                         className="bg-redColor px-4 py-2 rounded-md"
-                        onClick={() => DeleteProductTag()}
+                        onClick={() => DeleteProductTag(productTag.id)}
                       >
                         <BiSolidTrashAlt />
                       </button>

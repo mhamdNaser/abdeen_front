@@ -4,7 +4,12 @@ import axiosClient from "../../../axios-client";
 import ReusableForm from "../../../components/ReusableForm";
 import { useTranslation } from "../../../provider/TranslationProvider";
 
-export default function AddCategory({ getCategories, setIsAddModalOpen, categories }) {
+export default function AddCategory({
+  getCategories,
+  setIsAddModalOpen,
+  categories,
+  getCategorieslist,
+}) {
   const [image, setImage] = useState();
   const [stateOptions, setStateOptions] = useState([]);
   const [cityOptions, setCityOptions] = useState([]);
@@ -111,10 +116,10 @@ export default function AddCategory({ getCategories, setIsAddModalOpen, categori
     const id = toast.loading("Error , Check your input again...");
     const formData = new FormData();
     // if (Number.isInteger(parseInt(values.parent_id))) {
-      formData.append("en_name", values.en_name);
-      formData.append("ar_name", values.ar_name);
-      formData.append("en_description", values.en_description);
-      formData.append("ar_description", values.ar_description);
+    formData.append("en_name", values.en_name);
+    formData.append("ar_name", values.ar_name);
+    formData.append("en_description", values.en_description);
+    formData.append("ar_description", values.ar_description);
     formData.append("parent_id", parseInt(values.parent_id));
     formData.append("image", image);
     // } else {
@@ -137,6 +142,7 @@ export default function AddCategory({ getCategories, setIsAddModalOpen, categori
           });
         } else {
           getCategories();
+          getCategorieslist();
           setIsAddModalOpen((prev) => !prev);
           toast.update(id, {
             type: "success",

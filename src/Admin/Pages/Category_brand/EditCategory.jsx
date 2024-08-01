@@ -9,12 +9,11 @@ export default function EditCategory({
   getCategories,
   setIsModalOpen,
   categories,
+  getCategorieslist,
 }) {
   const [image, setImage] = useState(data?.image);
-   const { translations, language } = useTranslation();
-   const [direction, setDirection] = useState(
-     language === "ar" ? "rtl" : "ltr"
-   );
+  const { translations, language } = useTranslation();
+  const [direction, setDirection] = useState(language === "ar" ? "rtl" : "ltr");
 
   let template = {
     title: "Edit Category",
@@ -119,6 +118,7 @@ export default function EditCategory({
           });
         } else {
           getCategories();
+          getCategorieslist();
           setIsModalOpen((prev) => !prev);
           toast.update(id, {
             type: "success",

@@ -185,7 +185,7 @@ export default function ArchivesProducts() {
   const returnProduct = (value) => {
     const id = toast.loading("Error , Check your input again...");
     axiosClient
-      .post(`/admin/update-product/${value}`)
+      .post(`/admin/recover-product/${value}`)
       .then((data) => {
         if (data.success === false) {
           toast.update(id, {
@@ -226,7 +226,7 @@ export default function ArchivesProducts() {
   const archiveSelectedItems = () => {
     const id = toast.loading("Error , Check your input again...");
     axiosClient
-      .post("/admin/update-product", { array: selectedItems })
+      .post("/admin/delete-products-array", { array: selectedItems })
       .then((data) => {
         if (data.success === false) {
           toast.update(id, {

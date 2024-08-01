@@ -34,7 +34,6 @@ export default function AllCategories() {
   const getCategories = async () => {
     const res = await axiosClient.get("/admin/all-categories");
     setCategories(res.data.data);
-    console.log(res.data.data);
   };
   const [direction, setDirection] = useState();
   const getCategorieslist = async () => {
@@ -379,6 +378,7 @@ export default function AllCategories() {
             component={
               <EditCategory
                 data={clickedRow}
+                getCategorieslist={getCategorieslist}
                 categories={categorieslist}
                 getCategories={getCategories}
                 setIsModalOpen={setIsModalOpen}
@@ -394,6 +394,7 @@ export default function AllCategories() {
             setIsModalOpen={setIsAddModalOpen}
             component={
               <AddCategory
+                getCategorieslist={getCategorieslist}
                 categories={categorieslist}
                 getCategories={getCategories}
                 setIsAddModalOpen={setIsAddModalOpen}

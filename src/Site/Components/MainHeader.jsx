@@ -39,10 +39,9 @@ export default function MainHeader({ background, likeNum, cardProductNum, menuIt
   return (
     <div
       id="navbar"
-      className={`w-full flex flex-row justify-between text-white bg-[#3e3e3e] text-xl font-bold z-30 shadow-none h-auto py-4  px-4 sm:px-6 sticky top-0 `}
-       
-      >
-      <div className="flex w-full items-center justify-between">
+      className={`w-full flex flex-col justify-between text-white bg-[#3e3e3e] text-xl font-bold z-30 shadow-none h-auto py-4  px-4 sm:px-6 sticky top-0 `}
+    >
+      <div className="flex flex-row w-full items-center py-3 justify-between">
         <Link
           to={"/"}
           className="relative flex items-center w-full sm:w-1/2 justify-between "
@@ -77,10 +76,6 @@ export default function MainHeader({ background, likeNum, cardProductNum, menuIt
         {liistmenu && <ListMenu col={"flex-col"} menuItems={menuItems} />}
 
         <div className="relative hidden xl:flex items-center justify-between md:gap-2 lg:gap-6 xl:gap-8">
-          <div className="flex">
-            <ListMenu menuItems={menuItems} />
-          </div>
-
           <div className="flex gap-4 px-2 sm:px-4 text-xs">
             {/* <div className="relative">
               <BiSolidHeart size={32} />
@@ -106,6 +101,9 @@ export default function MainHeader({ background, likeNum, cardProductNum, menuIt
             )}
           </div>
         </div>
+      </div>
+      <div className="w-[90%] m-auto pt-3">
+        <ListMenu menuItems={menuItems} />
       </div>
       {loginModalOpen && (
         <ModalContainer

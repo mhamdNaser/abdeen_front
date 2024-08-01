@@ -106,7 +106,6 @@ export const EditAdmin = ({
     if (typeof values?.image !== "string") {
       formData.append("image", image);
     }
-    console.log(values.name);
     axiosClient
       .post(`/admin/update-admin/${data.id}`, formData)
       .then((res) => {

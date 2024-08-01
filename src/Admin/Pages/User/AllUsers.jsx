@@ -164,6 +164,21 @@ export default function AllUsers() {
 
   const columns = [
     {
+      name: "image",
+      selector: (row) => (
+        <img
+          src={
+            row.image
+              ? import.meta.env.VITE_WEBSITE_URL + row.image
+              : "/image/user.png"
+          }
+          alt={row.name}
+          className="w-16 h-16 object-cover rounded-full"
+        />
+      ),
+      minWidth: "15%",
+    },
+    {
       name: "UserName",
       selector: (row) => row.username,
       maxWidth: "15%",
