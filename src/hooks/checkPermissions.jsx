@@ -2,25 +2,19 @@ import { useState, useEffect } from "react";
 
 const useCheckPermission = () => {
   const [userPermissions, setUserPermissions] = useState(
-    JSON.parse(localStorage.getItem("USER"))?.permission
+    JSON.parse(localStorage.getItem("USER"))?.permission || []
   );
-  const [permissions, setPermissions] = useState(
-    JSON.parse(localStorage?.getItem("permissions"))
-  );
-  const [approvedRoles, setApprovedRoles] = useState();
+  const [approvedRoles, setApprovedRoles] = useState(new Set());
 
   useEffect(() => {
     const userPermissionSet = new Set(
       userPermissions.map((ele) => ele.permissionName)
     );
-    setApprovedRoles(
-      permissions?.filter((per) => userPermissionSet.has(per.name))
-    );
-  }, [permissions, userPermissions]);
+    setApprovedRoles(userPermissionSet);
+  }, [userPermissions]);
 
   return {
-    hasPermissionFun: (permissionName) =>
-      approvedRoles?.some((ele) => ele.name === permissionName),
+    hasPermissionFun: (permissionName) => approvedRoles.has(permissionName),
   };
 };
 

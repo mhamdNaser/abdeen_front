@@ -12,12 +12,31 @@ export default function SiteViewproduct() {
   const { translations } = useTranslation();
   const { id, name } = useParams();
   const [product, setproduct] = useState();
-  const { setBackground } = useOutletContext();
+  const { setBackground, getCardProductNum } = useOutletContext();
 
   const saveproduct = () => {
     axiosClient.get(`site/show-product/${id}`).then((data) => {
       setproduct(data.data.product);
     });
+  };
+
+  const addToCart = (product) => {
+    let cardsProducts = JSON.parse(localStorage.getItem("Card_products")) || [];
+
+    let cartProductIndex = cardsProducts.findIndex(
+      (item) => item.id === product.id
+    );
+
+    if (cartProductIndex !== -1) {
+      // Product is already in the cart, increment its quantity
+      cardsProducts[cartProductIndex].quantity += 1;
+    } else {
+      // Product is not in the cart, add it with quantity 1
+      cardsProducts.push({ id: product.id, quantity: 1 });
+    }
+
+    localStorage.setItem("Card_products", JSON.stringify(cardsProducts));
+    getCardProductNum();
   };
 
   useEffect(() => {
@@ -38,7 +57,7 @@ export default function SiteViewproduct() {
           ) : (
             <>
               <div className="xl:w-1/4 w-full text-dark">
-                <section className="mb-8 sticky top-0">
+                <section className="mb-8">
                   <div className="bg-blocks-color shadow-md rounded-lg p-4">
                     <h2 className="text-2xl border-b py-3 font-semibold flex justify-between">
                       {(translations && translations["product Information"]) ||
@@ -46,17 +65,26 @@ export default function SiteViewproduct() {
                     </h2>
                     {product && (
                       <div className="xl:flex flex-col gap-6 py-4">
-                        {product.image ? (
-                          <img
-                            className="w-full mb-3"
-                            src={`${import.meta.env.VITE_WEBSITE_URL}${
-                              product.image
-                            }`}
-                            alt={product.en_name}
-                          />
-                        ) : (
-                          <BiSolidUserCircle className="h-40 w-40" />
-                        )}
+                        <div className="flex flex-col relative gap-4">
+                          {product.image ? (
+                            <img
+                              className="w-full mb-3"
+                              src={`${import.meta.env.VITE_WEBSITE_URL}${
+                                product.image
+                              }`}
+                              alt={product.en_name}
+                            />
+                          ) : (
+                            <BiSolidUserCircle className="h-40 w-40" />
+                          )}
+                          <button
+                            onClick={() => addToCart(product)}
+                            className="bg-redColor py-2 absolute bottom-0 w-full"
+                          >
+                            {(translations && translations["Add to Cart"]) ||
+                              "Add to Cart"}
+                          </button>
+                        </div>
                         <div className="flex flex-col gap-4">
                           <p className="flex justify-between">
                             <strong>
@@ -105,7 +133,9 @@ export default function SiteViewproduct() {
                           {(translations && translations["Price"]) || "Price"}
                           {" : "}
                         </strong>
-                        <span>{parseFloat(product.cost_Price).toFixed(2)}</span>
+                        <span>
+                          {parseFloat(product.public_price).toFixed(2)}
+                        </span>
                       </p>
                       <p className="flex justify-between">
                         <strong>

@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import axiosClient from '../../../axios-client'
 import Button from '../../../components/Button';
-import {
-  BiSolidEditAlt,
-  BiSolidTrashAlt,
-} from "react-icons/bi";
+import { BiSolidEditAlt, BiSolidAlarmAdd } from "react-icons/bi";
 import { Page } from '../../../components/StyledComponents';
 import { useTranslation } from '../../../provider/TranslationProvider';
 import Table from '../../../components/Table';
 import PageTitle from '../../../components/PageTitle';
 import ModalContainer from '../../../components/ModalContainer';
 import EditSocialMedia from './components/EditSocialMedia';
+import AddSocialMedia from './components/AddSocialMedia';
 
 export default function SocialMedia() {
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [socialMedia, setSocialMedia] = useState([])
     const { translations, language } = useTranslation();
     const [selectedItems, setSelectedItems] = useState([]);
@@ -84,7 +83,21 @@ export default function SocialMedia() {
     ];
   return (
     <Page>
-      <PageTitle links={links} />
+      <PageTitle
+        links={links}
+        right={
+          <>
+            <div>
+              <Button
+                isLink={false}
+                color={"bg-greenColor text-xl text-white px-2"}
+                Icon={<BiSolidAlarmAdd />}
+                onClickFun={() => setIsAddModalOpen((prev) => !prev)}
+              />
+            </div>
+          </>
+        }
+      />
       <div className="p-4">
         <Table
           Title={"Social Media"}
@@ -107,6 +120,19 @@ export default function SocialMedia() {
               getSocialMedia={getSocialMedia}
               data={clickedRow}
               setIsModalOpen={setIsModalOpen}
+            />
+          }
+        />
+      )}
+      {isAddModalOpen && (
+        <ModalContainer
+          direction={language === "ar" ? "rtl" : "ltr"}
+          isModalOpen={isAddModalOpen}
+          setIsModalOpen={setIsAddModalOpen}
+          component={
+            <AddSocialMedia
+              getSocialMedia={getSocialMedia}
+              setIsAddModalOpen={setIsAddModalOpen}
             />
           }
         />

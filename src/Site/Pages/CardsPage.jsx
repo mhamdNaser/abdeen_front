@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosClient from "../../axios-client";
 import ProductCardInCart from "../Components/products/ProductCardInCart";
@@ -17,6 +17,7 @@ export default function CardsPage({ title }) {
   const { translations } = useTranslation();
   const [cardsProducts, setCardsProducts] = useState([]);
   const [deliveries, setDelivery] = useState([]);
+  const [paymentMethods, setPaymentMethods] = useState([]);
   const [selectedTags, setSelectedTags] = useState({});
   const [totalCosts, setTotalCosts] = useState({});
   const [totalDiscounts, setTotalDiscounts] = useState({});
@@ -25,6 +26,8 @@ export default function CardsPage({ title }) {
   const [paymentform, setPaymentForm] = useState(false);
   const [deliveryCharge, setDeliveryCharge] = useState(0);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [selectedpayment, setSelectedPayment] = useState()
+  const navigated = useNavigate();
   const [address, setAddress] = useState({
     country_id: "",
     state_id: "",
@@ -43,11 +46,18 @@ export default function CardsPage({ title }) {
     getInitialItem();
     getDelivery();
     getTax();
+    getPaymentMethod();
   }, [setCardsProducts]);
 
   const getDelivery = () => {
     axiosClient.get("site/all-deliveries").then((res) => {
       setDelivery(res.data.data);
+    });
+  };
+
+  const getPaymentMethod = () => {
+    axiosClient.get("site/paymentMethod").then((res) => {
+      setPaymentMethods(res.data);
     });
   };
 
@@ -130,6 +140,7 @@ export default function CardsPage({ title }) {
         products: orderData,
         price: totalCost,
         tax: taxAmount,
+        // paymentmethod: selectedpayment,
         delivery: deliveryCharge,
         totalprice: parseFloat(finalTotal.toFixed(2)),
         totaldiscount: parseFloat(totalDiscount.toFixed(2)),
@@ -147,7 +158,6 @@ export default function CardsPage({ title }) {
             pauseOnHover: false,
           });
         } else {
-          localStorage.removeItem("Card_products");
           getInitialItem();
           getCardProductNum();
           toast.update(id, {
@@ -160,6 +170,7 @@ export default function CardsPage({ title }) {
             pauseOnHover: false,
           });
         }
+        navigated(`/vieworder/${res.data.orderId}/${"checkout"}`);
       })
       .catch((err) => {
         setLoginModalOpen(true);
@@ -173,6 +184,7 @@ export default function CardsPage({ title }) {
           pauseOnHover: false,
         });
       });
+    
   };
 
   const totalCost = Object.values(totalCosts).reduce(
@@ -292,32 +304,6 @@ export default function CardsPage({ title }) {
               <span>{finalTotal.toFixed(2)}</span>
             </p>
           </div>
-        </div>
-        <div className="flex flex-col gap-y-5 bg-blocks-color p-4 mt-4">
-          <p className="flex justify-between items-center w-full">
-            <div className="flex items-center gap-2  w-fit">
-              {(translations && translations["Payment Method"]) ||
-                "Payment Method"}
-              <button onClick={showPaymentform}>
-                <BiSolidEditAlt />
-              </button>
-              {" : "}
-            </div>
-          </p>
-          {paymentform && (
-            <div className="flex w-full">
-              <select
-                type="text"
-                className="input-box w-full"
-                onChange={(e) => setDeliveryCharge(e.target.value)}
-              >
-                <option value={0}>
-                  {(translations && translations["Cash On Delivery"]) ||
-                    "Cash On Delivery"}
-                </option>
-              </select>
-            </div>
-          )}
         </div>
         <div>
           <div className="flex flex-col gap-y-5 bg-blocks-color p-4 mt-4">

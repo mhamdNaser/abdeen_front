@@ -23,25 +23,27 @@ export default function AllOrder() {
   const [selectedItems, setSelectedItems] = useState([]);
   const [direction, setDirection] = useState();
 
-  const getOrder = () => {
-    axiosClient.get(`admin/all-orders`).then((res) => {
-      setOrder(res.data.data);
-    });
-  };
-
-
-  useEffect(() => {
+  const getOrder = async () => {
     try {
-      getOrder();
+      const res = await axiosClient.get("admin/all-orders");
+      setOrder(res.data.data);
     } catch (error) {
-      console.error("Failed to fetch brands", error);
+      console.error("Failed to fetch orders", error);
     } finally {
       const timer = setTimeout(() => {
         setLoading(false);
       }, 300);
     }
-    setDirection(language === "ar" ? "rtl" : "ltr");
+  };
+
+  useEffect(() => {
+    getOrder();
   }, []);
+
+  useEffect(() => {
+    setDirection(language === "ar" ? "rtl" : "ltr");
+    getOrder();
+  }, [language]);
 
 
   const showOrder = (row) => {
@@ -99,6 +101,28 @@ export default function AllOrder() {
     {
       name: `${(translations && translations["UserName"]) || "UserName"}`,
       selector: (row) => row.user_name,
+      minWidth: "15%",
+    },
+    {
+      name: `${(translations && translations["Payment ID"]) || "Payment ID"}`,
+      selector: (row) =>
+        row?.payment !== null ? row.payment.payment_id : null,
+      minWidth: "15%",
+    },
+    {
+      name: `${
+        (translations && translations["Payment Method"]) || "Payment Method"
+      }`,
+      selector: (row) =>
+        row?.payment !== null ? row.payment.payment_method : null,
+      minWidth: "15%",
+    },
+    {
+      name: `${
+        (translations && translations["Transaction ID"]) || "Transaction ID"
+      }`,
+      selector: (row) =>
+        row?.payment !== null ? row.payment.transaction_id : null,
       minWidth: "15%",
     },
     {
@@ -245,6 +269,7 @@ export default function AllOrder() {
             direction={direction}
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
+            width={"w-3/4"}
             component={
               <ViewOrder data={clickedRow} setIsModalOpen={setIsModalOpen} />
             }

@@ -37,8 +37,8 @@ export default function Profile() {
         {/* User Information Section */}
         <section className="mb-8">
           <div className="bg-white shadow-md rounded-lg p-4 ">
-            <div className="flex justify-between">
-              <h2 className="text-2xl border-b py-3 font-semibold">
+            <div className="flex justify-between border-b">
+              <h2 className="text-2xl py-3 font-semibold">
                 {(translations && translations["User Information"]) ||
                   "User Information"}
               </h2>
@@ -53,7 +53,7 @@ export default function Profile() {
                 alt={user.name}
               />
               <div className="flex flex-col-reverse w-full gap-4">
-                <p className="flex w-full justify-between">
+                <p className="flex justify-between">
                   <strong>
                     {(translations && translations["Phone"]) || "Phone"}
                     {" : "}
@@ -88,8 +88,8 @@ export default function Profile() {
         </section>
         {/* Address Section */}
         <section className="xl:mb-8 mb-0 bg-white shadow-md rounded-lg p-4">
-          <div className="flex justify-between">
-            <h2 className="text-2xl border-b py-3 font-semibold mb-2">
+          <div className="flex justify-between border-b">
+            <h2 className="text-2xl py-3 font-semibold mb-2">
               {(translations && translations["Address"]) || "Address"}
             </h2>
             <button onClick={() => setOpenEditAddress(true)}>
@@ -118,33 +118,27 @@ export default function Profile() {
               </strong>{" "}
               {user.city}
             </p>
-            {user.address_1 && (
-              <p className="flex justify-between">
-                <strong>
-                  {(translations && translations["address_1"]) || "address_1"}
-                  {" : "}
-                </strong>{" "}
-                {user.address_1}
-              </p>
-            )}
-            {user.address_2 && (
-              <p className="flex justify-between">
-                <strong>
-                  {(translations && translations["address_2"]) || "address_2"}
-                  {" : "}
-                </strong>{" "}
-                {user.address_2}
-              </p>
-            )}
-            {user.address_3 && (
-              <p className="flex justify-between">
-                <strong>
-                  {(translations && translations["address_3"]) || "address_3"}
-                  {" : "}
-                </strong>{" "}
-                {user.address_3}
-              </p>
-            )}
+            <p className="flex justify-between">
+              <strong>
+                {(translations && translations["address_1"]) || "address_1"}
+                {" : "}
+              </strong>{" "}
+              {user.address_1}
+            </p>
+            <p className="flex justify-between">
+              <strong>
+                {(translations && translations["address_2"]) || "address_2"}
+                {" : "}
+              </strong>{" "}
+              {user.address_2}
+            </p>
+            <p className="flex justify-between">
+              <strong>
+                {(translations && translations["address_3"]) || "address_3"}
+                {" : "}
+              </strong>{" "}
+              {user.address_3}
+            </p>
           </div>
         </section>
       </div>

@@ -60,7 +60,7 @@ const LanguageDropdown = () => {
         </span>
       </button>
       {dropdownOpen && (
-        <div className="absolute mt-1 shadow-lg  z-50 text-primary-text  bg-blocks-color">
+        <div className="absolute mt-1 shadow-lg z-50 text-primary-text min-w-40 bg-blocks-color">
           {languages.map((value, index) => (
             <div
               key={index}

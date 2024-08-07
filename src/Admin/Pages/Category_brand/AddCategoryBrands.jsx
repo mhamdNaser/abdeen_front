@@ -1,32 +1,35 @@
 import React, { useState } from "react";
+import ReusableForm from "../../../components/ReusableForm";
+import { useTranslation } from "../../../provider/TranslationProvider";
 import { toast } from "react-toastify";
-import axiosClient from "../../../../axios-client";
-import ReusableForm from "../../../../components/ReusableForm";
-import { useTranslation } from "../../../../provider/TranslationProvider";
+import axiosClient from "../../../axios-client";
+import { useCategoryBrand } from "../../../provider/CategoryBrandProvider";
 
-export default function EditSocialMedia({
-  getSocialMedia,
-  setIsModalOpen,
-  data,
+export default function AddCategoryBrands({
+  brands,
+  categoryId,
+  setIsAddModalOpen,
+  addItem,
 }) {
   const { translations, language } = useTranslation();
   const [direction, setDirection] = useState(language === "ar" ? "rtl" : "ltr");
 
-
   let template = {
-    title: "Edit Social Media",
+    title: "add Category",
     fields: [
       {
-        title: "Link",
-        name: "link",
-        type: "text",
-        value: data.link,
+        name: "brands",
+        title: "select the parent Brands",
+        type: "select",
+        options: [...brands],
         validationProps: {
           required: {
-            value: true,
+            value: false,
             message: "this field is required",
           },
         },
+        optionText: language === "ar" ? "ar_name" : "en_name",
+        optionValue: "id",
       },
     ],
   };
@@ -34,15 +37,17 @@ export default function EditSocialMedia({
   const onSubmit = async (values) => {
     const id = toast.loading("Error , Check your input again...");
     const formData = new FormData();
-    formData.append("link", values.link);
+
+    formData.append("brand_id", parseInt(values.brands));
+    formData.append("category_id", categoryId);
 
     axiosClient
-      .post(`admin/update-socialmedia/${data?.id}`, formData)
-      .then((res) => {
-        if (res.success === false) {
+      .post("/admin/store-brand-category", formData)
+      .then((data) => {
+        if (data.success === false) {
           toast.update(id, {
             type: "error",
-            render: res.data.message,
+            render: data.data.message,
             closeOnClick: true,
             isLoading: false,
             autoClose: true,
@@ -50,11 +55,11 @@ export default function EditSocialMedia({
             pauseOnHover: false,
           });
         } else {
-          getSocialMedia();
-          setIsModalOpen((prev) => !prev);
+          setIsAddModalOpen((prev) => !prev);
+          addItem(data.data.newItem);
           toast.update(id, {
             type: "success",
-            render: res.data.message,
+            render: data.data.message,
             closeOnClick: true,
             isLoading: false,
             autoClose: true,
@@ -77,11 +82,10 @@ export default function EditSocialMedia({
   };
 
   const validate = () => {};
-
   return (
     <ReusableForm
-      direction={direction}
       translations={translations}
+      direction={direction}
       template={template}
       onSubmit={onSubmit}
       validate={validate}

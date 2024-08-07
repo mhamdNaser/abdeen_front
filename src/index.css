@@ -4,6 +4,7 @@
 
 html {
   overflow-x: hidden;
+  font-size: small;
 }
 
 :root {
@@ -307,7 +308,7 @@ html {
 }
 
 .slider {
-  width: 52px;
+  width: 42px;
   position: inherit;
   height: 26px;
   cursor: pointer;
@@ -323,8 +324,8 @@ html {
   top: 0px;
   height: 26px;
   width: 26px;
-  /* left: 4px; */
-  /* bottom: 4px; */
+  left: 0px;
+  bottom: 2px;
   background-color: white;
   -webkit-transition: 0.4s;
   transition: 0.4s;
@@ -340,9 +341,9 @@ input:focus+.slider {
 }
 
 input:checked+.slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
+  -webkit-transform: translateX(18px);
+  -ms-transform: translateX(18px);
+  transform: translateX(18px);
 }
 
 #sidebar a.active {

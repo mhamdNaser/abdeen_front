@@ -119,34 +119,34 @@ export default function Profile() {
                   ) : (
                     <BiSolidUserCircle className="h-40 w-40" />
                   )}
-                  <div className="flex flex-col-reverse gap-4">
+                  <div className="flex flex-col-reverse gap-4 w-full">
                     <p className="flex justify-between">
                       <strong>
                         {(translations && translations[`Phone`]) || "Phone"}
+                        {" : "}
                       </strong>
-                      {" : "}
                       {admin.phone}
                     </p>
                     <p className="flex justify-between">
                       <strong>
                         {(translations && translations[`Email`]) || "Email"}
+                        {" : "}
                       </strong>
-                      {" : "}
                       {admin.email}
                     </p>
                     <p className="flex justify-between">
                       <strong>
                         {(translations && translations[`Name`]) || "Name"}
+                        {" : "}
                       </strong>
-                      {" : "}
                       {admin.name}
                     </p>
                     <p className="flex justify-between">
                       <strong>
                         {(translations && translations[`UserName`]) ||
                           "UserName"}
+                        {" : "}
                       </strong>
-                      {" : "}
                       {admin.username}
                     </p>
                   </div>
@@ -162,50 +162,50 @@ export default function Profile() {
                     <BiSolidEditAlt />
                   </button>
                 </h2>
-                <div className="flex flex-col gap-4 py-2 pe-24">
+                <div className="flex flex-col gap-4 py-2">
                   <p className="flex justify-between">
                     <strong>
                       {(translations && translations[`Country`]) || "Country"}
+                      {" : "}
                     </strong>
-                    {" : "}
                     {admin.country}
                   </p>
                   <p className="flex justify-between">
                     <strong>
                       {(translations && translations[`State`]) || "State"}
+                      {" : "}
                     </strong>
-                    {" : "}
                     {admin.state}
                   </p>
                   <p className="flex justify-between">
                     <strong>
                       {(translations && translations[`City`]) || "City"}
+                      {" : "}
                     </strong>
-                    {" : "}
                     {admin.city}
                   </p>
                   <p className="flex justify-between">
                     <strong>
                       {(translations && translations[`address_1`]) ||
                         "address_1"}
+                      {" : "}
                     </strong>
-                    {" : "}
                     {admin.address_1}
                   </p>
                   <p className="flex justify-between">
                     <strong>
                       {(translations && translations[`address_2`]) ||
                         "address_2"}
+                      {" : "}
                     </strong>
-                    {" : "}
                     {admin.address_2}
                   </p>
                   <p className="flex justify-between">
                     <strong>
                       {(translations && translations[`address_3`]) ||
                         "address_3"}
+                      {" : "}
                     </strong>
-                    {" : "}
                     {admin.address_3}
                   </p>
                 </div>

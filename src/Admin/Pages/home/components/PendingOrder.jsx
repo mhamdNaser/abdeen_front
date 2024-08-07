@@ -46,6 +46,20 @@ export default function PendingOrder({ order, getOrder, getData }) {
       minWidth: "15%",
     },
     {
+      name: `${(translations && translations["Payment ID"]) || "Payment ID"}`,
+      selector: (row) =>
+        row?.payment !== null ? row.payment.payment_id : null,
+      minWidth: "15%",
+    },
+    {
+      name: `${
+        (translations && translations["Payment Method"]) || "Payment Method"
+      }`,
+      selector: (row) =>
+        row?.payment !== null ? row.payment.payment_method : null,
+      minWidth: "15%",
+    },
+    {
       name: `${(translations && translations["Price"]) || "Price"}`,
       selector: (row) => row.price,
       minWidth: "15%",

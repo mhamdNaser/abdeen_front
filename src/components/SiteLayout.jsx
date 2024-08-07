@@ -7,6 +7,7 @@ import { useTranslation } from "../provider/TranslationProvider";
 import Footer from "../Site/Components/Footer";
 import axiosClient from "../axios-client";
 import Loading from "./Loading";
+import { useCategoryBrand } from "../provider/CategoryBrandProvider";
 
 export default function SiteLayout() {
   const { language } = useTranslation();
@@ -14,25 +15,10 @@ export default function SiteLayout() {
   const [likeNum, setLikeNum] = useState(0);
   const [cardProductNum, seCardProductNum] = useState(0);
   const [socialMedia, setSocialMedia] = useState([]);
-  const [menuItems, setItems] = useState([]);
-  const [brands, setbrands] = useState([]);
+  const { items, brands } = useCategoryBrand();
   const [loading, setLoading] = useState(true);
 
-  const getCategory = () => {
-    axiosClient.get("/site/menu-categories").then((data) => {
-      setItems(data.data.data);
-    });
-  };
-
-  const getBrands = () => {
-    axiosClient.get("/site/menu-Brand").then((data) => {
-      setbrands(data.data.data);
-    });
-  };
-
   useEffect(() => {
-    getCategory();
-    getBrands();
     setTimeout(() => {
       setLoading(false);
     }, 2000); // إعداد وقت الانتظار هنا بـ 2000 ميلي ثانية (2 ثانية)
@@ -77,23 +63,23 @@ export default function SiteLayout() {
             : "bg-[url('/image/background.png')]"
         } bg-cover bg-no-repeat bg-bottom bg-fixed max-fit`}
       > */}
-        <MainHeader
-          menuItems={menuItems}
-          background={background}
-          likeNum={likeNum}
-          cardProductNum={cardProductNum}
-        />
-        <Outlet
-          context={{
-            socialMedia,
-            setBackground,
-            getLikeNum,
-            getCardProductNum,
-            menuItems,
-            brands,
-          }}
-        />
-        <Footer socialMedia={socialMedia} />
+      <MainHeader
+        menuItems={items}
+        background={background}
+        likeNum={likeNum}
+        cardProductNum={cardProductNum}
+      />
+      <Outlet
+        context={{
+          socialMedia,
+          setBackground,
+          getLikeNum,
+          getCardProductNum,
+          items,
+          brands,
+        }}
+      />
+      <Footer socialMedia={socialMedia} />
       {/* </div> */}
     </div>
   );

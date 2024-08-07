@@ -5,17 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { useStateContext } from "../../../provider/ContextsProvider";
 import ReusableForm from "../../../components/ReusableForm";
 
-const getSideBar = () => {
-  fetch("/Json/permissions.json")
-    .then((response) => response.json())
-    .then((data) => {
-      localStorage.setItem("permissions", JSON.stringify(data));
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
-    });
-};
-
 export default function AdminLogin() {
   const { token, setUser, setToken } = useStateContext();
   const navigate = useNavigate();
@@ -28,41 +17,47 @@ export default function AdminLogin() {
     };
     axiosClient
       .post(import.meta.env.VITE_API_URL + "/admin/login", payload)
-      .then((response) => {
-        toast.update(id, {
-          render: response?.data?.message,
-          type: "success",
-          isLoading: false,
-          autoClose: true,
-          closeButton: true,
-          pauseOnHover: false,
-        });
-        getSideBar();
-
-        setToken(response.data.token);
-        setUser(response.data.admin);
-
-        sessionStorage.setItem("mode", "light");
-        localStorage.setItem("USER", JSON.stringify(response.data.admin));
-        if (!response.data.token) {
+      .then((res) => {
+        console.log(res);
+        
+        if (res.data.success === false) {
           toast.update(id, {
-            render: response?.data?.message,
             type: "error",
+            render: res.data.message,
+            closeOnClick: true,
             isLoading: false,
             autoClose: true,
             closeButton: true,
+            pauseOnHover: false,
           });
         } else {
-          navigate("/admin/");
+          toast.update(id, {
+            type: "success",
+            render: res.data.message,
+            closeOnClick: true,
+            isLoading: false,
+            autoClose: true,
+            closeButton: true,
+            pauseOnHover: false,
+          });
+          if (res.data.admin) {
+            setToken(res.data.token);
+            setUser(res.data.admin);
+            sessionStorage.setItem("mode", "light");
+            localStorage.setItem("USER", JSON.stringify(res.data.admin));
+            navigate("/admin/");
+          }
         }
       })
       .catch((err) => {
         toast.update(id, {
-          render: "Something went wrong",
           type: "error",
+          render: err.response.message,
+          closeOnClick: true,
           isLoading: false,
           autoClose: true,
           closeButton: true,
+          pauseOnHover: false,
         });
       });
   };

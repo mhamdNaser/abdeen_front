@@ -1,20 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { useOutletContext, useParams } from "react-router-dom";
+import { useOutletContext, useParams, useNavigate } from "react-router-dom";
 import axiosClient from "../../../axios-client";
 import usePrintInvoice from "../../../hooks/usePrintInvoice";
 import { useTranslation } from "../../../provider/TranslationProvider";
+import PayPalCheckoutButton from "../../Components/PayPalCheckoutButton";
 
 export default function ViewOrder() {
-  const { id } = useParams();
-  const { setBackground } = useOutletContext();
+  const { id, checkout } = useParams();
+  const { setBackground, getCardProductNum } = useOutletContext();
   const [order, setOrder] = useState(null);
   const { printInvoice } = usePrintInvoice(order);
   const { translations, language } = useTranslation();
+  const navigated = useNavigate();
 
   const getShowOrder = () => {
     axiosClient.get(`site/show-order/${id}`).then((res) => {
       setOrder(res.data.data);
     });
+  };
+
+  const createOrder = async (orderId) => {
+    try {
+      await axiosClient.post("site/cashe-payment", {
+        orderId,
+      });
+      localStorage.removeItem("Card_products");
+      getCardProductNum();
+      navigated("/allProduct");
+    } catch (error) {
+      console.error("Error creating order", error);
+    }
   };
 
   useEffect(() => {
@@ -31,8 +46,8 @@ export default function ViewOrder() {
     );
 
   return (
-    <div className="p-8">
-      <div className="max-w-4xl mx-auto p-5 bg-white shadow-md rounded-lg">
+    <div className="flex gap-x-4 bg-background-color p-8">
+      <div className="w-3/4 mx-auto p-5 bg-white shadow-md rounded-lg">
         <h2 className="text-2xl font-bold mb-5">
           {(translations && translations["Order Details"]) || "Order Details"}
         </h2>
@@ -67,28 +82,44 @@ export default function ViewOrder() {
               {order.created_at}
             </li>
             <li className="mb-2">
-              {order.address.map((addres, index) => (
-                <div key={index} className="hover:bg-gray-50">
-                  <div className="">
-                    <span className="font-semibold">
-                      {(translations && translations["Address"]) || "Address"}
-                    </span>
-                    {" : "}
-                    {addres.country}
-                    {" / "}
-                    {addres.state}
-                    {" / "}
-                    {addres.city}
+              <span className="font-semibold">
+                {(translations && translations["Transaction ID"]) ||
+                  "Transaction ID"}
+              </span>
+              {" : "}
+              {order.payment !== null ? order.payment.transaction_id : null}
+            </li>
+            <li className="mb-2">
+              <span className="font-semibold">
+                {(translations && translations["Payment ID"]) || "Payment ID"}
+              </span>
+              {" : "}
+              {order.payment !== null ? order.payment.payment_id : null}
+            </li>
+            <li className="mb-2">
+              {order.address &&
+                order.address.map((addres, index) => (
+                  <div key={index} className="hover:bg-gray-50">
+                    <div className="">
+                      <span className="font-semibold">
+                        {(translations && translations["Address"]) || "Address"}
+                      </span>
+                      {" : "}
+                      {addres.country}
+                      {" / "}
+                      {addres.state}
+                      {" / "}
+                      {addres.city}
+                    </div>
+                    <div>
+                      {addres.address_1}
+                      {" / "}
+                      {addres.address_2}
+                      {" / "}
+                      {addres.address_3}
+                    </div>
                   </div>
-                  <div>
-                    {addres.address_1}
-                    {" / "}
-                    {addres.address_2}
-                    {" / "}
-                    {addres.address_3}
-                  </div>
-                </div>
-              ))}
+                ))}
             </li>
           </ul>
           <ul className="xl:w-1/2">
@@ -180,6 +211,26 @@ export default function ViewOrder() {
           Print Invoice
         </button>
       </div>
+      {checkout === "checkout" && (
+        <div className="flex flex-col w-full lg:w-1/3 mx-auto p-5 gap-y-6 bg-white shadow-md rounded-lg">
+          <h2 className="text-2xl font-bold mb-5">
+            {(translations && translations["Payment Method"]) ||
+              "Payment Method"}
+          </h2>
+          <div>
+            <PayPalCheckoutButton orderId={id} />
+          </div>
+          <div>
+            <button
+              className="w-full text-center bg-blueColor py-3 text-white"
+              onClick={() => createOrder(id)}
+            >
+              {(translations && translations["Cashe On Delevery"]) ||
+                "Cashe On Delevery"}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

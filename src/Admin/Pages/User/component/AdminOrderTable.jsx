@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "../../../provider/TranslationProvider";
-import Button from "../../../components/Button";
-import Table from "../../../components/Table";
+import React, { useEffect, useId, useState } from "react";
 import { BiSolidShow, BiSolidTrashAlt } from "react-icons/bi";
-import axiosClient from "../../../axios-client";
 import { toast } from "react-toastify";
+import { useTranslation } from "../../../../provider/TranslationProvider";
+import Button from "../../../../components/Button";
+import Table from "../../../../components/Table";
+import axiosClient from "../../../../axios-client";
+import ModalContainer from "../../../../components/ModalContainer";
 
-export default function OrderTable({ userId }) {
+export default function AdminOrderTable({ userId, username }) {
   const { translations, language } = useTranslation();
   const [selectedItems, setSelectedItems] = useState([]);
   const [order, setOrder] = useState([]);
@@ -143,7 +144,7 @@ export default function OrderTable({ userId }) {
             Icon={<BiSolidShow />}
             goto={`${
               userId
-                ? `/admin/vieworder/${row.id}/${"view"}`
+                ? `/admin/vieworder/${userId}/${username}/${row.id}`
                 : `/vieworder/${row.id}/${"view"}`
             }`}
           />

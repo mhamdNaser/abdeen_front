@@ -14,6 +14,7 @@ const Table = ({
   print,
   columns,
   direction,
+  search,
   data,
   hasEditPermission,
   translations,
@@ -67,7 +68,7 @@ const Table = ({
               onRowsPerPageChange={setRowsPerPage}
               filteredDataLength={filteredData.length}
             />
-            <Search query={query} onSearchChange={setQuery} />
+            { search !== false ? (<Search query={query} onSearchChange={setQuery} />) : (null)}
             {print === false ? null : (
               <>
                 <button

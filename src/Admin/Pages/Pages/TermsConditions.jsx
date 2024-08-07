@@ -15,7 +15,7 @@ const TermsConditions = () => {
     const getData = async () => {
       setLoading(true);
       const res = await axiosClient.post("/admin/pageContent/showbytitle", {
-        title: "privacy",
+        title: "TermsConditions",
       });
       setValue(res.data?.content);
       setLoading(false);

@@ -6,7 +6,7 @@ import { useTranslation } from "../../provider/TranslationProvider";
 import SitePageTitle from "../Components/SitePageTitle";
 
 export default function AllProduct() {
-  const { setBackground, getLikeNum, getCardProductNum, menuItems, brands } =
+  const { setBackground, getLikeNum, getCardProductNum, items, brands } =
     useOutletContext();
   const [products, setProducts] = useState([]);
   const { translations } = useTranslation();
@@ -41,7 +41,7 @@ export default function AllProduct() {
         <div className="xl:p-4 items-center">
           <ProductList
             filter={true}
-            menuItems={menuItems}
+            menuItems={items}
             brands={brands}
             hor={horvalue}
             products={products}

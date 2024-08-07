@@ -88,7 +88,6 @@ export const EditAdmin = ({
           },
         },
         optionText: "name",
-        value: data.role,
         optionValue: "id",
       },
     ],
@@ -102,7 +101,9 @@ export const EditAdmin = ({
     formData.append("email", values.email);
     formData.append("phone", values.phone);
     formData.append("password", values.password);
-    formData.append("role_id", parseInt(values.role_id));
+    if (typeof values.role_id === "string") {
+      formData.append("role_id", parseInt(values.role_id));
+    }
     if (typeof values?.image !== "string") {
       formData.append("image", image);
     }

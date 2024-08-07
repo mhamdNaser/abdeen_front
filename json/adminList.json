@@ -13,92 +13,109 @@
     "Roles": {
       "path": "/admin/allroles",
       "name": null,
-      "perId": "showRoles"
+      "perId": "allRole"
     },
     "Admins Archive": {
       "path": "/admin/adminarchives",
       "name": null,
-      "perId": "showRoles"
+      "perId": "archiveAdmin"
     }
   },
   "Accounts Manage": {
     "Users": {
       "path": "/admin/allusers",
-      "perId": "showUsers"
+      "perId": "allUsers"
     },
     "Users Archive": {
       "path": "/admin/userarchives",
-      "perId": "showArchivedUser"
+      "perId": "archivedUsers"
     }
   },
-  "Products Manage": {
+  "Category & Brand": {
     "Categories": {
       "path": "/admin/allcategories",
-      "perId": "showUsers"
+      "perId": "allCategory"
     },
     "Brands": {
       "path": "/admin/allbrands",
-      "perId": "showArchivedUser"
+      "perId": "allBrand"
     },
+    "Brands Of Category": {
+      "path": "/admin/brandsCategory",
+      "perId": "Brands Of Category"
+    }
+  },
+  "Products Manage": {
     "Attribute": {
       "path": "/admin/allattributes",
-      "perId": "showArchivedUser"
+      "perId": "allAtributes"
     },
     "Products": {
       "path": "/admin/allproducts",
-      "perId": "showArchivedUser"
+      "perId": "allProducts"
     },
     "Products Archive": {
       "path": "/admin/archiveproducts",
-      "perId": "showArchivedUser"
+      "perId": "archiveProducts"
     }
   },
   "Orders Manage": {
     "All Order": {
       "path": "/admin/allorder",
-      "perId": "showUsers"
+      "perId": "allOrder"
     },
     "Tax": {
       "path": "/admin/tax",
-      "perId": "showUsers"
+      "perId": "tax"
     },
     "Delivery": {
       "path": "/admin/delivery",
-      "perId": "showUsers"
+      "perId": "delivery"
+    }
+  },
+  "Payment": {
+    "Payment Method": {
+      "name": null,
+      "path": "/admin/paymentmethod",
+      "perId": "paymentsMethod"
+    },
+    "Payments Table": {
+      "path": "/admin/allpayment",
+      "perId": "allPayments"
     }
   },
   "Locations Manage": {
     "Country": {
       "path": "/admin/allcountries",
-      "perId": "showUsers"
+      "perId": "location"
     }
   },
   "Pages Settings": {
     "Privacy Page": {
       "path": "/admin/privacy",
-      "perId": "showUsers"
+      "perId": "privacy"
     },
     "Contact Setting Page": {
       "path": "/admin/contactsetting",
-      "perId": "showUsers"
+      "perId": "contactsetting"
     },
     "Terms Conditions Page": {
       "path": "/admin/termsconditions",
-      "perId": "showUsers"
+      "perId": "termsconditions"
     },
     "Social Media": {
       "path": "/admin/socialmedia",
-      "perId": "showUsers"
+      "perId": "socialmedia"
     }
   },
   "Languages": {
     "name": null,
     "path": "/admin/languages",
-    "perId": "showLanguages"
+    "perId": "languages"
   },
   "Back To Site": {
     "name": null,
     "path": "/",
-    "perId": "showLanguages"
+    "perId": "backToSite"
   }
 }

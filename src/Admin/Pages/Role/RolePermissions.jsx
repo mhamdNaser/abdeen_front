@@ -33,8 +33,9 @@ export default function RolePermissions() {
     title: ele.permissionName,
     value: ele.value === 1,
     checkboxStyle: true,
-    styles: "lg:w-[24%] md:w-[32%] w-[49%]",
+    styles: "lg:w-[24%] md:w-[32%] w-[32%]",
   }));
+
 
   const template = { fields };
 

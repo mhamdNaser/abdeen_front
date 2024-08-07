@@ -40,6 +40,10 @@ import AllTax from "./Admin/Pages/Order_cart/AllTax";
 import ViewOrder from "./Site/Pages/Profile/ViewOrder";
 import Index from "./Admin/Pages/home/Index";
 import SocialMedia from "./Admin/Pages/Pages/SocialMedia";
+import PaymentMethod from "./Admin/Pages/Payment/PaymentMethod";
+import AllPayment from "./Admin/Pages/Payment/AllPayment";
+import AdminViewOrder from "./Admin/Pages/User/component/AdminViewOrder";
+import BrandsCategory from "./Admin/Pages/Category_brand/BrandsCategory";
 
 const router = createBrowserRouter([
   {
@@ -71,7 +75,7 @@ const router = createBrowserRouter([
         element: <SiteViewProduct />,
       },
       {
-        path: "/vieworder/:id",
+        path: "/vieworder/:id/:checkout",
         element: <ViewOrder />,
       },
     ],
@@ -79,15 +83,15 @@ const router = createBrowserRouter([
 
   {
     path: "/admin",
-    element: <AdminLayout />,
+    element: (
+      <ProtectedRoute>
+        <AdminLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: "/admin/",
-        element: (
-          <ProtectedRoute>
-            <Index />
-          </ProtectedRoute>
-        ),
+        element: <Index />,
       },
       {
         path: "/admin/alladmins",
@@ -154,6 +158,10 @@ const router = createBrowserRouter([
         element: <AllBrand />,
       },
       {
+        path: "/admin/brandsCategory",
+        element: <BrandsCategory />,
+      },
+      {
         path: "/admin/allattributes",
         element: <AllAttributes />,
       },
@@ -204,6 +212,18 @@ const router = createBrowserRouter([
       {
         path: "/admin/tax",
         element: <AllTax />,
+      },
+      {
+        path: "/admin/paymentmethod",
+        element: <PaymentMethod />,
+      },
+      {
+        path: "/admin/allpayment",
+        element: <AllPayment />,
+      },
+      {
+        path: "/admin/vieworder/:id/:username/:orderid",
+        element: <AdminViewOrder />,
       },
     ],
   },

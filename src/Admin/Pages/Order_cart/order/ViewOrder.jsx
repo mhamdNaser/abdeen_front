@@ -51,6 +51,29 @@ export default function ViewOrder({ data, setIsModalOpen }) {
               {data.created_at}
             </li>
             <li className="mb-2">
+              <span className="font-semibold">
+                {(translations && translations["Payment Method"]) ||
+                  "Payment Method"}
+              </span>
+              {" : "}
+              {data.payment !== null ? data.payment.payment_method : null}
+            </li>
+            <li className="mb-2">
+              <span className="font-semibold">
+                {(translations && translations["Transaction ID"]) ||
+                  "Transaction ID"}
+              </span>
+              {" : "}
+              {data.payment !== null ? data.payment.transaction_id : null}
+            </li>
+            <li className="mb-2">
+              <span className="font-semibold">
+                {(translations && translations["Payment ID"]) || "Payment ID"}
+              </span>
+              {" : "}
+              {data.payment !== null ? data.payment.payment_id : null}
+            </li>
+            <li className="mb-2">
               {data.address.map((addres, index) => (
                 <div key={index} className="hover:bg-gray-50">
                   <div className="">
@@ -63,8 +86,7 @@ export default function ViewOrder({ data, setIsModalOpen }) {
                     {addres.state}
                     {" / "}
                     {addres.city}
-                  </div>
-                  <div>
+                    {" / "}
                     {addres.address_1}
                     {" / "}
                     {addres.address_2}
@@ -117,29 +139,31 @@ export default function ViewOrder({ data, setIsModalOpen }) {
             </li>
           </ul>
         </div>
-        <h3 className="text-xl font-semibold mb-3">Products</h3>
+        <h3 className="text-xl font-semibold mb-3">
+          {(translations && translations["Products"]) || "Products"}
+        </h3>
         <table className="min-w-full bg-white border">
           <thead>
-            <tr className="w-full bg-gray-100 text-left">
-              <th className="py-2 px-4 border-b">
+            <tr className="w-full bg-gray-100">
+              <th className="py-2 border-b text-start px-1">
                 {(translations && translations["image"]) || "image"}
               </th>
-              <th className="py-2 px-4 border-b">
+              <th className="py-2 border-b text-start px-1">
                 {(translations && translations["ID"]) || "ID"}
               </th>
-              <th className="py-2 px-4 border-b">
+              <th className="py-2 border-b text-start px-1">
                 {(translations && translations["Name"]) || "Name"}
               </th>
-              <th className="py-2 px-4 border-b">
+              <th className="py-2 border-b text-start px-1">
                 {(translations && translations["Quantity"]) || "Quantity"}
               </th>
-              <th className="py-2 px-4 border-b">
+              <th className="py-2 border-b text-start px-1">
                 {(translations && translations["Price"]) || "Price"}
               </th>
-              <th className="py-2 px-4 border-b">
+              <th className="py-2 border-b text-start px-1">
                 {(translations && translations["Discount"]) || "Discount"}
               </th>
-              <th className="py-2 px-4 border-b">
+              <th className="py-2 border-b text-start px-1">
                 {" "}
                 {(translations && translations["Final Price"]) || "Final Price"}
               </th>
@@ -148,28 +172,28 @@ export default function ViewOrder({ data, setIsModalOpen }) {
           <tbody>
             {data?.products.map((product, index) => (
               <tr key={index} className="hover:bg-gray-50">
-                <td className="py-2 px-4 border-b">
+                <td className="py-2 border-b">
                   <img
                     className="w-12 h-12"
                     src={import.meta.env.VITE_WEBSITE_URL + product.image}
                     alt={product.en_name}
                   />
                 </td>
-                <td className="py-2 px-4 border-b">{product.sku}</td>
-                <td className="py-2 px-4 border-b">{product.en_name}</td>
-                <td className="py-2 px-4 border-b">{product.quantity}</td>
-                <td className="py-2 px-4 border-b">{product.product_price}</td>
-                <td className="py-2 px-4 border-b">%{product.discount}</td>
-                <td className="py-2 px-4 border-b">{product.price}</td>
+                <td className="py-2 border-b">{product.sku}</td>
+                <td className="py-2 border-b">{product.en_name}</td>
+                <td className="py-2 border-b">{product.quantity}</td>
+                <td className="py-2 border-b">{product.product_price}</td>
+                <td className="py-2 border-b">%{product.discount}</td>
+                <td className="py-2 border-b">{product.price}</td>
               </tr>
             ))}
           </tbody>
         </table>
         <button
           onClick={printInvoice}
-          className="mt-5 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className="mt-5 p-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
-          Print Invoice
+          {(translations && translations["Print Invoice"]) || "Print Invoice"}
         </button>
       </div>
     </div>

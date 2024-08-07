@@ -38,12 +38,12 @@ export default function ProductCardInCart({
   }
 
   return (
-    <div className="border bg-blocks-color rounded-lg shadow-lg flex xl:flex-row flex-col justify-between items-center xl:items-end">
+    <div className="border bg-blocks-color rounded-lg shadow-lg flex xl:flex-row flex-col justify-between p-5 items-center xl:items-end">
       <div className="flex xl:flex-row flex-col xl:w-1/2 w-full text-start">
         <img
           src={import.meta.env.VITE_WEBSITE_URL + productDetails.image}
           alt={productDetails.en_name}
-          className="xl:w-40 xl:min-h-40 xl:max-h-full w-full object-cover"
+          className="xl:w-40 xl:h-40 xl:max-h-full w-full object-cover"
         />
         <div className="flex flex-col text-start justify-end ps-3 py-2">
           <h4 className="font-bold text-lg mb-2">

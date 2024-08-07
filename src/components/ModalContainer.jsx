@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { IoMdCloseCircle } from "react-icons/io";
 
-const ModalContainer = ({ setIsModalOpen, component, type, direction }) => {
+const ModalContainer = ({ setIsModalOpen, component, type, direction, width }) => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
@@ -22,7 +22,9 @@ const ModalContainer = ({ setIsModalOpen, component, type, direction }) => {
           margin: "32px 0",
           zIndex: "102",
         }}
-        className="h-full lg:w-fit w-full overflow-hidden overflow-y-auto"
+        className={`h-full ${
+          width ? `xl:${width}` : "2xl:w-fit"
+        } w-full overflow-hidden overflow-y-auto`}
       >
         <div
           className={`${

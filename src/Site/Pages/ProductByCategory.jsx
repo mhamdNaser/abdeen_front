@@ -5,7 +5,7 @@ import ProductList from "../Components/products/ProductList";
 import SitePageTitle from "../Components/SitePageTitle";
 
 export default function ProductByCategory() {
-  const { setBackground, getLikeNum, getCardProductNum, menuItems, brands } =
+  const { setBackground, getLikeNum, getCardProductNum, brands } =
     useOutletContext();
   const { id } = useParams();
   const [products, setProducts] = useState([]);

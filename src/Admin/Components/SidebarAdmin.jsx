@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import {
-  BiSolidMessageDetail,
-  BiSolidMessageRoundedDetail,
   BiSolidArrowFromRight,
   BiSolidCategory,
   BiSolidUser,
@@ -9,32 +7,20 @@ import {
   BiSolidDirections,
   BiSolidChevronDown,
   BiSolidChevronUp,
-  BiSolidBriefcaseAlt2,
-  BiSolidDollarCircle,
   BiSolidCreditCard,
-  BiSolidServer,
   BiSolidMap,
-  BiSolidTachometer,
-  BiSolidEnvelope,
   BiSolidBellRing,
-  BiSolidGift,
-  BiSolidTruck,
   BiSolidLayout,
   BiSolidCog,
-  BiSolidCreditCardFront,
-  BiSolidObjectsHorizontalCenter,
   BiSolidStoreAlt,
+  BiSolidReport,
 } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai";
 import useCheckPermission from "../../hooks/checkPermissions";
-import { RiCoupon3Fill, RiPagesFill } from "react-icons/ri";
-import { MdVerifiedUser } from "react-icons/md";
+import { RiPagesFill } from "react-icons/ri";
 import { MdManageAccounts } from "react-icons/md";
-import { FaPager } from "react-icons/fa6";
-import { IoSettings } from "react-icons/io5";
 import { useTWThemeContext } from "../../provider/ThemeProvider";
-import { useStateContext } from "../../provider/ContextsProvider";
 import { useTranslation } from "../../provider/TranslationProvider";
 
 const iconMap = {
@@ -42,7 +28,7 @@ const iconMap = {
   "Admins Manage": <BiSolidUser />,
   "Accounts Manage": <MdManageAccounts />,
   "Products Manage": <BiSolidStoreAlt />,
-  "Orders Manage": <BiSolidCategory />,
+  "Orders Manage": <BiSolidReport />,
   "Locations Manage": <BiSolidMap />,
   Notifications: <BiSolidBellRing />,
   "Other Page Settings": <BiSolidLayout />,
@@ -50,6 +36,8 @@ const iconMap = {
   Languages: <BiSolidDirections />,
   "Back To Site": <BiSolidArrowFromRight />,
   "Pages Settings": <RiPagesFill />,
+  Payment: <BiSolidCreditCard />,
+  "Category & Brand": <BiSolidCategory />,
 };
 
 export default function SidebarAdmin({ setSidebarOpen }) {
@@ -58,7 +46,6 @@ export default function SidebarAdmin({ setSidebarOpen }) {
   const [listName, setListName] = useState(null);
   const [sideList, setSideList] = useState({});
   const nav = useNavigate();
-
   const { hasPermissionFun } = useCheckPermission();
 
   const getdropdownopen = (name) => {
