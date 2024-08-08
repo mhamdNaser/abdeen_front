@@ -1,10 +1,12 @@
 import React from "react";
 import { useTranslation } from "../../../../provider/TranslationProvider";
 import usePrintInvoice from "../../../../hooks/usePrintInvoice";
+import { useCompanyInfo } from "../../../../provider/CompanyInfoProvider";
 
 export default function ViewOrder({ data, setIsModalOpen }) {
-    const { translations, language } = useTranslation();
-    const { printInvoice } = usePrintInvoice(data);
+  const { translations, language } = useTranslation();
+  const { companyInfo, loading } = useCompanyInfo();
+    const { printInvoice } = usePrintInvoice(data, companyInfo);
   console.log(data);
 
   if (!data)

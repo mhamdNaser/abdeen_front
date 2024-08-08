@@ -1,0 +1,25 @@
+.title-line {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  padding-bottom: 20px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title-line::before {
+  position: absolute;
+  content: "";
+  height: 4px;
+  width: 65px;
+  background: var(--third-color);
+  left: 0;
+  bottom: -3px;
+  border-radius: 10px;
+}
+
+.loader .title-line::before {
+  background-color: var(--light-text);
+}

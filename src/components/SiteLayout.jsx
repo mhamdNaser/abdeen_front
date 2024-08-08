@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "../index.css";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import MainHeader from "../Site/Components/MainHeader";
 import TopHeader from "../Site/Components/TopHeader";
 import { useTranslation } from "../provider/TranslationProvider";
 import Footer from "../Site/Components/Footer";
 import axiosClient from "../axios-client";
 import Loading from "./Loading";
+import { BiLogoWhatsappSquare } from "react-icons/bi";
 import { useCategoryBrand } from "../provider/CategoryBrandProvider";
 
 export default function SiteLayout() {
@@ -52,17 +53,8 @@ export default function SiteLayout() {
   }
 
   return (
-    <div className="menu-dropdown bg-blocks-color h-full">
+    <div className="menu-dropdown bg-blocks-color h-full relative">
       <TopHeader likeNum={likeNum} cardProductNum={cardProductNum} />
-      {/* <div
-        className={`${
-          !background
-            ? "bg-background-color"
-            : language === "ar"
-            ? "bg-[url('/image/background-rtl.png')]"
-            : "bg-[url('/image/background.png')]"
-        } bg-cover bg-no-repeat bg-bottom bg-fixed max-fit`}
-      > */}
       <MainHeader
         menuItems={items}
         background={background}
@@ -80,7 +72,13 @@ export default function SiteLayout() {
         }}
       />
       <Footer socialMedia={socialMedia} />
-      {/* </div> */}
+      <Link
+        className="fixed bottom-10 right-10 p-4"
+        to={"https://wa.me/962776830893"}
+        target="_blank"
+      >
+        <BiLogoWhatsappSquare size={72} className="text-greenColor" />
+      </Link>
     </div>
   );
 }

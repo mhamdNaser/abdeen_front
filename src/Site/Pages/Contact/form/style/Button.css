@@ -1,0 +1,22 @@
+.form-button {
+    background-color: var(--third-color);
+    display: flex !important;
+    justify-content: center !important;
+    transition: all 0.5s;
+    border: 1px solid var(--third-color);
+}
+
+.form-button.primary:hover {
+    background-color: transparent;
+    color: var(--main-color);
+}
+
+.hired-button {
+    background-color: var(--third-color);
+    border-color: var(--third-color);
+}
+
+
+.hired-button:hover {
+    color: var(--third-color) !important;
+}

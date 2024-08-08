@@ -1,7 +1,19 @@
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
+import axiosClient from "../axios-client";
+import { useEffect, useState } from "react";
+import { useCompanyInfo } from "../provider/CompanyInfoProvider";
 
 const usePrintInvoice = (order) => {
+  const [socialMedia, setSocialMedia] = useState([]);
+  const { companyInfo, loading } = useCompanyInfo();
+
+  useEffect(() => {
+    axiosClient.get("site/socialmedia").then((res) => {
+      setSocialMedia(res.data.socialMedia);
+    });
+  }, []);
+
   const printInvoice = async () => {
     if (!order) return;
 
@@ -35,23 +47,23 @@ const usePrintInvoice = (order) => {
       // Add border around the logo and company information
       doc.setDrawColor(0, 0, 0);
       doc.rect(14, 14, 182, 32);
-      doc.addImage(logo, "PNG", 16, 20, 30, 20); // Logo
+      doc.addImage(logo, "PNG", 16, 16, 30, 20); // Logo
     }
 
     // Company information next to the logo
     doc.setFontSize(8);
-    doc.text("Company Name", 60, 22);
-    doc.text("Jordan / Aqaba", 60, 26);
-    doc.text("Phone Number: (123) 456-7890", 60, 30);
-    doc.text("Email: contact@company.com", 60, 34);
+    doc.text(`${companyInfo.company_name}`, 60, 22);
+    doc.text(`${companyInfo.location}`, 60, 26);
+    doc.text(`${companyInfo.phone_number}`, 60, 30);
+    doc.text(`${companyInfo.email}`, 60, 34);
 
     // Tax number, commercial register, and license information
     doc.setFontSize(8);
-    doc.text("Tax Number: 123456789", 140, 22);
-    doc.text("Commercial Register: 987654321", 140, 26);
-    doc.text("License Number: 567890123", 140, 30);
-    doc.text("License Date: 01/01/2020", 140, 34);
-    doc.text("License Expiry: 31/12/2025", 140, 38);
+    doc.text(`tax number: ${companyInfo.tax_number}`, 140, 22);
+    doc.text(`commercial register: ${companyInfo.commercial_register}`, 140, 26);
+    doc.text(`license number: ${companyInfo.license_number}`, 140, 30);
+    doc.text(`license date: ${companyInfo.license_date}`, 140, 34);
+    doc.text(`license expiry: ${companyInfo.license_expiry}`, 140, 38);
 
     // Border around the invoice title and customer information
     doc.setDrawColor(0, 0, 0);
@@ -158,9 +170,12 @@ const usePrintInvoice = (order) => {
     // Social media at the bottom of the page
     doc.setFontSize(8);
     doc.text("Social Media:", 16, 255);
-    doc.text("Facebook: facebook.com/company", 16, 265);
-    doc.text("Twitter: twitter.com/company", 16, 270);
-    doc.text("Instagram: instagram.com/company", 16, 275);
+    {
+      socialMedia &&
+      socialMedia.map((media, index) => {
+        doc.text(`${media.title}: ${media.link}`, 16, index * 5 + 265);
+      })
+    }
 
     doc.setFontSize(8);
     doc.text("contact:", 100, 255);

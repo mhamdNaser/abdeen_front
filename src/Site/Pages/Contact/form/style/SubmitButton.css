@@ -1,0 +1,22 @@
+.submit-button {
+  display: flex !important;
+  justify-content: center !important;
+  transition: all 0.5s;
+}
+
+.second-button {
+  background-color: var(--color-white) !important;
+  border: 1px solid var(--third-color) !important;
+  color: var(--third-color) !important;
+}
+
+.submit-button:hover {
+  opacity: 0.8;
+}
+
+.second-button:hover {
+  background-color: var(--third-color) !important;
+  border: 1px solid var(--third-color) !important;
+  color: var(--color-white) !important;
+  opacity: 1;
+}

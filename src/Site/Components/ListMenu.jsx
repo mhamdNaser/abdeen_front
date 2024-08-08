@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "../../provider/TranslationProvider";
+import { BiChevronRight } from "react-icons/bi";
 
 function ListMenu({ col, menuItems }) {
   const { translations, language } = useTranslation();
@@ -20,6 +21,16 @@ function ListMenu({ col, menuItems }) {
     };
   }, []);
 
+  const toggleMenu = (id) => {
+    setOpenMenus((prevOpenMenus) => {
+      const newOpenMenus = Object.keys(prevOpenMenus).reduce((acc, key) => {
+        acc[key] = false;
+        return acc;
+      }, {});
+      return { ...newOpenMenus, [id]: !prevOpenMenus[id] };
+    });
+  };
+
   const renderMenuItems = (items) => {
     return (
       <ul
@@ -36,31 +47,46 @@ function ListMenu({ col, menuItems }) {
               !col ? "relative min-w-40 max-w-fit" : "bg-white w-full"
             }`}
           >
-            <div className="cursor-pointer hover:font-bold flex items-center gap-2">
+            <div
+              className="cursor-pointer hover:font-bold flex items-center gap-2"
+              onClick={() => toggleMenu(item.id)}
+            >
               <div className={`flex w-fit gap-x-2 items-center py-1 px-2`}>
-                {item.brands && item.brands.length > 0 ? (
-                  <div>{language === "ar" ? item.ar_name : item.en_name}</div>
-                ) : (
-                  <Link
-                    to={`/category/${item.id}`}
-                    state={{ en_name: item.en_name, ar_name: item.ar_name }}
-                    className={`flex ${!col ? "font-bold" : ""}`}
-                  >
-                    {language === "ar" ? item.ar_name : item.en_name}
-                  </Link>
-                )}
+                {language === "ar" ? item.ar_name : item.en_name}
               </div>
             </div>
-            {item.brands && item.brands.length > 0 && (
-              <div className="mt-2 p-2 bg-gray-100 border border-gray-300 rounded">
-                <h4 className="text-lg font-semibold">{translations.brands}</h4>
-                <ul>
-                  {item.brands.map((brand) => (
-                    <li key={brand.id} className="py-1">
+            {openMenus[item.id] && item.brands && item.brands.length > 0 && (
+              <div
+                className={`z-30 ${
+                  col ? "relative w-full" : "top-14 start-0 absolute"
+                } bg-[#3e3e3e] text-white border text-nowrap text-sm border-gray-300 shadow-lg py-4`}
+              >
+                <h1 className="flex text-white gap-x-3 items-end border-b border-gray-500 py-2 px-8">
+                  {(translations && translations["Brands"]) || "Brands"}
+                </h1>
+                {item.brands.map((brand) => (
+                  <li
+                    key={brand.id}
+                    className="flex hover:bg-[#202020] text-white gap-x-3 items-end py-4  px-10"
+                  >
+                    <img
+                      src={import.meta.env.VITE_WEBSITE_URL + brand.image}
+                      alt={brand.en_name}
+                      className="max-w-10 min-w-10 min-h-10 max-h-10"
+                    />
+                    <Link
+                      to={`/brand/${brand.id}`}
+                      state={{
+                        en_name: brand.en_name,
+                        ar_name: brand.ar_name,
+                      }}
+                      className={`flex w-40`}
+                    >
                       {language === "ar" ? brand.ar_name : brand.en_name}
-                    </li>
-                  ))}
-                </ul>
+                    </Link>
+                    <BiChevronRight />
+                  </li>
+                ))}
               </div>
             )}
           </li>

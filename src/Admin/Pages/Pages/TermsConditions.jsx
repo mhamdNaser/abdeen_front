@@ -33,15 +33,15 @@ const TermsConditions = () => {
       active: false,
     },
     {
-      title: "brands table",
-      url: "/admin/allbrands",
+      title: "terms and conditions",
+      url: "",
       active: true,
     },
   ];
 
   const handleSubmit = async () => {
     const data = {
-      title: "privacy",
+      title: "TermsConditions",
       content: value,
     };
 

@@ -14,6 +14,7 @@ import {
   BiSolidCog,
   BiSolidStoreAlt,
   BiSolidReport,
+  BiCog,
 } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai";
@@ -38,6 +39,7 @@ const iconMap = {
   "Pages Settings": <RiPagesFill />,
   Payment: <BiSolidCreditCard />,
   "Category & Brand": <BiSolidCategory />,
+  "Company Settings": <BiCog />,
 };
 
 export default function SidebarAdmin({ setSidebarOpen }) {

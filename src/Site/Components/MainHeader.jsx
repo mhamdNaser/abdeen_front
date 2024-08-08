@@ -10,10 +10,12 @@ import ModalContainer from "../../components/ModalContainer";
 import Login from "../Pages/Auth/Login";
 import Register from "../Pages/Auth/Register";
 import Searchmenu from "./Searchmenu";
+import { useCompanyInfo } from "../../provider/CompanyInfoProvider";
 
 export default function MainHeader({ background, likeNum, cardProductNum, menuItems }) {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [singupModalOpen, setSingupModalOpen] = useState(false);
+  const { companyInfo, loading } = useCompanyInfo();
   const [liistmenu, setListMenu] = useState(false);
   const { token } = useStateContext({});
   const { translations, language } = useTranslation();
@@ -49,7 +51,7 @@ export default function MainHeader({ background, likeNum, cardProductNum, menuIt
             className="relative flex items-center justify-between "
           >
             <img
-              src="/image/logo-dark.png"
+              src={companyInfo.logo}
               alt="Logo"
               className="max-w-[210px] min-w-[140px]"
             />

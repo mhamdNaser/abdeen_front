@@ -1,0 +1,65 @@
+.filter-input,
+.filter-select {
+  padding: 5px;
+  background-color: var(--color-white);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  height: 50px;
+  position: relative;
+  color: var(--light-text);
+}
+
+.select-container {
+  margin: 0 auto 30px;
+}
+
+.show-section {
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.show-section .filter-icon {
+  transform: rotate(0deg);
+  transition: all 0.5s;
+}
+
+.show-section.open .filter-icon {
+  transform: rotate(180deg);
+  transition: all 0.5s;
+}
+
+.filter-list {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  z-index: 10;
+  display: none;
+  max-height: 40svh;
+  overflow: auto;
+  background-color: var(--color-white);
+}
+
+.filter-list.open {
+  display: block;
+}
+
+.filter-list input {
+  position: sticky;
+  padding: 4px;
+  margin: 4px;
+  border: 1px solid var(--gray-text);
+}
+
+.filter-list li {
+  color: var(--main-color);
+  text-align: left;
+  padding: 6px;
+  cursor: pointer;
+}
+
+.filter-list li:hover {
+  color: var(--color-white);
+}

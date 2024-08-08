@@ -10,31 +10,34 @@ import "react-toastify/dist/ReactToastify.css";
 import TranslationProvider from "./provider/TranslationProvider";
 import LocationProvider from "./provider/LocationProvider";
 import CategoryBrandProvider from "./provider/CategoryBrandProvider";
+import { CompanyInfoProvider } from "./provider/CompanyInfoProvider";
 // import { GlobalDataProvider } from "./Context/GlobalDataContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <TranslationProvider>
-      <LocationProvider>
-        <CategoryBrandProvider>
-          <ContextProvider>
-            <ToastContainer
-              position="top-right"
-              autoClose={3000}
-              hideProgressBar={false}
-              newestOnTop={true}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover={false}
-            />
-            <TWThemeProvider>
-              <RouterProvider router={router} />
-            </TWThemeProvider>
-          </ContextProvider>
-        </CategoryBrandProvider>
-      </LocationProvider>
-    </TranslationProvider>
+    <CompanyInfoProvider>
+      <TranslationProvider>
+        <LocationProvider>
+          <CategoryBrandProvider>
+            <ContextProvider>
+              <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={true}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover={false}
+              />
+              <TWThemeProvider>
+                <RouterProvider router={router} />
+              </TWThemeProvider>
+            </ContextProvider>
+          </CategoryBrandProvider>
+        </LocationProvider>
+      </TranslationProvider>
+    </CompanyInfoProvider>
   </React.StrictMode>
 );

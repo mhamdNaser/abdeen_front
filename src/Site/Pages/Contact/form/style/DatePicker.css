@@ -1,0 +1,25 @@
+.react-date-picker__wrapper {
+    display: none;
+}
+
+.react-date-picker__calendar.react-date-picker__calendar--open {
+    position: relative !important;
+    height: max-content !important;
+}
+
+.react-calendar__navigation {
+    background-color: var(--main-color);
+}
+
+.react-calendar__tile--active {
+    background-color: var(--main-color) !important;
+    color: var(--color-white) !important;
+}
+
+.form-input-date .real-input {
+    display: none;
+}
+
+.form-input-date .react-calendar button {
+    border-radius: 10px !important;
+}

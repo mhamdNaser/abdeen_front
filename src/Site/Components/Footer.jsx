@@ -6,10 +6,12 @@ import {
   FaSquareXTwitter,
 } from "react-icons/fa6";
 import { useTranslation } from "../../provider/TranslationProvider";
+import { useCompanyInfo } from "../../provider/CompanyInfoProvider";
 
 const Footer = ({ socialMedia }) => {
-  const { translations } = useTranslation();
-  const language = localStorage.getItem("LANGUAGE");
+  const { translations, language } = useTranslation();
+  const { companyInfo, loading } = useCompanyInfo();
+
   return (
     <>
       <footer className="py-12  bg-[#1c1c1c] text-white relative">
@@ -19,8 +21,7 @@ const Footer = ({ socialMedia }) => {
               <img src="/image/logo-dark.png" className="w-48" />
             </div>
             <div className="text-sm w-3/4 text-gray-300">
-              {(translations && translations["footer"]) ||
-                "Discover a diverse collection of the finest watch brands and sunglasses with Abdeen, where luxury and quality meet to offer you an unparalleled selection of timepieces and eyewear that blend elegance, craftsmanship, and style."}
+              {language === "ar" ? companyInfo.company_description_ar : companyInfo.company_description_en}
             </div>
           </div>
           <div className="flex flex-[40%]">
@@ -29,19 +30,23 @@ const Footer = ({ socialMedia }) => {
                 {(translations && translations["company"]) || "company"}
               </div>
               <div className="flex flex-col gap-5 items-start text-gray-300">
-                <Link to="/" target="_blank" className="flex gap-2 items-center">
+                <Link
+                  to="/"
+                  target="_blank"
+                  className="flex gap-2 items-center"
+                >
                   <span>
                     {(translations && translations["about us"]) || "about us"}
                   </span>
                 </Link>
 
-                <Link to="/" target="_blank" className="flex gap-2 items-center">
+                <Link to="/privacy" className="flex gap-2 items-center">
                   <span>
                     {(translations && translations["privacy policy"]) ||
                       "privacy policy"}
                   </span>
                 </Link>
-                <Link to="/"  target="_blank" className="flex gap-2 items-center">
+                <Link to="/TermsConditions" className="flex gap-2 items-center">
                   <span>
                     {(translations && translations["terms and conditions"]) ||
                       "terms and conditions"}
@@ -54,13 +59,7 @@ const Footer = ({ socialMedia }) => {
                 {(translations && translations["support"]) || "support"}
               </div>
               <div className="flex flex-col gap-5 items-start text-gray-300">
-                {/* <Link className="flex gap-2 items-center">
-                  <span>
-                    {(translations && translations["help center"]) ||
-                      "help center"}
-                  </span>
-                </Link> */}
-                <Link to="/" target="_blank" className="flex gap-2 items-center">
+                <Link to="/contact" className="flex gap-2 items-center">
                   <span>
                     {(translations && translations["contact"]) || "contact"}
                   </span>
@@ -126,12 +125,9 @@ const Footer = ({ socialMedia }) => {
                   </Link>
                 );
               } else {
-                return null; // لتجنب ظهور أي شيء إذا لم يكن العنوان متوافق
+                return null;
               }
             })}
-          {/* <Link className="hover:text-redColor text-white">
-            <FaSquareXTwitter size={32} />
-          </Link> */}
         </div>
       </div>
     </>

@@ -44,6 +44,12 @@ import PaymentMethod from "./Admin/Pages/Payment/PaymentMethod";
 import AllPayment from "./Admin/Pages/Payment/AllPayment";
 import AdminViewOrder from "./Admin/Pages/User/component/AdminViewOrder";
 import BrandsCategory from "./Admin/Pages/Category_brand/BrandsCategory";
+import ProductByBrand from "./Site/Pages/ProductByBrand";
+import SitePrivacy from "./Site/Pages/SitePrivacy";
+import SiteTermsConditions from "./Site/Pages/SiteTermsConditions";
+import Contact from "./Site/Pages/Contact/Contact";
+import CompanyInfo from "./Admin/Pages/Company/CompanyInfo";
+import LandPageImages from "./Admin/Pages/Pages/LandPageImages";
 
 const router = createBrowserRouter([
   {
@@ -71,12 +77,28 @@ const router = createBrowserRouter([
         element: <ProductByCategory />,
       },
       {
+        path: "/brand/:id/",
+        element: <ProductByBrand />,
+      },
+      {
         path: "/siteviewproduct/:id/:name",
         element: <SiteViewProduct />,
       },
       {
         path: "/vieworder/:id/:checkout",
         element: <ViewOrder />,
+      },
+      {
+        path: "/privacy",
+        element: <SitePrivacy />,
+      },
+      {
+        path: "/TermsConditions",
+        element: <SiteTermsConditions />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
       },
     ],
   },
@@ -202,8 +224,16 @@ const router = createBrowserRouter([
         element: <TermsConditions />,
       },
       {
+        path: "/admin/LandPageImages",
+        element: <LandPageImages />,
+      },
+      {
         path: "/admin/socialmedia",
         element: <SocialMedia />,
+      },
+      {
+        path: "/admin/companyInfo",
+        element: <CompanyInfo />,
       },
       {
         path: "/admin/delivery",

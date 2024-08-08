@@ -103,6 +103,16 @@
       "path": "/admin/termsconditions",
       "perId": "termsconditions"
     },
+    "Land Page Images": {
+      "path": "/admin/LandPageImages",
+      "perId": "LandPageImages"
+    }
+  },
+  "Company Settings": {
+    "company Info": {
+      "path": "/admin/companyInfo",
+      "perId": "company Info"
+    },
     "Social Media": {
       "path": "/admin/socialmedia",
       "perId": "socialmedia"

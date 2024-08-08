@@ -33,8 +33,8 @@ const Privacy = () => {
       active: false,
     },
     {
-      title: "brands table",
-      url: "/admin/allbrands",
+      title: "privacy policy",
+      url: "",
       active: true,
     },
   ];
