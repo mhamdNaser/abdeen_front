@@ -8,7 +8,10 @@ import Footer from "../Site/Components/Footer";
 import axiosClient from "../axios-client";
 import Loading from "./Loading";
 import { BiLogoWhatsappSquare } from "react-icons/bi";
+import { IoMdCloseCircle } from "react-icons/io";
 import { useCategoryBrand } from "../provider/CategoryBrandProvider";
+import { AnimatePresence, motion } from "framer-motion";
+import SiteViewproduct from "../Site/Pages/SiteViewProduct";
 
 export default function SiteLayout() {
   const { language } = useTranslation();
@@ -18,11 +21,32 @@ export default function SiteLayout() {
   const [socialMedia, setSocialMedia] = useState([]);
   const { items, brands } = useCategoryBrand();
   const [loading, setLoading] = useState(true);
+  const [productView, setProductView] = useState(false);
+  const [productdetails, setProductDetails] = useState({
+    id: 0,
+    name: "",
+  });
+
+  const [images, setImages] = useState({
+    primary_image_1: "",
+    secondary_image_1: "",
+    secondary_image_2: "",
+  });
+
+  const fetchImages = async () => {
+    const response = await axiosClient.get("site/images/info");
+    if (response.data) {
+      setImages({
+        primary_image_1: response.data.primary_image_1 || "",
+        secondary_image_1: response.data.secondary_image_1 || "",
+        secondary_image_2: response.data.secondary_image_2 || "",
+      });
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000); // إعداد وقت الانتظار هنا بـ 2000 ميلي ثانية (2 ثانية)
+    fetchImages();
   }, []);
 
   useEffect(() => {
@@ -54,8 +78,11 @@ export default function SiteLayout() {
 
   return (
     <div className="menu-dropdown bg-blocks-color h-full relative">
-      <TopHeader likeNum={likeNum} cardProductNum={cardProductNum} />
+      <TopHeader socialMedia={socialMedia} />
       <MainHeader
+        setProductView={setProductView}
+        productdetails={productdetails}
+        setProductDetails={setProductDetails}
         menuItems={items}
         background={background}
         likeNum={likeNum}
@@ -63,6 +90,10 @@ export default function SiteLayout() {
       />
       <Outlet
         context={{
+          setProductView,
+          productdetails,
+          setProductDetails,
+          images,
           socialMedia,
           setBackground,
           getLikeNum,
@@ -79,6 +110,53 @@ export default function SiteLayout() {
       >
         <BiLogoWhatsappSquare size={72} className="text-greenColor" />
       </Link>
+      <button
+        className="fixed bottom-10 right-10 p-4"
+        onClick={() => setProductView(true)}
+        target="_blank"
+      >
+        <BiLogoWhatsappSquare size={72} className="text-greenColor" />
+      </button>
+      {productView && (
+        <div className="absolute">
+          <AnimatePresence>
+            <motion.div
+              key="modal-content"
+              initial={{ x: "-100%" }}
+              animate={{ x: "0" }}
+              exit={{ x: "-100%" }}
+              transition={{ duration: 0.5, type: "spring" }}
+              style={{
+                position: "fixed",
+                top: "0",
+                left: "0",
+                height: "100%",
+                minWidth: "33%",
+                maxWidth: "100%",
+                zIndex: "102",
+              }}
+              className="overflow-hidden overflow-y-auto xl:w-1/3 w-full bg-[#3e3e3e]"
+            >
+              <div
+                className={"right-5 absolute top-5 cursor-pointer text-white"}
+                onClick={() => setProductView(false)}
+              >
+                <IoMdCloseCircle size={40} />
+              </div>
+              <SiteViewproduct
+                productdetails={productdetails}
+                getCardProductNum={getCardProductNum}
+              />
+            </motion.div>
+
+            <div
+              key="modal-backdrop"
+              onClick={() => setProductView(false)}
+              className={`fixed cursor-pointer inset-0 bg-[#6b6868a9] w-full h-full z-[100]`}
+            ></div>
+          </AnimatePresence>
+        </div>
+      )}
     </div>
   );
 }

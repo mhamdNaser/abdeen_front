@@ -15,10 +15,10 @@ import { CompanyInfoProvider } from "./provider/CompanyInfoProvider";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <CompanyInfoProvider>
-      <TranslationProvider>
-        <LocationProvider>
-          <CategoryBrandProvider>
+    <TranslationProvider>
+      <LocationProvider>
+        <CategoryBrandProvider>
+          <CompanyInfoProvider>
             <ContextProvider>
               <ToastContainer
                 position="top-right"
@@ -35,9 +35,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <RouterProvider router={router} />
               </TWThemeProvider>
             </ContextProvider>
-          </CategoryBrandProvider>
-        </LocationProvider>
-      </TranslationProvider>
-    </CompanyInfoProvider>
+          </CompanyInfoProvider>
+        </CategoryBrandProvider>
+      </LocationProvider>
+    </TranslationProvider>
   </React.StrictMode>
 );

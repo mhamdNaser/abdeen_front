@@ -36,14 +36,16 @@ export default function ProductByCategory() {
   }, [setBackground]);
 
   return (
-    <div className="flex xl:p-10 p-4 h-fit justify-center">
+    <div className="flex xl:p-10 p-4 h-fit justify-center bg-background-color">
       <div className="flex flex-col xl:w-3/4 w-full text-center">
-        <SitePageTitle
-          entitle={en_name}
-          artitle={ar_name}
-          number={products.length}
-          getHorValue={getHorValue}
-        />
+        <div className="bg-blocks-color px-8 mb-4">
+          <SitePageTitle
+            entitle={en_name}
+            artitle={ar_name}
+            number={products.length}
+            getHorValue={getHorValue}
+          />
+        </div>
         <div className="p-4">
           <ProductList
             filter={true}

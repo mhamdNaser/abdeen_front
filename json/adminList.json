@@ -123,6 +123,12 @@
     "path": "/admin/languages",
     "perId": "languages"
   },
+  "Help": {
+    "Image Size": {
+      "path": "/admin/ImageSize",
+      "perId": "ImageSize"
+    }
+  },
   "Back To Site": {
     "name": null,
     "path": "/",

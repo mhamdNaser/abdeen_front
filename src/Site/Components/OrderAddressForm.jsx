@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "../../provider/LocationProvider";
 import { useTranslation } from "../../provider/TranslationProvider";
+import { BiSolidEditAlt } from "react-icons/bi";
 
 const OrderAddressForm = ({ setAddress }) => {
   const [stateOptions, setStateOptions] = useState([]);
   const [cityOptions, setCityOptions] = useState([]);
+  const [addressform, setAddressForm] = useState(false);
   const { countries, states, cities } = useLocation();
   const { translations } = useTranslation();
   const [address, setLocalAddress] = useState({
@@ -52,80 +54,89 @@ const OrderAddressForm = ({ setAddress }) => {
       }
   };
 
+  const showaddressform = () => {
+    setAddressForm(!addressform);
+  };
+
   return (
     <div className="p-4 bg-white shadow-md rounded-md">
-      <h2 className="text-lg font-semibold mb-4">
-        {(translations && translations["Address"]) || "Address"}
+      <h2 className="flex justify-between items-center text-lg font-semibold mb-4">
+        {(translations && translations["Add New Address"]) || "Add New Address"}
+        <button onClick={showaddressform}>
+          <BiSolidEditAlt />
+        </button>
       </h2>
-      <div className="flex flex-col gap-4">
-        <select
-          className="input-box w-full"
-          name="country_id"
-          id=""
-          onChange={(e) => getAddress(e.target.name, e.target.value)}
-        >
-          <option disabled value="">
-            {(translations && translations["select country"]) ||
-              "select country"}
-          </option>
-          {countries &&
-            countries.map((country, index) => (
-              <option key={index} value={country.id}>
-                {country.name}
-              </option>
-            ))}
-        </select>
-        <select
-          className="input-box w-full"
-          name="state_id"
-          id=""
-          onChange={(e) => getAddress(e.target.name, e.target.value)}
-        >
-          <option disabled value="">
-            {(translations && translations["select state"]) || "select state"}
-          </option>
-          {stateOptions &&
-            stateOptions.map((state, index) => (
-              <option key={index} value={state.id}>
-                {state.name}
-              </option>
-            ))}
-        </select>
-        <select
-          className="input-box w-full"
-          name="city_id"
-          id=""
-          onChange={(e) => getAddress(e.target.name, e.target.value)}
-        >
-          <option disabled value="">
-            {(translations && translations["select city"]) || "select city"}
-          </option>
-          {cityOptions &&
-            cityOptions.map((city, index) => (
-              <option key={index} value={city.id}>
-                {city.name}
-              </option>
-            ))}
-        </select>
-        <input
-          className="input-box w-full"
-          type="text"
-          name="address_1"
-          onChange={(e) => getAddress(e.target.name, e.target.value)}
-        />
-        <input
-          className="input-box w-full"
-          type="text"
-          name="address_2"
-          onChange={(e) => getAddress(e.target.name, e.target.value)}
-        />
-        <input
-          className="input-box w-full"
-          type="text"
-          name="address_3"
-          onChange={(e) => getAddress(e.target.name, e.target.value)}
-        />
-      </div>
+      {addressform && (
+        <div className="flex flex-col gap-4">
+          <select
+            className="input-box w-full"
+            name="country_id"
+            id=""
+            onChange={(e) => getAddress(e.target.name, e.target.value)}
+          >
+            <option disabled value="">
+              {(translations && translations["select country"]) ||
+                "select country"}
+            </option>
+            {countries &&
+              countries.map((country, index) => (
+                <option key={index} value={country.id}>
+                  {country.name}
+                </option>
+              ))}
+          </select>
+          <select
+            className="input-box w-full"
+            name="state_id"
+            id=""
+            onChange={(e) => getAddress(e.target.name, e.target.value)}
+          >
+            <option disabled value="">
+              {(translations && translations["select state"]) || "select state"}
+            </option>
+            {stateOptions &&
+              stateOptions.map((state, index) => (
+                <option key={index} value={state.id}>
+                  {state.name}
+                </option>
+              ))}
+          </select>
+          <select
+            className="input-box w-full"
+            name="city_id"
+            id=""
+            onChange={(e) => getAddress(e.target.name, e.target.value)}
+          >
+            <option disabled value="">
+              {(translations && translations["select city"]) || "select city"}
+            </option>
+            {cityOptions &&
+              cityOptions.map((city, index) => (
+                <option key={index} value={city.id}>
+                  {city.name}
+                </option>
+              ))}
+          </select>
+          <input
+            className="input-box w-full"
+            type="text"
+            name="address_1"
+            onChange={(e) => getAddress(e.target.name, e.target.value)}
+          />
+          <input
+            className="input-box w-full"
+            type="text"
+            name="address_2"
+            onChange={(e) => getAddress(e.target.name, e.target.value)}
+          />
+          <input
+            className="input-box w-full"
+            type="text"
+            name="address_3"
+            onChange={(e) => getAddress(e.target.name, e.target.value)}
+          />
+        </div>
+      )}
     </div>
   );
 };

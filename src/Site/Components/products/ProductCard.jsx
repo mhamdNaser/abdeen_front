@@ -1,20 +1,32 @@
-import React from "react";
-import { BiSolidHeart, BiSolidShow } from "react-icons/bi";
+import React, { useState } from "react";
+import {
+  BiSolidHeart,
+  BiSolidShow,
+  BiLogoWhatsappSquare,
+} from "react-icons/bi";
 import { useTranslation } from "../../../provider/TranslationProvider";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
+import axiosClient from "../../../axios-client";
 
 const ProductCard = ({ product, addToCart, likeProduct, viewProduct, buttontitle }) => {
-  // Retrieve existing liked products from localStorage
   let existingProducts =
     JSON.parse(localStorage.getItem("Like_products")) || [];
+  const { setProductDetails, setProductView } =
+    useOutletContext();
 
   // Check if the product ID exists in existingProducts
   const isLiked = existingProducts.some((p) => p.id === product.id);
   const language = localStorage.getItem("LANGUAGE");
   const { translations } = useTranslation();
 
+  const hanelProductInfo = (productId, productName) => { 
+    setProductView(true);
+    setProductDetails(product);
+    axiosClient.get(`site/add-view-product/${productId}`);
+  }
+
   return (
-    <div className="bg-white shadow-md rounded-lg p-4 z-0 relative text-start">
+    <div className="bg-white shadow-md rounded-lg p-4 z-0 relative w-full xl:text-start text-center justify-center ">
       {product.discount > 0 && (
         <div className="relative px-8 z-0">
           <div className="absolute bg-redColor text-xs text-white px-3 py-[3px] rounded-md top-2 right-2">
@@ -22,35 +34,9 @@ const ProductCard = ({ product, addToCart, likeProduct, viewProduct, buttontitle
           </div>
         </div>
       )}
-      {/* <div className="relative px-8">
-        <div className="absolute top-2 right-2">
-          {likeProduct && (
-            <button
-              className={`p-2 rounded-full ${
-                isLiked
-                  ? "bg-red-500 text-red-300 hover:bg-redColor hover:text-white"
-                  : "text-gray-400 bg-white hover:bg-redColor hover:text-white"
-              }`}
-              onClick={() => likeProduct(product)}
-            >
-              <BiSolidHeart />
-            </button>
-          )}
-        </div>
-        <div className="absolute top-2 left-2">
-          {viewProduct && (
-            <button
-              className="bg-white text-gray-400 p-2 rounded-full hover:bg-blueColor hover:text-white"
-              onClick={() => viewProduct(product)}
-            >
-              <BiSolidShow />
-            </button>
-          )}
-        </div>
-      </div> */}
 
       <img
-        className="xl:w-72 lg:w-72 lg:h-48 max-h-60 min-h-60 w-full  rounded-md"
+        className="min-w-80 max-w-80 min-h-80 max-h-80 rounded-md m-auto"
         src={import.meta.env.VITE_WEBSITE_URL + product.image}
         alt={language === "ar" ? product.ar_name : product.en_name}
       />
@@ -101,10 +87,10 @@ const ProductCard = ({ product, addToCart, likeProduct, viewProduct, buttontitle
         </p>
       </div>
 
-      <div className="mt-4 flex justify-between gap-1">
+      <div className="mt-4 flex w-full justify-between gap-1">
         {addToCart && (
           <button
-            className="bg-redColor w-full text-white px-4 py-2 rounded hover:bg-red-800"
+            className="bg-redColor w-3/4 text-white px-4 py-2 rounded hover:bg-red-800"
             onClick={() => addToCart(product)}
           >
             {!buttontitle
@@ -113,12 +99,14 @@ const ProductCard = ({ product, addToCart, likeProduct, viewProduct, buttontitle
           </button>
         )}
         {viewProduct && (
-          <Link
-            className="bg-blueColor text-white px-4 flex items-center rounded hover:bg-blue-800"
-            to={`/siteviewproduct/${product.id}/${product.en_name}`}
-          >
-            <BiSolidShow />
-          </Link>
+          <>
+            <button
+              className="bg-blueColor w-1/4 text-white px-4 flex items-center justify-center rounded hover:bg-blue-800"
+              onClick={() => hanelProductInfo(product.id, product.en_name)}
+            >
+              <BiSolidShow />
+            </button>
+          </>
         )}
       </div>
     </div>

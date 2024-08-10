@@ -8,17 +8,15 @@ import ImagesSection from "../Components/products/Sections/ImagesSection";
 import { useTranslation } from "../../provider/TranslationProvider";
 import { BiSolidUserCircle, BiSolidEditAlt } from "react-icons/bi";
 
-export default function SiteViewproduct() {
-  const { translations } = useTranslation();
-  const { id, name } = useParams();
-  const [product, setproduct] = useState();
-  const { setBackground, getCardProductNum } = useOutletContext();
+export default function SiteViewproduct({ productdetails, getCardProductNum }) {
+  const { translations, language } = useTranslation();
+  const [product, setproduct] = useState(productdetails);
 
-  const saveproduct = () => {
-    axiosClient.get(`site/show-product/${id}`).then((data) => {
-      setproduct(data.data.product);
-    });
-  };
+  // const saveproduct = () => {
+  //   axiosClient.get(`site/show-product/${productdetails?.id}`).then((data) => {
+  //     setproduct(data.data.product);
+  //   });
+  // };
 
   const addToCart = (product) => {
     let cardsProducts = JSON.parse(localStorage.getItem("Card_products")) || [];
@@ -31,7 +29,6 @@ export default function SiteViewproduct() {
       // Product is already in the cart, increment its quantity
       cardsProducts[cartProductIndex].quantity += 1;
     } else {
-      // Product is not in the cart, add it with quantity 1
       cardsProducts.push({ id: product.id, quantity: 1 });
     }
 
@@ -39,14 +36,9 @@ export default function SiteViewproduct() {
     getCardProductNum();
   };
 
-  useEffect(() => {
-    saveproduct();
-  }, []);
-
-  useEffect(() => {
-    setBackground(false);
-    return () => setBackground(true); // Cleanup function to reset the background when the component unmounts
-  }, [setBackground]);
+  // useEffect(() => {
+  //   saveproduct();
+  // }, []);
 
   return (
     <div className="flex xl:p-10 p-4 h-fit justify-center">
@@ -56,7 +48,7 @@ export default function SiteViewproduct() {
             <Loading />
           ) : (
             <>
-              <div className="xl:w-1/4 w-full text-dark">
+              <div className="w-full text-dark">
                 <section className="mb-8">
                   <div className="bg-blocks-color shadow-md rounded-lg p-4">
                     <h2 className="text-2xl border-b py-3 font-semibold flex justify-between">
@@ -64,11 +56,11 @@ export default function SiteViewproduct() {
                         "product Information"}
                     </h2>
                     {product && (
-                      <div className="xl:flex flex-col gap-6 py-4">
-                        <div className="flex flex-col relative gap-4">
+                      <div className="flex items-end gap-6 py-4">
+                        <div className="flex flex-col w-1/3 relative gap-4">
                           {product.image ? (
                             <img
-                              className="w-full mb-3"
+                              className="w-full max-h-40 min-h-40 mb-3"
                               src={`${import.meta.env.VITE_WEBSITE_URL}${
                                 product.image
                               }`}
@@ -85,7 +77,7 @@ export default function SiteViewproduct() {
                               "Add to Cart"}
                           </button>
                         </div>
-                        <div className="flex flex-col gap-4">
+                        <div className="flex flex-col w-1/2 gap-1">
                           <p className="flex justify-between">
                             <strong>
                               {(translations && translations["Sku"]) || "Sku"}
@@ -95,113 +87,56 @@ export default function SiteViewproduct() {
                           </p>
                           <p className="flex justify-between">
                             <strong>
-                              {(translations && translations["Arabic Name"]) ||
-                                "Arabic Name"}
+                              {(translations && translations["Name"]) || "Name"}
                               {" : "}
                             </strong>{" "}
-                            {product.ar_name}
+                            {language === "ar"
+                              ? product.ar_name
+                              : product.en_name}
                           </p>
                           <p className="flex justify-between">
                             <strong>
-                              {(translations && translations["English Name"]) ||
-                                "English Name"}
+                              {(translations && translations["Brand"]) ||
+                                "Brand"}
                               {" : "}
                             </strong>{" "}
-                            {product.en_name}
+                            {language === "ar"
+                              ? product.ar_brand
+                              : product.en_brand}
                           </p>
                           <p className="flex justify-between">
                             <strong>
-                              {(translations && translations["Status"]) ||
-                                "Status"}
+                              {(translations && translations["Category"]) ||
+                                "Category"}
                               {" : "}
                             </strong>{" "}
-                            {product.status === 1 ? "Active" : "Not Active"}
+                            {language === "ar"
+                              ? product.ar_category
+                              : product.en_category}
                           </p>
                         </div>
                       </div>
                     )}
                   </div>
                 </section>
+                <ImagesSection productid={productdetails?.id} />
                 <section className="mb-8">
                   <div className="bg-blocks-color shadow-md rounded-lg p-4">
                     <h2 className="text-2xl border-b py-3 font-semibold flex justify-between">
-                      {(translations && translations["Price"]) || "Price"}
-                    </h2>
-                    <div className="flex flex-col gap-4 py-2">
-                      <p className="flex justify-between">
-                        <strong>
-                          {(translations && translations["Price"]) || "Price"}
-                          {" : "}
-                        </strong>
-                        <span>
-                          {parseFloat(product.public_price).toFixed(2)}
-                        </span>
-                      </p>
-                      <p className="flex justify-between">
-                        <strong>
-                          {(translations && translations["Quantity"]) ||
-                            "Quantity"}
-                          {" : "}
-                        </strong>
-                        <span>{product.quantity}</span>
-                      </p>
-                    </div>
-                  </div>
-                </section>
-                <section className="mb-8">
-                  <div className="bg-blocks-color shadow-md rounded-lg p-4">
-                    <h2 className="text-2xl border-b py-3 font-semibold flex justify-between">
-                      {(translations && translations["Discount"]) || "Discount"}
-                    </h2>
-                    <div className="flex flex-col gap-4 py-2">
-                      <p className="flex justify-between">
-                        <strong>
-                          {(translations && translations["Discount"]) ||
-                            "Discount"}
-                          {" : "}
-                        </strong>
-                        <span>{product.discount} %</span>
-                      </p>
-                    </div>
-                  </div>
-                </section>
-              </div>
-
-              <div className="xl:w-3/4 w-full text-dark">
-                <ImagesSection productid={id} />
-                <section className="mb-8">
-                  <div className="bg-blocks-color shadow-md rounded-lg p-4">
-                    <h2 className="text-2xl border-b py-3 font-semibold flex justify-between">
-                      {(translations && translations["product Description"]) ||
-                        "product Description"}
+                      {(translations && translations["Description"]) ||
+                        "Description"}
                     </h2>
                     <div className="flex flex-col gap-4 py-2 text-start">
-                      <p className="flex flex-col">
-                        <strong>
-                          {" "}
-                          {(translations &&
-                            translations["Description English"]) ||
-                            "Description English"}
-                          {" : "}
-                        </strong>{" "}
-                        {product.en_description}
-                      </p>
-                      <p className="flex flex-col">
-                        <strong>
-                          {(translations &&
-                            translations["Description Arabic"]) ||
-                            "Description Arabic"}
-                          {" : "}
-                        </strong>{" "}
-                        {product.ar_description}
+                      <p className="flex">
+                        {language === "ar"
+                          ? product.ar_description
+                          : product.en_description}
                       </p>
                     </div>
                   </div>
                 </section>
 
-                <BrandCategorySection product={product} />
-
-                <TagsSection productid={product.id} saveproduct={saveproduct} />
+                <TagsSection productid={product.id} />
               </div>
             </>
           )}

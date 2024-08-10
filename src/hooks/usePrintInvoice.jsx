@@ -4,8 +4,14 @@ import axiosClient from "../axios-client";
 import { useEffect, useState } from "react";
 import { useCompanyInfo } from "../provider/CompanyInfoProvider";
 
+
 const usePrintInvoice = (order) => {
   const [socialMedia, setSocialMedia] = useState([]);
+  const [customer, setCustomer] = useState(
+    localStorage.getItem("USER")
+  );
+  console.log(customer);
+  
   const { companyInfo, loading } = useCompanyInfo();
 
   useEffect(() => {
@@ -96,13 +102,36 @@ const usePrintInvoice = (order) => {
 
     // Customer address
     doc.text("Address:", 16, 100);
-    order.address.forEach((address, index) => {
+    if (order.address && order.address.length > 0) {
+      order.address.forEach((address, index) => {
+        doc.text(
+          `${address.country || ""} / ${address.state || ""} / ${
+            address.city || ""
+          }`,
+          60,
+          100 + index * 5
+        );
+        doc.text(
+          ` ${address.address_1 || ""} / ${address.address_2 || ""} / ${
+            address.address_3 || ""
+          }`,
+          60,
+          105 + index * 5
+        );
+      });
+    } else {
       doc.text(
-        `${address.country} / ${address.state} / ${address.city} / ${address.address_1} / ${address.address_2} / ${address.address_3}`,
+        `${customer.country} / ${customer.state} / ${customer.city}`,
         60,
-        100 + index * 10
+        100
       );
-    });
+      doc.text(
+        `${customer.address_1 } / ${customer.address_2 } / ${customer.address_3}`,
+        60,
+        105
+      );
+    }
+    
 
     // Product details
     const productDetails = order.products.map((product) => [
@@ -165,23 +194,19 @@ const usePrintInvoice = (order) => {
 
 
     doc.setDrawColor(0, 0, 0);
-    doc.rect(14, 250, 182, 30);
+    doc.rect(14, 260, 182, 25);
 
     // Social media at the bottom of the page
+    doc.setFontSize(10);
+    doc.text("Social Media:", 16, 265);
+
     doc.setFontSize(8);
-    doc.text("Social Media:", 16, 255);
     {
       socialMedia &&
       socialMedia.map((media, index) => {
-        doc.text(`${media.title}: ${media.link}`, 16, index * 5 + 265);
+        doc.text(`${media.title}: ${media.link}`, 16, index * 5 + 270);
       })
     }
-
-    doc.setFontSize(8);
-    doc.text("contact:", 100, 255);
-    doc.text("WhatsApp: (123) 456-7890", 100, 265);
-    doc.text("Fax: (123) 456-7890", 100, 270);
-    doc.text("Email: company@gmail.com", 100, 275);
 
     doc.save(`invoice_${order.id}.pdf`);
   };

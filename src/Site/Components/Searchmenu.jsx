@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { BiSearch } from "react-icons/bi";
 import axiosClient from "../../axios-client";
+import { useOutletContext } from "react-router-dom";
 
-export default function Searchmenu() {
+export default function Searchmenu({ setProductView, productdetails, setProductDetails }) {
   const [showsearch, setShowsearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
+
+  const hanelProductInfo = (product , productId, productName) => {
+    setProductView(true);
+    setProductDetails(product);
+    axiosClient.get(`site/add-view-product/${productId}`);
+  };
 
   const getShowsearch = () => {
     setShowsearch(!showsearch);
@@ -35,7 +42,7 @@ export default function Searchmenu() {
           searchTerm,
         },
       });
-      setResults(response.data);
+      setResults(response.data.data);
       setShowsearch(true); // Show the dropdown after search
     } catch (error) {
       console.error("Error searching products:", error);
@@ -57,7 +64,13 @@ export default function Searchmenu() {
       {showsearch && (
         <div className="absolute z-10 w-full bg-[#3e3e3e] text-white shadow-md search-dropdown">
           {results.map((product) => (
-            <div key={product.id} className="p-2 border-b flex items-center">
+            <button
+              key={product.id}
+              className="p-2 w-full border-b flex items-center"
+              onClick={() =>
+                hanelProductInfo(product, product.id, product.en_name)
+              }
+            >
               <img
                 src={import.meta.env.VITE_WEBSITE_URL + product.image}
                 alt={product.en_name}
@@ -67,7 +80,7 @@ export default function Searchmenu() {
                 <div>{product.en_name}</div>
                 <div>{product.ar_name}</div>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       )}

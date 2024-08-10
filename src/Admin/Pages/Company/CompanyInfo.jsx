@@ -3,8 +3,10 @@ import axiosClient from "../../../axios-client";
 import { Page } from "../../../components/StyledComponents";
 import PageTitle from "../../../components/PageTitle";
 import { toast } from "react-toastify";
+import { useCompanyInfo } from "../../../provider/CompanyInfoProvider";
 
 export default function CompanyInfo() {
+  const { getCompanyInfo } = useCompanyInfo();
   const [formData, setFormData] = useState({
     logo: "",
     company_name: "",
@@ -20,31 +22,32 @@ export default function CompanyInfo() {
     license_expiry: "",
   });
 
-  useEffect(() => {
-    const fetchCompanyInfo = async () => {
-      try {
-        const response = await axiosClient.get("admin/company/info");
-        if (response.data) {
-          setFormData({
-            logo: response.data.logo || "",
-            company_name: response.data.company_name || "",
-            company_description_en: response.data.company_description_en || "",
-            company_description_ar: response.data.company_description_ar || "",
-            location: response.data.location || "Jordan / Aqaba",
-            phone_number: response.data.phone_number || "",
-            email: response.data.email || "",
-            tax_number: response.data.tax_number || "",
-            commercial_register: response.data.commercial_register || "",
-            license_number: response.data.license_number || "",
-            license_date: response.data.license_date || "",
-            license_expiry: response.data.license_expiry || "",
-          });
-        }
-      } catch (error) {
-        console.error("Error fetching company information:", error);
-      }
-    };
+   const fetchCompanyInfo = async () => {
+     try {
+       const response = await axiosClient.get("admin/company/info");
+       if (response.data) {
+         setFormData({
+           logo: response.data.logo || "",
+           company_name: response.data.company_name || "",
+           company_description_en: response.data.company_description_en || "",
+           company_description_ar: response.data.company_description_ar || "",
+           location: response.data.location || "Jordan / Aqaba",
+           phone_number: response.data.phone_number || "",
+           email: response.data.email || "",
+           tax_number: response.data.tax_number || "",
+           commercial_register: response.data.commercial_register || "",
+           license_number: response.data.license_number || "",
+           license_date: response.data.license_date || "",
+           license_expiry: response.data.license_expiry || "",
+         });
+       }
+       getCompanyInfo();
+     } catch (error) {
+       console.error("Error fetching company information:", error);
+     }
+   };
 
+  useEffect(() => {
     fetchCompanyInfo();
   }, []);
 
@@ -81,6 +84,7 @@ export default function CompanyInfo() {
           pauseOnHover: false,
         });
       } else {
+        fetchCompanyInfo();
         toast.update(id, {
           type: "success",
           render: response.data.message,
@@ -118,16 +122,22 @@ export default function CompanyInfo() {
       >
         <div className="container m-auto">
           <div className="grid grid-cols-2 gap-4">
-            <div className="flex flex-col w-full">
-              <label className="mb-2 text-gray-700">Logo</label>
-              <input
-                className="input-box"
-                type="file"
-                name="logo"
-                onChange={handleChange}
+            <div className="flex items-end gap-4">
+              <img
+                src={formData?.logo}
+                className="w-40 h-40 border-4 rounded-lg bg-gray-700"
               />
+              <div className="flex flex-col w-full">
+                <label className="mb-2 text-gray-700">Logo</label>
+                <input
+                  className="input-box"
+                  type="file"
+                  name="logo"
+                  onChange={handleChange}
+                />
+              </div>
             </div>
-            <div className="flex flex-col w-full">
+            <div className="flex flex-col w-full justify-end">
               <label className="mb-2 text-gray-700">Company Name</label>
               <input
                 className="input-box"

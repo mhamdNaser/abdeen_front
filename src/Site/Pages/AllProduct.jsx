@@ -30,14 +30,16 @@ export default function AllProduct() {
     return () => setBackground(true); // Cleanup function to reset the background when the component unmounts
   }, [setBackground]);
   return (
-    <div className="flex xl:p-10 p-4 h-fit justify-center">
+    <div className="flex xl:p-10 p-4 h-fit justify-center bg-background-color">
       <div className="flex flex-col xl:w-3/4 w-full text-center">
-        <SitePageTitle
-          entitle={"All Products"}
-          artitle={translations["All Products"]}
-          number={products.length}
-          getHorValue={getHorValue}
-        />
+        <div className="bg-blocks-color px-8 mb-4">
+          <SitePageTitle
+            entitle={"All Products"}
+            artitle={translations["All Products"]}
+            number={products.length}
+            getHorValue={getHorValue}
+          />
+        </div>
         <div className="xl:p-4 items-center">
           <ProductList
             filter={true}

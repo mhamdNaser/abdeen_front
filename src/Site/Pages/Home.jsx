@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from "react";
-import {
-  FaSquareFacebook,
-  FaSquareInstagram,
-  FaSquareWhatsapp,
-  FaSquareXTwitter,
-} from "react-icons/fa6";
 import ProductSection from "../Components/ProductSection";
 import BestSalerSection from "../Components/BestSalerSection";
 import BestDiscountedSection from "../Components/BestDiscountedSection";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
+import "swiper/css/virtual";
+import "swiper/css/effect-cards";
+import {
+  EffectCoverflow,
+  Pagination,
+  Virtual,
+  EffectCards,
+} from "swiper/modules";
+import { useOutletContext } from "react-router-dom";
 import { useTranslation } from "../../provider/TranslationProvider";
-import axiosClient from "../../axios-client";
-import { Link, useOutletContext } from "react-router-dom";
 
 export default function Home() {
   const [mode, setMode] = useState(localStorage.getItem("theme"));
-  const language = localStorage.getItem("LANGUAGE");
+  const { images, brands } = useOutletContext();
   const [background, setBackground] = useState(true);
-  const { translations } = useTranslation();
-  const { socialMedia } = useOutletContext();
+  const { language } = useTranslation();
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -30,106 +34,137 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex flex-col lg:flex-row w-full min-h-[600px] 2xl:min-h-[760px] items-center">
-        <div className="flex flex-col w-full lg:w-1/2 items-center lg:items-start">
-          <div className="flex flex-col lg:flex-row items-center">
-            <img src="/image/watches.png" alt="Watches" />
-            <div
-              className={` ${
-                language === "ar" ? "min-w-[420px] font-serif" : "w-2/3"
-              } py-4 px-8 2xl:block hidden text-primary-text shadow-lg rounded-lg text-center lg:text-center`}
-            >
-              <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold">
-                {(translations && translations["ELEGANCE"]) || "ELEGANCE"}
-              </h2>
-              <h2 className="text-xl sm:text-2xl my-2">
-                {(translations && translations["IN"]) || "IN"}
-              </h2>
-              <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold">
-                {(translations && translations["TIME"]) || "TIME"}
-              </h2>
-            </div>
-          </div>
-        </div>
-        <div
-          className={` ${
-            language === "ar"
-              ? "font-serif"
-              : ""
-          }
-          text-slate-600 flex flex-col w-full lg:w-1/3 m-auto text-center gap-y-4  p-4 lg:p-0`}
+      {/* swiper for large screen */}
+      <div
+        className="lg:flex hidden flex-col xl:w-[80%] h-[430px] my-10 mx-auto py-12 w-full gap-x-8 items-center"
+        dir="ltr"
+      >
+        <Swiper
+          effect={"coverflow"}
+          grabCursor={true}
+          initialSlide={1}
+          centeredSlides={true}
+          slidesPerView={3}
+          coverflowEffect={{
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+          }}
+          pagination={true}
+          modules={[EffectCoverflow, Pagination, Virtual]}
+          className="mySwiper"
+          Virtual
         >
-          <p className="text-lg sm:text-xl font-semibold">
-            {(translations &&
-              translations[
-                "Discover a diverse collection of the finest watch brands with"
-              ]) ||
-              "Discover a diverse collection of the finest watch brands with"}
-          </p>
-          <div className="mt-4 lg:mt-0">
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-4">
-              {(translations && translations["ABDEEN"]) || "ABDEEN"}
-            </h1>
-            <h1 className="text-xl sm:text-2xl">
-              {(translations && translations["for"]) || "for"}
-            </h1>
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-4">
-              {(translations && translations["Watches"]) || "Watches"}
-            </h1>
-          </div>
-          <p className="text-lg sm:text-xl font-semibold">
-            {(translations && translations["where luxury and quality meet."]) ||
-              "where luxury and quality meet."}
-          </p>
-          <div className="flex gap-4 mt-6 lg:mt-10 m-auto">
-            {socialMedia &&
-              socialMedia.map((media) => {
-                if (media.title === "facebook") {
-                  return (
-                    <Link
-                      to={`${media.link}`}
-                      target="_blank"
-                      className="hover:text-black text-slate-200"
-                      key={media.title}
-                    >
-                      <FaSquareFacebook size={32} />
-                    </Link>
-                  );
-                } else if (media.title === "instagram") {
-                  return (
-                    <Link
-                      to={`${media.link}`}
-                      target="_blank"
-                      className="hover:text-black text-slate-200"
-                      key={media.title}
-                    >
-                      <FaSquareInstagram size={32} />
-                    </Link>
-                  );
-                } else if (media.title === "whatsapp") {
-                  return (
-                    <Link
-                      to={`${media.link}`}
-                      target="_blank"
-                      className="hover:text-black text-slate-200"
-                      key={media.title}
-                    >
-                      <FaSquareWhatsapp size={32} />
-                    </Link>
-                  );
-                } else {
-                  return null; // لتجنب ظهور أي شيء إذا لم يكن العنوان متوافق
-                }
-              })}
-            {/* <button className="hover:text-black text-slate-200">
-              <FaSquareXTwitter size={32} />
-            </button> */}
-          </div>
+          <SwiperSlide key={1}>
+            <img
+              src={import.meta.env.VITE_WEBSITE_URL + images.primary_image_1}
+              alt="Primary Image 1"
+              className="xl:w-[620px] w-full xl:h-[620px]"
+            />
+          </SwiperSlide>
+          <SwiperSlide key={2}>
+            <img
+              src={import.meta.env.VITE_WEBSITE_URL + images.secondary_image_2}
+              alt="Primary Image 3"
+              className="xl:w-[620px] w-full h-[620px]"
+            />
+          </SwiperSlide>
+          <SwiperSlide key={3}>
+            <img
+              src={import.meta.env.VITE_WEBSITE_URL + images.secondary_image_1}
+              alt="Secondary Image 2"
+              className="xl:w-[620px] w-full h-[620px]"
+            />
+          </SwiperSlide>
+        </Swiper>
+      </div>
+      {/* swiper for small screen */}
+      <div
+        className="flex lg:hidden flex-col xl:w-[80%] h-[460px] mx-auto p-12 w-full gap-x-8 items-center"
+        dir="ltr"
+      >
+        <Swiper
+          effect={"cards"}
+          grabCursor={true}
+          initialSlide={1}
+          modules={[EffectCards]}
+          className="mySwiper"
+        >
+          <SwiperSlide key={1}>
+            <img
+              src={import.meta.env.VITE_WEBSITE_URL + images.primary_image_1}
+              alt="Primary Image 1"
+              className="xl:w-[620px] w-full xl:h-[620px]"
+            />
+          </SwiperSlide>
+          <SwiperSlide key={2}>
+            <img
+              src={import.meta.env.VITE_WEBSITE_URL + images.secondary_image_2}
+              alt="Primary Image 3"
+              className="xl:w-[620px] w-full h-[620px]"
+            />
+          </SwiperSlide>
+          <SwiperSlide key={3}>
+            <img
+              src={import.meta.env.VITE_WEBSITE_URL + images.secondary_image_1}
+              alt="Secondary Image 2"
+              className="xl:w-[620px] w-full h-[620px]"
+            />
+          </SwiperSlide>
+        </Swiper>
+      </div>
+
+      {/* brand view */}
+      <div className="w-full bg-[#3e3e3e]">
+        <div className="w-[60%] m-auto py-8 px-6 items-center">
+          <Swiper
+            slidesPerView={1}
+            spaceBetween={5}
+            breakpoints={{
+              412: {
+                slidesPerView: 1,
+                spaceBetween: 5,
+              },
+              1024: {
+                slidesPerView: 3,
+                spaceBetween: 20,
+              },
+              1280: {
+                slidesPerView: 4,
+                spaceBetween: 40,
+              },
+              1420: {
+                slidesPerView: 5,
+                spaceBetween: 50,
+              },
+            }}
+            className="mySwiper"
+          >
+            {brands.map((brand, index) => (
+              <SwiperSlide key={index}>
+                <div className="h-40 p-2 relative">
+                  <img
+                    src={import.meta.env.VITE_WEBSITE_URL + brand.image}
+                    alt={brand.en_name}
+                    width={"10%"}
+                    height={"10%"}
+                  />
+                  <div className="absolute bg-[#3e3e3e] bg-opacity-90 bottom-0 left-0 w-full border text-white p-2">
+                    {language === "ar" ? brand.ar_name : brand.en_name}
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </div>
+
+      {/* product sections */}
       <div className="flex flex-col">
         <div className="flex flex-col w-full justify-center items-center bg-blocks-color border-y border-redColor">
-          <div className="p-5">
+          <div className="w-full p-5">
             <BestSalerSection />
           </div>
           <div
@@ -137,11 +172,11 @@ export default function Home() {
               !background
                 ? "bg-background-color"
                 : "bg-[url('/image/watches12.webp')]"
-            } bg-cover bg-center bg-fixed h-[680px] w-full`}
+            } bg-cover bg-center bg-fixed h-[420px] w-full`}
           ></div>
         </div>
         <div className="flex flex-col w-full justify-center items-center bg-blocks-color border-y border-redColor">
-          <div className="p-5">
+          <div className="w-full p-5">
             <BestDiscountedSection />
           </div>
           <div
@@ -149,7 +184,7 @@ export default function Home() {
               !background
                 ? "bg-background-color"
                 : "bg-[url('/image/watches10.jpg')]"
-            } bg-cover bg-center bg-fixed h-[680px] w-full`}
+            } bg-cover bg-center bg-fixed h-[420px] w-full`}
           ></div>
         </div>
         <div className="flex flex-col w-full justify-center items-center bg-blocks-color border-y border-redColor">
@@ -161,7 +196,7 @@ export default function Home() {
               !background
                 ? "bg-background-color"
                 : "bg-[url('/image/watches11.jpg')]"
-            } bg-cover bg-center bg-fixed h-[680px] w-full`}
+            } bg-cover bg-center bg-fixed h-[420px] w-full`}
           ></div>
         </div>
       </div>

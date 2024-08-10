@@ -7,23 +7,25 @@ export const CompanyInfoProvider = ({ children }) => {
   const [companyInfo, setCompanyInfo] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchCompanyInfo = async () => {
-      try {
-        const response = await axiosClient.get("admin/company/info");
-        setCompanyInfo(response.data);
-      } catch (error) {
-        console.error("Error fetching company information:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchCompanyInfo = async () => {
+    try {
+      const response = await axiosClient.get("site/company/info");
+      setCompanyInfo(response.data);
+    } catch (error) {
+      console.error("Error fetching company information:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchCompanyInfo();
   }, []);
 
   return (
-    <CompanyInfoContext.Provider value={{ companyInfo, loading }}>
+    <CompanyInfoContext.Provider
+      value={{ companyInfo, loading, getCompanyInfo: fetchCompanyInfo }}
+    >
       {children}
     </CompanyInfoContext.Provider>
   );

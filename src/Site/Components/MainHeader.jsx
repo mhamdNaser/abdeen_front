@@ -12,7 +12,15 @@ import Register from "../Pages/Auth/Register";
 import Searchmenu from "./Searchmenu";
 import { useCompanyInfo } from "../../provider/CompanyInfoProvider";
 
-export default function MainHeader({ background, likeNum, cardProductNum, menuItems }) {
+export default function MainHeader({
+  background,
+  likeNum,
+  cardProductNum,
+  menuItems,
+  setProductView,
+  productdetails,
+  setProductDetails,
+}) {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [singupModalOpen, setSingupModalOpen] = useState(false);
   const { companyInfo, loading } = useCompanyInfo();
@@ -42,7 +50,7 @@ export default function MainHeader({ background, likeNum, cardProductNum, menuIt
   return (
     <div
       id="navbar"
-      className={`w-full flex flex-col justify-between text-white bg-[#3e3e3e] text-xl font-bold z-30 shadow-none h-auto py-4  px-4 sm:px-6 sticky top-0 `}
+      className={`w-full flex flex-col justify-between text-white bg-[#3e3e3e] text-xl font-bold z-30 shadow-none py-4  px-4 sm:px-6 sticky top-0 `}
     >
       <div className="container m-auto">
         <div className="flex flex-row w-full items-center py-3 justify-between">
@@ -51,13 +59,17 @@ export default function MainHeader({ background, likeNum, cardProductNum, menuIt
             className="relative flex items-center justify-between "
           >
             <img
-              src={companyInfo.logo}
+              src={companyInfo?.logo}
               alt="Logo"
-              className="max-w-[210px] min-w-[140px]"
+              className="xl:max-w-[210px] xl:min-w-[240px] w-40 h-30"
             />
           </Link>
-          <div className="w-1/3">
-            <Searchmenu />
+          <div className="w-1/3 hidden xl:block">
+            <Searchmenu
+              setProductView={setProductView}
+              productdetails={productdetails}
+              setProductDetails={setProductDetails}
+            />
           </div>
           <div className="relative flex xl:hidden items-center gap-4 justify-end p-4">
             <button onClick={showlistMenu} className="xl:hidden flex">

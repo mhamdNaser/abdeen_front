@@ -5,7 +5,7 @@ import ProductList from "../Components/products/ProductList";
 import SitePageTitle from "../Components/SitePageTitle";
 
 export default function ProductByBrand() {
-  const { setBackground, getLikeNum, getCardProductNum, brands } =
+  const { setBackground, getLikeNum, getCardProductNum, items } =
     useOutletContext();
   const { id } = useParams();
   const [products, setProducts] = useState([]);
@@ -36,18 +36,20 @@ export default function ProductByBrand() {
   }, [setBackground]);
 
   return (
-    <div className="flex xl:p-10 p-4 h-fit justify-center">
+    <div className="flex xl:p-10 p-4 h-fit justify-center bg-background-color">
       <div className="flex flex-col xl:w-3/4 w-full text-center">
-        <SitePageTitle
-          entitle={en_name}
-          artitle={ar_name}
-          number={products.length}
-          getHorValue={getHorValue}
-        />
+        <div className="bg-blocks-color px-8 mb-4">
+          <SitePageTitle
+            entitle={en_name}
+            artitle={ar_name}
+            number={products.length}
+            getHorValue={getHorValue}
+          />
+        </div>
         <div className="p-4">
           <ProductList
             filter={true}
-            brands={brands}
+            menuItems={items}
             hor={horvalue}
             products={products}
             getLikeNum={getLikeNum}

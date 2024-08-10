@@ -40,6 +40,7 @@ const iconMap = {
   Payment: <BiSolidCreditCard />,
   "Category & Brand": <BiSolidCategory />,
   "Company Settings": <BiCog />,
+  "Help": <BiCog />,
 };
 
 export default function SidebarAdmin({ setSidebarOpen }) {

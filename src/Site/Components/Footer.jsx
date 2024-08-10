@@ -18,10 +18,12 @@ const Footer = ({ socialMedia }) => {
         <div className=" flex flex-col flex-wrap justify-between w-full gap-8 lg:flex-row lg:px-32 md:px-16 px-8">
           <div className="flex-[40%]">
             <div className="font-semibold text-xl mb-8">
-              <img src="/image/logo-dark.png" className="w-48" />
+              <img src={companyInfo?.logo} className="w-48" />
             </div>
             <div className="text-sm w-3/4 text-gray-300">
-              {language === "ar" ? companyInfo.company_description_ar : companyInfo.company_description_en}
+              {language === "ar"
+                ? companyInfo?.company_description_ar
+                : companyInfo?.company_description_en}
             </div>
           </div>
           <div className="flex flex-[40%]">

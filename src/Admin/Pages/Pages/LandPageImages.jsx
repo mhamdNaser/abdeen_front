@@ -18,7 +18,6 @@ export default function LandPageImages() {
   });
 
   const fetchImages = async () => {
-    try {
       const response = await axiosClient.get("admin/images/info");
       if (response.data) {
         setImages({
@@ -27,9 +26,6 @@ export default function LandPageImages() {
           secondary_image_2: response.data.secondary_image_2 || "",
         });
       }
-    } catch (error) {
-      console.error("Error fetching images:", error);
-    }
   };
 
   useEffect(() => {
